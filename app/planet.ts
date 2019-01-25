@@ -5,7 +5,7 @@ import PlanetType from "./game-objects/entity-types/planet-types/planetType";
 
 export default class Planet implements Entity {
     id: number;
-    private image: Phaser.Physics.Arcade.Image;
+    private image: Phaser.GameObjects.Image;
     private maxPopulation: number;
 
     public maxMining: number;
@@ -37,7 +37,7 @@ export default class Planet implements Entity {
     }
 
     create() {
-        this.image = this.scene.physics.add.image(this.x, this.y, 'green-circle');
+        this.image = this.scene.add.image(this.x, this.y, 'green-circle');
     }
 
     update() {

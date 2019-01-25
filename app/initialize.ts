@@ -54,3 +54,7 @@ const game = new Phaser.Game({
     },
     scene: DefaultScene,
 });
+
+game.canvas.oncontextmenu = (e) => {
+    e.preventDefault();
+};
