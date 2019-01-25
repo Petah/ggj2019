@@ -11,5 +11,7 @@ export default class Assets {
         this.scene.load.image('star', 'star.png');
         this.scene.load.image('bullet', 'bullet.png');
         this.scene.load.image('ship', 'ship.png');
+
+        this.scene.load.spritesheet('planet1', 'planet1-sprite.png', { frameWidth: 72, frameHeight: 72 });
     }
 }

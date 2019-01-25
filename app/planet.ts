@@ -37,7 +37,15 @@ export default class Planet implements Entity {
     }
 
     create() {
-        this.image = this.scene.add.image(this.x, this.y, 'green-circle');
+        this.scene.anims.create({
+            key: 'start',
+            frames: this.scene.anims.generateFrameNumbers('planet1',  { start: 0, end: 18 } ),
+            frameRate: 30,
+            repeat: -1
+        });
+        var scale = Math.random() * 0.2 + 0.1;
+        var sprite = this.scene.add.sprite(50, 300, 'planet1').setScale(scale, scale)
+        sprite.play('start');
     }
 
     update() {
