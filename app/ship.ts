@@ -2,7 +2,7 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Bullet from "./bullet";
 
-export default class Ship {
+export default class Ship extends Entity{
     public image: Phaser.Physics.Arcade.Image;
     private cursors: Phaser.Input.Keyboard.CursorKeys;
     public speed: number = 0;
