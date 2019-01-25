@@ -31,6 +31,10 @@ export default class PlanetTypeFactory {
             1.0, // maxDefenceModifier
             1.0, // educationModifier
             1.1, // maxEducationModifier
+            0.1, // infastructureModifier
+            0.1, // maxInfastructureModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
             0.1, // populationGrowthModifier
             0.01 // maxPopulationModifier
         );
@@ -51,6 +55,10 @@ export default class PlanetTypeFactory {
             1.0, // maxDefenceModifier
             1.2, // educationModifier
             1.0, // maxEducationModifier
+            0.1, // infastructureModifier
+            0.1, // maxInfastructureModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
             0.1, // populationGrowthModifier
             0.01 // maxPopulationModifier
         );
@@ -71,6 +79,10 @@ export default class PlanetTypeFactory {
             1.0, // maxDefenceModifier
             1.0, // educationModifier
             1.0, // maxEducationModifier
+            0.1, // infastructureModifier
+            0.1, // maxInfastructureModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
             1.0, // populationGrowthModifier
             1.0 // maxPopulationModifier
         );
@@ -91,6 +103,10 @@ export default class PlanetTypeFactory {
             1.25, // maxDefenceModifier
             1.2, // educationModifier
             1.2, // maxEducationModifier
+            0.1, // infastructureModifier
+            0.1, // maxInfastructureModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
             0.8, // populationGrowthModifier
             1.4 // maxPopulationModifier
         );

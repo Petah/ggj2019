@@ -13,6 +13,8 @@ export default class Planet implements Entity {
     public maxAgriculture: number;
     public maxDefence: number;
     public maxEducation: number;
+    public maxInfastrucutre: number;
+    public maxHealth: number;
 
     private circle: Phaser.Geom.Circle;
     private graphics: Phaser.GameObjects.Graphics;
@@ -22,13 +24,17 @@ export default class Planet implements Entity {
         public name: string,
         public x: number,
         public y: number,
+
+        // infrastructure
         public mining: number,
         public spacePort: number,
         public industry: number,
         public agriculture: number,
         public defence: number,
         public education: number,
+
         public population: number,
+        public health: number,
         public money: number,
         public resources: number,
         public food: number,
@@ -45,10 +51,24 @@ export default class Planet implements Entity {
             }
         });
         this.circle = new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4);
-        this.draw();
+
+        this.createMaxPopulationLimit();
     }
 
     update() {
+    }
+
+    private createMaxPopulationLimit() {
+        // 0.3 large planet size
+        // 0.1 small planet size
+
+        var temp = 60000000000; // 60 billion
+        this.maxPopulation = temp * this.plantetType.maxPopulationModifier * this.planetSize
+        console.log("Max Population for: " + this.name + " is " + this.maxPopulation);
+    }
+
+    get infrastructure(): number {
+        return this.education + this.industry; // @todo
     }
 
     draw() {
