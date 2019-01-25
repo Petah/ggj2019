@@ -32,7 +32,7 @@ class Layer {
         for (let i = 0; i < this.starCount; i++) {
             const x = Math.random() * this.scene.level.width;
             const y = Math.random() * this.scene.level.height;
-            this.stars.push(new Star(x, y, this.scene.physics.add.image(x, y, 'star')));
+            this.stars.push(new Star(x, y, this.scene.add.image(x, y, 'star')));
         }
     }
 
@@ -49,7 +49,7 @@ class Star {
     constructor(
         public x,
         public y,
-        public image: Phaser.Physics.Arcade.Image,
+        public image: Phaser.GameObjects.Image,
     ) {
 
     }

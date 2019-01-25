@@ -1,11 +1,12 @@
 import Planet from "./planet";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
+import PlanetTypeFactory from "./game-objects/entity-types/planet-types/planetTypeFactory";
 
 export default class Level implements Entity {
     id: number
-    public width: number = 10000;
-    public height: number = 10000;
+    public width: number = 4000;
+    public height: number = 4000;
     private planetCount = 100;
     public planets: Planet[] = [];
     private line: Phaser.Geom.Line;
@@ -33,7 +34,7 @@ export default class Level implements Entity {
                 1,
                 1,
                 1,
-                null);
+                new PlanetTypeFactory().random());
             planet.create();
             this.planets.push(planet);
         }
@@ -43,7 +44,10 @@ export default class Level implements Entity {
         this.scene.graphics.lineStyle(5, 0xFF00FF, 1.0);
         this.scene.graphics.beginPath();
         this.scene.graphics.moveTo(0, 0);
+        this.scene.graphics.lineTo(this.width, 0);
         this.scene.graphics.lineTo(this.width, this.height);
+        this.scene.graphics.lineTo(0, this.height);
+        this.scene.graphics.closePath();
         this.scene.graphics.strokePath();
 
         for (const planet of this.planets) {

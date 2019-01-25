@@ -1,9 +1,10 @@
 import DefaultScene from './scenes/default';
+import UI from './ui';
 
 const game = new Phaser.Game({
     // See <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
-    width: window.innerWidth * window.devicePixelRatio,
-    height: window.innerHeight * window.devicePixelRatio,
+    width: UI.width,
+    height: UI.height,
     // zoom: 1,
     // resolution: 1,
     type: Phaser.CANVAS,
@@ -53,3 +54,7 @@ const game = new Phaser.Game({
     },
     scene: DefaultScene,
 });
+
+game.canvas.oncontextmenu = (e) => {
+    e.preventDefault();
+};
