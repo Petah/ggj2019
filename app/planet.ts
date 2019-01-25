@@ -68,9 +68,13 @@ export default class Planet implements Entity {
     }
 
     get infrastructure(): number {
-        return this.education + this.industry; // @todo
+        return this.agriculture
+        + this.defence
+        + this.mining
+        + this.spacePort
+        + this.education
+        + this.education;
     }
-
     draw() {
         this.graphics.clear();
         if (this.population > 0) {
