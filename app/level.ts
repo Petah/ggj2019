@@ -35,6 +35,8 @@ export default class Level implements Entity {
                 1, // defence
                 1, // education
                 0, // population
+                0, // infastructure
+                0, // health
                 1, // money
                 1, // resources
                 1, // food
