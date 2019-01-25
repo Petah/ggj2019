@@ -1,11 +1,12 @@
 import Ship from "../ship";
 import Assets from "../assets";
+import Level from "../level";
 
 export default class DefaultScene extends Phaser.Scene {
 
     private progressBar: Phaser.GameObjects.Graphics;
-    private logo: Phaser.Physics.Arcade.Image;
     private ship: Ship;
+    private level: Level;
     private assets: Assets;
 
     constructor() {
@@ -28,6 +29,8 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     create() {
+        this.level = new Level(this);
+        this.level.create();
         this.ship = new Ship(this);
         this.ship.create();
     }

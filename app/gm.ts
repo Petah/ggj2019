@@ -1,3 +1,5 @@
+import Ship from "./ship";
+
 export default class GM {
     static pointDirection(x1: number, y1: number, x2: number, y2: number): number {
         return Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
@@ -15,7 +17,7 @@ export default class GM {
         return Math.sin(direction * Math.PI / 180) * length;
     }
 
-    static motionAdd(self, speed: number, direction: number): void {
+    static motionAdd(self: Ship, speed: number, direction: number): void {
         let x2 = GM.lengthDirX(self.speed, self.direction) + GM.lengthDirX(speed, direction);
         let y2 = GM.lengthDirY(self.speed, self.direction) + GM.lengthDirY(speed, direction);
         self.speed = GM.hypot(x2, y2);

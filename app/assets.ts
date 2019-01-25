@@ -4,5 +4,7 @@ export default class Assets {
 
     preload() {
         this.scene.load.image('red-circle', 'red-circle.png');
+        this.scene.load.image('green-circle', 'green-circle.png');
+        this.scene.load.image('blue-circle', 'blue-circle.png');
     }
 }
