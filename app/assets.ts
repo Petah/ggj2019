@@ -17,8 +17,8 @@ export default class Assets {
             frameHeight: 72,
         });
     }
-    create() {
 
+    create() {
         this.scene.anims.create({
             key: 'planet1-animation',
             frames: this.scene.anims.generateFrameNumbers('planet1', {
