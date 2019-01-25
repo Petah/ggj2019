@@ -7,10 +7,7 @@ export default class Stars {
 
     constructor(
         private scene: DefaultScene,
-        ) {
-    }
-
-    create() {
+    ) {
         for (let i = 0; i < this.layerCount; i++) {
             this.layers.push(new Layer(this.scene, i + 2));
         }

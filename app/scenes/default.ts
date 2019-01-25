@@ -2,6 +2,7 @@ import Ship from "../ship";
 import Assets from "../assets";
 import Level from "../level";
 import Stars from "../stars";
+import Entity from "../entity";
 
 export default class DefaultScene extends Phaser.Scene {
 
@@ -11,6 +12,7 @@ export default class DefaultScene extends Phaser.Scene {
     private assets: Assets;
     private stars: Stars;
     public graphics: Phaser.GameObjects.Graphics;
+    public entities: Entity[] = [];
 
     constructor() {
         super('default');
@@ -36,21 +38,27 @@ export default class DefaultScene extends Phaser.Scene {
 
     create() {
         this.level = new Level(this);
-        this.level.create();
-        this.ship = new Ship(this);
-        this.ship.create();
-        this.stars = new Stars(this);
-        this.stars.create();
+        this.addEntity(this.level);
 
-        this.cameras.main.setBounds(0, 0, 1920 * 2, 1080 * 2);
-        this.physics.world.setBounds(0, 0, 1920 * 2, 1080 * 2);
+        this.stars = new Stars(this);
+        this.addEntity(this.stars);
+        
+        this.ship = new Ship(this);
+        this.addEntity(this.ship);
+
+        this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
+        this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.startFollow(this.ship.image, true, 0.05, 0.05);
     }
 
     update() {
-        this.ship.update();
-        this.level.update();
-        this.stars.update();
+        for (const entity of this.entities) {
+            entity.update();
+        }
+    }
+
+    addEntity(entity: Entity) {
+        this.entities.push(entity);
     }
 
     onLoadComplete(loader, totalComplete, totalFailed) {

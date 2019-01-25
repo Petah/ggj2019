@@ -8,10 +8,9 @@ export default class Level {
     public planets: Planet[] = [];
     private line: Phaser.Geom.Line;
 
-    constructor(private scene: DefaultScene) {
-    }
-
-    create() {
+    constructor(
+        private scene: DefaultScene,
+    ) {
         this.line = new Phaser.Geom.Line(0, 0, this.width, this.height);
 
         for (let i = 0; i < this.planetCount; i++) {

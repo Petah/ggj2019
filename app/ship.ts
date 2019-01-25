@@ -1,5 +1,6 @@
 import GM from "./gm";
 import DefaultScene from "./scenes/default";
+import Bullet from "./bullet";
 
 export default class Ship {
     public image: Phaser.Physics.Arcade.Image;
@@ -9,10 +10,9 @@ export default class Ship {
     private acceleration: number = 50;
     private maxSpeed: number = 300;
 
-    constructor(private scene: DefaultScene) {
-    }
-
-    create() {
+    constructor(
+        private scene: DefaultScene,
+    ) {
         this.image = this.scene.physics.add.image(500, 500, 'red-circle');
         // this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.cursors = this.scene.input.keyboard.addKeys({
@@ -21,6 +21,13 @@ export default class Ship {
             left: Phaser.Input.Keyboard.KeyCodes.A,
             right: Phaser.Input.Keyboard.KeyCodes.D,
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+        });
+
+        this.scene.input.on('pointerdown',  (pointer) => {
+            const direction = GM.pointDirection(this.image.x, this.image.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
+            const bullet = new Bullet(this.scene, this.image.x, this.image.y, direction);
+            this.scene.addEntity(bullet);
+            // console.log(this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
         });
     }
 
