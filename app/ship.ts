@@ -17,7 +17,7 @@ export default class Ship implements Entity {
     private maxSpeed: number = 300;
 
     private stopOnPlanet: Planet = null;
-    private stoppedOnPlanet: Planet = null;
+    public stoppedOnPlanet: Planet = null;
     private mining: number = 0;
     private miningSpeed: number = 0.02;
 
@@ -74,25 +74,6 @@ export default class Ship implements Entity {
     }
 
     update() {
-        // if (this.cursors.space.isDown) {
-        //     this.speed -= this.acceleration;
-        // } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 45);
-        // } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 135);
-        // } else if (this.cursors.left.isDown && this.cursors.up.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 225);
-        // } else if (this.cursors.right.isDown && this.cursors.up.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 315);
-        // } else if (this.cursors.right.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 0);
-        // } else if (this.cursors.down.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 90);
-        // } else if (this.cursors.left.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 180);
-        // } else if (this.cursors.up.isDown) {
-        //     GM.motionAdd(this, this.acceleration, 270);
-        // }
         if (this.speed > this.maxSpeed) {
             this.speed = this.maxSpeed;
         }

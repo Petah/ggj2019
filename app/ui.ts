@@ -14,6 +14,13 @@ export default class UI implements Entity {
     private shipCharge: HTMLElement;
     private shipCargo: HTMLElement;
 
+    private planetName: HTMLElement;
+    private planetInhabitance: HTMLElement;
+    private planetPopulation: HTMLElement;
+    private planetSickness: HTMLElement;
+    private planetInfrastructure: HTMLElement;
+    private planetResource: HTMLElement;
+
     constructor(
         private scene: DefaultScene,
     ) {
@@ -21,6 +28,12 @@ export default class UI implements Entity {
         this.shipEnergy = document.getElementById('ship-energy');
         this.shipCharge = document.getElementById('ship-charge');
         this.shipCargo = document.getElementById('ship-cargo');
+        this.planetName = document.getElementById('planet-name');
+        this.planetInhabitance = document.getElementById('planet-inhabitance');
+        this.planetPopulation = document.getElementById('planet-population');
+        this.planetSickness = document.getElementById('planet-sickness');
+        this.planetInfrastructure = document.getElementById('planet-infrastructure');
+        this.planetResource = document.getElementById('planet-resource');
     }
 
     public showModal(id) {
@@ -41,7 +54,17 @@ export default class UI implements Entity {
 
     public update() {
         if (this.ship) {
-            this.shipCargo.innerText = this.ship.cargo.toString();
+            this.shipEnergy.innerText = this.ship.energy.toFixed(2);
+            this.shipCharge.innerText = this.ship.charge.toFixed(2);
+            this.shipCargo.innerText = this.ship.cargo.toFixed(2);
+            if (this.ship.stoppedOnPlanet) {
+                this.planetName.innerText = this.ship.stoppedOnPlanet.name;
+                this.planetInhabitance.innerText = 'Uninhabited';
+                this.planetPopulation.innerText = this.ship.stoppedOnPlanet.population.toFixed(0);
+                this.planetSickness.innerText = '213'; // @todo
+                this.planetInfrastructure.innerText = '213'; // @todo
+                this.planetResource.innerText = this.ship.stoppedOnPlanet.resources.toFixed(0);
+            }
         }
     }
 }
