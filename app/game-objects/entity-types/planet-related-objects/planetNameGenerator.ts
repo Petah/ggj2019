@@ -34,7 +34,7 @@ export default class PlanetNameGenerator {
 
     private generatePlanetName(nameList: string[]): string {
         if (nameList.length == 0) {
-            return "";
+            return "Planet " + (Math.random() * 1000);
         }
 
         var index = Math.floor(Math.random() * nameList.length);
