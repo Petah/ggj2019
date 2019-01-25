@@ -15,6 +15,7 @@ export default class Planet implements Entity {
     public maxEducation: number;
 
     private circle: Phaser.Geom.Circle;
+    private graphics: Phaser.GameObjects.Graphics;
 
     constructor(
         private scene: DefaultScene,
@@ -37,16 +38,26 @@ export default class Planet implements Entity {
         var sprite = this.scene.add.sprite(this.x, this.y, 'planet1').setScale(this.planetSize, this.planetSize);
         sprite.play('planet1-animation');
 
-        this.scene.add.graphics({
+        this.graphics = this.scene.add.graphics({
             lineStyle: {
                 width: 1,
-                color: 0x00ff00,
-            }, fillStyle: {
-                color: 0xff00ff,
-            },
-        }).strokeCircleShape(new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4));
+                color: 0xdddddd,
+            }
+        });
+        this.circle = new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4);
+        this.draw();
     }
 
     update() {
+    }
+
+    draw() {
+        this.graphics.clear();
+        if (this.population > 0) {
+            this.graphics.lineStyle(1, 0x00ff00);
+        } else {
+            this.graphics.lineStyle(1, 0xdddddd);
+        }
+        this.graphics.strokeCircleShape(this.circle);
     }
 }

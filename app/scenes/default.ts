@@ -52,10 +52,12 @@ export default class DefaultScene extends Phaser.Scene {
         const teamColor = 0x00FF00;
         this.team = new Team(this, teamColor);
 
-        this.ship = new Ship(this, this.team);
+        const homePlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
+        homePlanet.population = 1000;
+        this.ship = new Ship(this, this.team, homePlanet);
         this.ui.ship = this.ship;
         this.addEntity(this.ship);
-
+        homePlanet.draw();
 
         this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);

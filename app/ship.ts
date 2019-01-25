@@ -37,8 +37,10 @@ export default class Ship implements Entity {
     constructor(
         private scene: DefaultScene,
         private team: Team,
+        startPlanet: Planet,
     ) {
-        this.image = this.scene.physics.add.image(500, 500, 'ship');
+        this.stoppedOnPlanet = startPlanet;
+        this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
         this.cursors = this.scene.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -90,21 +92,32 @@ export default class Ship implements Entity {
             this.speed = 0;
             this.stopOnPlanet = null;
             this.stoppedOnPlanet = planet;
-            if (this.cargo > 0) {
+            if (this.cargo > 0 && this.stoppedOnPlanet.population > 0) {
                 this.scene.ui.showModal('modal-sell');
             }
         }
 
         if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.population == 0) {
-            console.log(this.stoppedOnPlanet.population);
             if (this.mining <= 0) {
                 this.mining = 1;
             }
         }
         if (this.mining > 0) {
             if (this.cargo < this.maxCargo) {
-                this.mining -= this.miningSpeed;
-                this.cargo += this.miningSpeed;
+                let miningAmount = 0;
+                if (this.stoppedOnPlanet.resources > this.miningSpeed) {
+                    miningAmount = this.miningSpeed;
+                } else if (this.stoppedOnPlanet.resources > 0) {
+                    miningAmount = this.stoppedOnPlanet.resources;
+                } else {
+                    this.mining = 0;
+                }
+                if (this.cargo + miningAmount > this.maxCargo) {
+                    miningAmount = this.maxCargo - this.cargo;
+                }
+                this.stoppedOnPlanet.resources -= miningAmount;
+                this.mining -= miningAmount;
+                this.cargo += miningAmount;
             } else {
                 this.mining = 0;
             }
