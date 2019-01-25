@@ -1,0 +1,3 @@
+interface GameEventSelectableOptionAction {
+    (): void
+}
