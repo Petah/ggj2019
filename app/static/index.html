@@ -17,13 +17,104 @@
             color: #eee;
             background: #111;
         }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .header {
+            display: flex;
+            background-color: tan;
+        }
+
+        .body {
+            display: flex;
+            flex: 1;
+        }
+
+        .footer {
+            display: flex;
+            background-color: rebeccapurple;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .right {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .top {
+            display: flex;
+            flex: 1;
+        }
+
+        .teams {
+            display: flex;
+            background-color: red;
+            flex: 1;
+        }
+
+        .minimap {
+            display: flex;
+            background-color: blue;
+            flex: 1;
+        }
+
+        .middle {
+            display: flex;
+            background-color: green;
+            flex: 1;
+        }
+
+        .bottom {
+            display: flex;
+            background-color: pink;
+            flex: 1;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
 </head>
 
 <body>
-    <div id="phaser-game"></div>
+    <div class="main">
+        <div class="header">
+            Header
+        </div>
+        <div class="body">
+            <div class="left">
+                <div class="top">
+                    <div class="teams">
+                        Teams
+                    </div>
+                    <div class="minimap">
+                        Minimap
+                    </div>
+                </div>
+                <div class="middle">
+                    Middle
+                </div>
+                <div class="bottom">
+                    Bottom
+                </div>
+            </div>
+            <div class="right">
+                <div id="phaser-game"></div>
+            </div>
+        </div>
+        <div class="footer">
+            Footer
+        </div>
+    </div>
 </body>
 
 </html>
