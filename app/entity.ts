@@ -1,8 +1,4 @@
-export default class Entity {
+export default interface Entity {
     id: number;
-    
-    constructor(public x: number, public y: number) {
-
-    }
-
     update(): void;
+}

@@ -3,7 +3,8 @@ import Entity from "./entity";
 import PlanetType from "./game-objects/entity-types/planet-types/planetType";
 
 
-export default class Planet extends Entity{
+export default class Planet implements Entity {
+    id: number;
     private image: Phaser.Physics.Arcade.Image;
     private maxPopulation: number;
 
@@ -15,10 +16,10 @@ export default class Planet extends Entity{
     public maxEducation: number;
 
     constructor(
+        private scene: DefaultScene,
         public name: string,
-        private scene: Phaser.Scene,
-        x: number,
-        y: number,
+        private x: number,
+        private y: number,
         public mining: number,
         public spacePort: number,
         public industry: number,
@@ -32,7 +33,7 @@ export default class Planet extends Entity{
         public planetSize: number,
         public plantetType: PlanetType
     ) {
-        super(x, y);
+
     }
 
     create() {

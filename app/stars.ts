@@ -1,7 +1,9 @@
 import GM from "./gm";
 import DefaultScene from "./scenes/default";
+import Entity from "./entity";
 
-export default class Stars {
+export default class Stars implements Entity {
+    id: number
     private layers: Layer[] = [];
     private layerCount: number = 3;
 

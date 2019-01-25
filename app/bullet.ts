@@ -2,17 +2,17 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 
-export default class Bullet extends Entity{
+export default class Bullet implements Entity{
+    id: number;
     public image: Phaser.Physics.Arcade.Image;
     public speed: number = 600;
 
     constructor(
         private scene: DefaultScene,
-        x: number,
-        y: number,
+        private x: number,
+        private y: number,
         private direction: number,
     ) {
-        super(x, y)
         this.image = this.scene.physics.add.image(x, y, 'bullet');
     }
 
