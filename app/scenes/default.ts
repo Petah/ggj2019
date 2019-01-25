@@ -20,12 +20,12 @@ export default class DefaultScene extends Phaser.Scene {
 
     constructor() {
         super('default');
-        this.progressBar = null;
     }
 
     init(data) {
         console.debug('init', data, this);
-        this.ui = new UI();
+        this.ui = new UI(this);
+        this.addEntity(this.ui);
     }
 
     preload() {
@@ -53,6 +53,7 @@ export default class DefaultScene extends Phaser.Scene {
         this.team = new Team(this, teamColor);
 
         this.ship = new Ship(this, this.team);
+        this.ui.ship = this.ship;
         this.addEntity(this.ship);
 
 

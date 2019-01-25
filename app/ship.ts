@@ -24,15 +24,15 @@ export default class Ship implements Entity {
     private cursors: Phaser.Input.Keyboard.CursorKeys;
     private keyMine: Phaser.Input.Keyboard.Key;
 
-    private money: number = 0;
-    private colonists: number = 0;
-    private maxColonists: number = 1999;
-    private cargo: number = 0;
-    private maxCargo: number = 1;
-    private energy: number = 0;
-    private maxEnergy: number = 1;
-    private charge: number = 0;
-    private maxCharge: number = 1;
+    public money: number = 0;
+    public colonists: number = 0;
+    public maxColonists: number = 1999;
+    public cargo: number = 0;
+    public maxCargo: number = 1;
+    public energy: number = 0;
+    public maxEnergy: number = 1;
+    public charge: number = 0;
+    public maxCharge: number = 1;
 
     constructor(
         private scene: DefaultScene,
@@ -114,7 +114,8 @@ export default class Ship implements Entity {
             }
         }
 
-        if (this.keyMine.isDown && this.stoppedOnPlanet) {
+        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.population == 0) {
+            console.log(this.stoppedOnPlanet.population);
             if (this.mining <= 0) {
                 this.mining = 1;
             }
@@ -123,7 +124,6 @@ export default class Ship implements Entity {
             if (this.cargo < this.maxCargo) {
                 this.mining -= this.miningSpeed;
                 this.cargo += this.miningSpeed;
-                console.log(this.cargo);
             } else {
                 this.mining = 0;
             }

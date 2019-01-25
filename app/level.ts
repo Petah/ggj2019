@@ -23,7 +23,8 @@ export default class Level implements Entity {
             const y = Math.random() * this.height;
             const type = new PlanetTypeFactory().random();
 
-            const planet = new Planet(this.scene,
+            const planet = new Planet(
+                this.scene,
                 planetNameGenerator.generateName(type),
                 x,
                 y,
@@ -33,7 +34,7 @@ export default class Level implements Entity {
                 1,
                 1,
                 1,
-                1,
+                0, // population
                 1,
                 1,
                 1,

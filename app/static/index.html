@@ -92,6 +92,8 @@
 
         .col {
             flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .row {
@@ -180,15 +182,27 @@
                     </div>
                 </div>
                 <div class="bottom">
-                    Bottom
                     <div class="row">
                         <div class="col">
                             <img src="assets/red.png">
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <img src="assets/red.png">
+                        <div class="ship-levels col">
+                            <div class="row">
+                                Energy
+                                <div id="ship-energy"></div>
+                            </div>
+                            <div class="row">
+                                Charge
+                                <div id="ship-charge"></div>
+                            </div>
+                            <div class="row">
+                                Cargo
+                                <div id="ship-cargo"></div>
+                            </div>
+                            <div class="row">
+                                Speed
+                                <div id="ship-speed"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
