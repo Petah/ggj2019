@@ -69,6 +69,7 @@
             display: flex;
             background-color: red;
             flex: 1;
+            flex-direction: column;
         }
 
         .minimap {
@@ -96,9 +97,21 @@
         .row {
             flex: 1;
             display: flex;
-            flex-direction: column;
         }
 
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 25vw;
+            height: 20vw;
+            margin-left: -12.5vw;
+            margin-top: -10vw;
+            background: greenyellow;
+            color: black;
+            display: flex;
+            flex-direction: column;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -181,6 +194,52 @@
         </div>
         <div class="footer">
             Footer
+        </div>
+    </div>
+    <div class="modal">
+        <div>McDOW Investment Brokers</div>
+        <div>Click on icon to make an investment</div>
+
+        <div>
+            <div class="row">
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 1
+                </div>
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 2
+                </div>
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 3
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 4
+                </div>
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 5
+                </div>
+                <div class="col">
+                    <img src="https://via.placeholder.com/100x100" /><br />
+                    Resource 6
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                Cash on hand:<br />
+                123,456
+            </div>
+            <div>
+                Amount to invest:<br />
+                10,000
+            </div>
         </div>
     </div>
 </body>
