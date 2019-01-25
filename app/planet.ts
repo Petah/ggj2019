@@ -41,7 +41,8 @@ export default class Planet implements Entity {
         public planetSize: number,
         public plantetType: PlanetType
     ) {
-        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(name)).setScale(this.planetSize, this.planetSize);
+        const sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(name)).setScale(this.planetSize, this.planetSize);
+        sprite.depth = 100;
         sprite.play(this.animationNameFor(name));
 
         this.graphics = this.scene.add.graphics({

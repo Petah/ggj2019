@@ -41,6 +41,7 @@ export default class Ship implements Entity {
     ) {
         this.stoppedOnPlanet = startPlanet;
         this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
+        this.image.depth = 200;
         this.cursors = this.scene.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
             down: Phaser.Input.Keyboard.KeyCodes.S,
