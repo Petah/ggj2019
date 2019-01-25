@@ -1,8 +1,9 @@
 import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Bullet from "./bullet";
+import Entity from "./entity";
 
-export default class Ship {
+export default class Ship extends Entity{
     public image: Phaser.Physics.Arcade.Image;
     private cursors: Phaser.Input.Keyboard.CursorKeys;
     public speed: number = 0;
@@ -13,6 +14,7 @@ export default class Ship {
     constructor(
         private scene: DefaultScene,
     ) {
+        super(0, 0)
         this.image = this.scene.physics.add.image(500, 500, 'red-circle');
         // this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.cursors = this.scene.input.keyboard.addKeys({
