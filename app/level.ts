@@ -37,26 +37,23 @@ export default class Level implements Entity {
                 1,
                 1,
                 1,
-                1,
-                type);
-            planet.create();
+                Math.random() * 0.2 + 0.1, // planet size
+                type,
+            );
             this.planets.push(planet);
+            this.scene.addEntity(planet);
         }
     }
 
     update() {
-        this.scene.graphics.lineStyle(5, 0xFF00FF, 1.0);
-        this.scene.graphics.beginPath();
-        this.scene.graphics.moveTo(0, 0);
-        this.scene.graphics.lineTo(this.width, 0);
-        this.scene.graphics.lineTo(this.width, this.height);
-        this.scene.graphics.lineTo(0, this.height);
-        this.scene.graphics.closePath();
-        this.scene.graphics.strokePath();
-
-        for (const planet of this.planets) {
-            planet.update();
-        }
+        // this.scene.graphics.lineStyle(5, 0xFF00FF, 1.0);
+        // this.scene.graphics.beginPath();
+        // this.scene.graphics.moveTo(0, 0);
+        // this.scene.graphics.lineTo(this.width, 0);
+        // this.scene.graphics.lineTo(this.width, this.height);
+        // this.scene.graphics.lineTo(0, this.height);
+        // this.scene.graphics.closePath();
+        // this.scene.graphics.strokePath();
     }
 }
 

@@ -12,6 +12,21 @@ export default class Assets {
         this.scene.load.image('bullet', 'bullet.png');
         this.scene.load.image('ship', 'ship.png');
 
-        this.scene.load.spritesheet('planet1', 'planet1-sprite.png', { frameWidth: 72, frameHeight: 72 });
+        this.scene.load.spritesheet('planet1', 'planet1-sprite.png', {
+            frameWidth: 72,
+            frameHeight: 72,
+        });
+    }
+    create() {
+
+        this.scene.anims.create({
+            key: 'planet1-animation',
+            frames: this.scene.anims.generateFrameNumbers('planet1', {
+                start: 0,
+                end: 18,
+            }),
+            frameRate: 30,
+            repeat: -1,
+        });
     }
 }

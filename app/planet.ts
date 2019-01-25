@@ -2,12 +2,10 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import PlanetType from "./game-objects/entity-types/planet-related-objects/planetType";
 
-
 export default class Planet implements Entity {
     id: number;
     private image: Phaser.GameObjects.Image;
     private maxPopulation: number;
-    public size: number = 20;
 
     public maxMining: number;
     public maxSpacePort: number;
@@ -15,6 +13,8 @@ export default class Planet implements Entity {
     public maxAgriculture: number;
     public maxDefence: number;
     public maxEducation: number;
+
+    private circle: Phaser.Geom.Circle;
 
     constructor(
         private scene: DefaultScene,
@@ -34,19 +34,17 @@ export default class Planet implements Entity {
         public planetSize: number,
         public plantetType: PlanetType
     ) {
+        var sprite = this.scene.add.sprite(this.x, this.y, 'planet1').setScale(this.planetSize, this.planetSize)
+        sprite.play('planet1-animation');
 
-    }
-
-    create() {
-        this.scene.anims.create({
-            key: 'start',
-            frames: this.scene.anims.generateFrameNumbers('planet1', { start: 0, end: 18 }),
-            frameRate: 30,
-            repeat: -1
-        });
-        var scale = Math.random() * 0.2 + 0.1;
-        var sprite = this.scene.add.sprite(this.x, this.y, 'planet1').setScale(scale, scale)
-        sprite.play('start');
+        this.scene.add.graphics({
+            lineStyle: {
+                width: 1,
+                color: 0x00ff00,
+            }, fillStyle: {
+                color: 0xff00ff,
+            },
+        }).strokeCircleShape(new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4));
     }
 
     update() {
