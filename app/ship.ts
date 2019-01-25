@@ -35,7 +35,7 @@ export default class Ship implements Entity{
                 this.direction = direction;
                 this.speed = this.maxSpeed;
 
-                const planet = this.planetAtPoint(px, py);
+                const planet = this.planetAtPoint(px, py, 2);
                 if (planet) {
                     this.stopOnPlanet = planet;
                 } else {
@@ -86,14 +86,14 @@ export default class Ship implements Entity{
         }
     }
 
-    private planetAtPoint(x, y) {
+    private planetAtPoint(x: number, y: number, size: number = 1) {
         const closest = {
             planet: null,
             distance: null,
         };
         for (const planet of this.scene.level.planets) {
             const distance = GM.pointDistance(x, y, planet.x, planet.y);
-            if (distance < planet.size && (closest.distance === null || distance < closest.distance)) {
+            if (distance < (planet.size * size) && (closest.distance === null || distance < closest.distance)) {
                 closest.planet = planet;
                 closest.distance = distance;
             }
