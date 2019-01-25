@@ -93,7 +93,7 @@ export default class Ship implements Entity {
             this.stopOnPlanet = null;
             this.stoppedOnPlanet = planet;
             if (this.cargo > 0 && this.stoppedOnPlanet.population > 0) {
-                this.scene.ui.showModal('modal-sell');
+                this.scene.ui.showModalSell();
             }
         }
 
@@ -137,6 +137,18 @@ export default class Ship implements Entity {
             }
         }
         return closest.planet;
+    }
+
+    sell(amount: number = null) {
+        if (!this.stoppedOnPlanet || this.cargo <= 0) {
+            return;
+        }
+        if (!amount || amount > this.cargo) {
+            amount = this.cargo;
+        }
+        this.cargo -= amount;
+        this.stoppedOnPlanet.resources += amount;
+        // @todo money
     }
 
     get x() {

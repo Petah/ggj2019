@@ -51,7 +51,7 @@ export default class Planet implements Entity {
             }
         });
         this.circle = new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4);
-
+        this.draw();
         this.createMaxPopulationLimit();
     }
 
