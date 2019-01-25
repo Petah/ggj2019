@@ -3,12 +3,14 @@ import Assets from "../assets";
 import Level from "../level";
 import Stars from "../stars";
 import Entity from "../entity";
+import UI from "../ui";
 
 export default class DefaultScene extends Phaser.Scene {
 
     private progressBar: Phaser.GameObjects.Graphics;
     private ship: Ship;
     public level: Level;
+    public ui: UI;
     private assets: Assets;
     private stars: Stars;
     public graphics: Phaser.GameObjects.Graphics;
@@ -21,6 +23,7 @@ export default class DefaultScene extends Phaser.Scene {
 
     init(data) {
         console.debug('init', data, this);
+        this.ui = new UI();
     }
 
     preload() {
@@ -42,7 +45,7 @@ export default class DefaultScene extends Phaser.Scene {
 
         this.stars = new Stars(this);
         this.addEntity(this.stars);
-        
+
         this.ship = new Ship(this);
         this.addEntity(this.ship);
 

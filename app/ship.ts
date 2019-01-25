@@ -3,6 +3,7 @@ import DefaultScene from "./scenes/default";
 import Bullet from "./bullet";
 import Entity from "./entity";
 import Planet from "./planet";
+import UI from "./ui";
 
 export default class Ship implements Entity{
     id: number;
@@ -83,6 +84,7 @@ export default class Ship implements Entity{
         const planet = this.planetAtPoint(this.image.x, this.image.y);
         if (planet && planet === this.stopOnPlanet) {
             this.speed = 0;
+            this.scene.ui.showModal('modal-sell');
         }
     }
 

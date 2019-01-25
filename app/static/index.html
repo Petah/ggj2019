@@ -100,17 +100,22 @@
         }
 
         .modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 25vw;
-            height: 20vw;
-            margin-left: -12.5vw;
-            margin-top: -10vw;
             background: greenyellow;
             color: black;
             display: flex;
             flex-direction: column;
+        }
+
+        #modal-wrapper {
+            position: fixed;
+            display: flex;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            align-items: center;
+            justify-content: center;
+            /* pointer-events: none; */
         }
     </style>
     <script defer src='vendor.js'></script>
@@ -196,49 +201,65 @@
             Footer
         </div>
     </div>
-    <div class="modal">
-        <div>McDOW Investment Brokers</div>
-        <div>Click on icon to make an investment</div>
+    <div id="modal-wrapper" style="display: none">
+        <div id="modal-invest" class="modal" style="display: none">
+            <div>McDOW Investment Brokers</div>
+            <div>Click on icon to make an investment</div>
 
-        <div>
-            <div class="row">
-                <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 1
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 1
+                    </div>
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 2
+                    </div>
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 3
+                    </div>
                 </div>
-                <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 2
-                </div>
-                <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 3
+                <div class="row">
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 4
+                    </div>
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 5
+                    </div>
+                    <div class="col">
+                        <img src="https://via.placeholder.com/100x100" /><br />
+                        Resource 6
+                    </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 4
+                    Cash on hand:<br />
+                    123,456
                 </div>
                 <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 5
-                </div>
-                <div class="col">
-                    <img src="https://via.placeholder.com/100x100" /><br />
-                    Resource 6
+                    Amount to invest:<br />
+                    10,000
                 </div>
             </div>
         </div>
 
-        <div>
+        <div id="modal-sell" class="modal" style="display: none">
+            <div>Sell Cargo</div>
+            <div>Gnarf planet: Nirhis</div>
             <div>
-                Cash on hand:<br />
-                123,456
+                Planet offers $24.23 credits per ton<br />
+                and will pay $73,329 for 3,431 tons.
             </div>
             <div>
-                Amount to invest:<br />
-                10,000
+                <button>3,120 tons</button> for $73,329<br />
+                <button>1,000 tons</button> for $2,212<br />
+                <button>Cancel</button>
             </div>
         </div>
     </div>
