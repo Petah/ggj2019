@@ -1,13 +1,15 @@
 import Ship from "../ship";
 import Assets from "../assets";
 import Level from "../level";
+import Stars from "../stars";
 
 export default class DefaultScene extends Phaser.Scene {
 
     private progressBar: Phaser.GameObjects.Graphics;
     private ship: Ship;
-    private level: Level;
+    public level: Level;
     private assets: Assets;
+    private stars: Stars;
     public graphics: Phaser.GameObjects.Graphics;
 
     constructor() {
@@ -24,9 +26,6 @@ export default class DefaultScene extends Phaser.Scene {
         this.assets.preload();
 
         this.graphics = this.add.graphics({
-            fillStyle: {
-                color: 0x0000ff,
-            },
         });
 
         this.load.image('sky', 'space3.png');
@@ -40,6 +39,8 @@ export default class DefaultScene extends Phaser.Scene {
         this.level.create();
         this.ship = new Ship(this);
         this.ship.create();
+        this.stars = new Stars(this);
+        this.stars.create();
 
         this.cameras.main.setBounds(0, 0, 1920 * 2, 1080 * 2);
         this.physics.world.setBounds(0, 0, 1920 * 2, 1080 * 2);
@@ -49,6 +50,7 @@ export default class DefaultScene extends Phaser.Scene {
     update() {
         this.ship.update();
         this.level.update();
+        this.stars.update();
     }
 
     onLoadComplete(loader, totalComplete, totalFailed) {
