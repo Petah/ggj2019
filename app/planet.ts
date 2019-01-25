@@ -18,6 +18,7 @@ export default class Planet implements Entity {
 
     private circle: Phaser.Geom.Circle;
     private graphics: Phaser.GameObjects.Graphics;
+    private planetScale: number;
 
     constructor(
         private scene: DefaultScene,
@@ -41,7 +42,8 @@ export default class Planet implements Entity {
         public planetSize: number,
         public planetType: PlanetType
     ) {
-        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(planetType)).setScale(this.planetSize, this.planetSize);
+        this.planetScale = planetSize / 74.0;
+        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(planetType)).setScale(this.planetScale, this.planetScale);
         sprite.depth = 100;
         sprite.play(this.animationNameFor(planetType));
 
@@ -51,7 +53,7 @@ export default class Planet implements Entity {
                 color: 0xdddddd,
             }
         });
-        this.circle = new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4);
+        this.circle = new Phaser.Geom.Circle(this.x, this.y, planetSize * 0.5 + 4);
 
         this.createMaxPopulationLimit();
     }
@@ -64,7 +66,7 @@ export default class Planet implements Entity {
         // 0.1 small planet size
 
         var temp = 60000000000; // 60 billion
-        this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetSize
+        this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
         console.log("Max Population for: " + this.name + " is " + this.maxPopulation);
     }
 
