@@ -1,9 +1,10 @@
 import Ship from "../../ship";
 import GameEvent from "./gameEvent";
+import Planet from "../../planet";
 
 export default class GameEventGenerator {
-    colonizePlanet(ship: Ship, ): GameEvent {
-        if(ship.speed == 0) {
+    colonizePlanet(ship: Ship, planet: Planet): GameEvent {
+        if(ship.speed == 0 || planet.population != 0) {
             return null;
         }
 
