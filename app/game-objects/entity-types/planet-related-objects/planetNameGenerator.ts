@@ -11,7 +11,7 @@ export default class PlanetNameGenerator {
     private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon"] 
     private iceNames: string[] = ["Hoth", "Yump"] 
     private tundraNames: string[] = ["Gulag", "Melpomenia"] 
-    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden"] 
+    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia"] 
 
     public generateName(planet: PlanetType) {
         var name: string;
