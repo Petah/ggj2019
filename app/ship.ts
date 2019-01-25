@@ -2,6 +2,7 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Bullet from "./bullet";
 import Entity from "./entity";
+import Planet from "./planet";
 
 export default class Ship implements Entity{
     id: number;
@@ -11,6 +12,7 @@ export default class Ship implements Entity{
     public direction: number = 0;
     private acceleration: number = 50;
     private maxSpeed: number = 300;
+    private stopOnPlanet: Planet = null;
 
     constructor(
         private scene: DefaultScene,
@@ -26,10 +28,19 @@ export default class Ship implements Entity{
         });
 
         this.scene.input.on('pointerdown',  (pointer) => {
+            const px = this.scene.cameras.main.worldView.x + pointer.x;
+            const py = this.scene.cameras.main.worldView.y + pointer.y;
             const direction = GM.pointDirection(this.image.x, this.image.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
             if (pointer.buttons == 1) {
                 this.direction = direction;
                 this.speed = this.maxSpeed;
+
+                const planet = this.planetAtPoint(px, py);
+                if (planet) {
+                    this.stopOnPlanet = planet;
+                } else {
+                    this.stopOnPlanet = null;
+                }
             }
             if (pointer.buttons == 2) {
                 const bullet = new Bullet(this.scene, this.image.x, this.image.y, direction);
@@ -68,5 +79,25 @@ export default class Ship implements Entity{
         let vy = GM.lengthDirY(this.speed, this.direction);
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
+
+        const planet = this.planetAtPoint(this.image.x, this.image.y);
+        if (planet && planet === this.stopOnPlanet) {
+            this.speed = 0;
+        }
+    }
+
+    private planetAtPoint(x, y) {
+        const closest = {
+            planet: null,
+            distance: null,
+        };
+        for (const planet of this.scene.level.planets) {
+            const distance = GM.pointDistance(x, y, planet.x, planet.y);
+            if (distance < planet.size && (closest.distance === null || distance < closest.distance)) {
+                closest.planet = planet;
+                closest.distance = distance;
+            }
+        }
+        return closest.planet;
     }
 };
