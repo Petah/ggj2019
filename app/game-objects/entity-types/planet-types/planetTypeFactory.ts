@@ -19,80 +19,80 @@ export default class PlanetTypeFactory {
     gasGiant(): PlanetType {
         return new PlanetType(
             "Gas Giant",
-            1.1,
-            1.5,
-            0.1,
-            0.1,
-            1.0,
-            1.5,
-            0.0,
-            0.0,
-            1.0,
-            1.0,
-            1.0,
-            1.1,
-            0.1,
-            0.01
+            1.1, // miningModifier
+            1.5, // maxMiningModifier
+            0.1, // spacePortModifier
+            0.1, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.5, // maxIndustryModifier
+            0.0, // agricultureModifier
+            0.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.1, // maxEducationModifier
+            0.1, // populationGrowthModifier
+            0.01 // maxPopulationModifier
         );
     }
 
     volcanic(): PlanetType {
         return new PlanetType(
             "Volcanic",
-            1.4,
-            2.0,
-            0.6,
-            0.6,
-            1.1,
-            1.5,
-            0.05,
-            0.1,
-            1.0,
-            1.0,
-            1.2,
-            1.0,
-            0.1,
-            0.01
+            1.4, // miningModifier
+            2.0, // maxMiningModifier
+            0.6, // spacePortModifier
+            0.6, // maxSpacePortModifier
+            1.1, // industryModifier
+            1.5, // maxIndustryModifier
+            0.05, // agricultureModifier
+            0.1, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.2, // educationModifier
+            1.0, // maxEducationModifier
+            0.1, // populationGrowthModifier
+            0.01 // maxPopulationModifier
         );
     }
 
     continental(): PlanetType {
         return new PlanetType(
             "Continental",
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0,
-            1.0
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
         );
     }
 
     jungle(): PlanetType {
         return new PlanetType(
             "Jungle",
-            0.6,
-            0.6,
-            1.0,
-            1.0,
-            0.4,
-            0.4,
-            0.5,
-            0.5,
-            1.25,
-            1.25,
-            1.2,
-            1.2,
-            0.8,
-            1.4
+            0.6, // miningModifier
+            0.6, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            0.4, // industryModifier
+            0.4, // maxIndustryModifier
+            0.5, // agricultureModifier
+            0.5, // maxAgricultureModifier
+            1.25, // defenceModifier
+            1.25, // maxDefenceModifier
+            1.2, // educationModifier
+            1.2, // maxEducationModifier
+            0.8, // populationGrowthModifier
+            1.4 // maxPopulationModifier
         );
     }
 
