@@ -1,7 +1,8 @@
 import Planet from "./planet";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
-import PlanetTypeFactory from "./game-objects/entity-types/planet-types/planetTypeFactory";
+import PlanetTypeFactory from "./game-objects/entity-types/planet-related-objects/planetTypeFactory";
+import PlanetNameGenerator from "./game-objects/entity-types/planet-related-objects/planetNameGenerator";
 
 export default class Level implements Entity {
     id: number
@@ -15,12 +16,15 @@ export default class Level implements Entity {
         private scene: DefaultScene,
     ) {
         this.line = new Phaser.Geom.Line(0, 0, this.width, this.height);
+        let planetNameGenerator = new PlanetNameGenerator();
 
         for (let i = 0; i < this.planetCount; i++) {
             const x = Math.random() * this.width;
             const y = Math.random() * this.height;
+            const type = new PlanetTypeFactory().random();
+
             const planet = new Planet(this.scene,
-                "Planet 1",
+                planetNameGenerator.generateName(type),
                 x,
                 y,
                 1,
@@ -34,7 +38,7 @@ export default class Level implements Entity {
                 1,
                 1,
                 1,
-                new PlanetTypeFactory().random());
+                type);
             planet.create();
             this.planets.push(planet);
         }

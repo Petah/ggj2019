@@ -1,6 +1,6 @@
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
-import PlanetType from "./game-objects/entity-types/planet-types/planetType";
+import PlanetType from "./game-objects/entity-types/planet-related-objects/planetType";
 
 
 export default class Planet implements Entity {
