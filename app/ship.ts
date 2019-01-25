@@ -1,4 +1,5 @@
 import GM from "./gm";
+import DefaultScene from "./scenes/default";
 
 export default class Ship {
     private image: Phaser.Physics.Arcade.Image;
@@ -8,7 +9,7 @@ export default class Ship {
     private acceleration: number = 50;
     private maxSpeed: number = 300;
 
-    constructor(private scene: Phaser.Scene) {
+    constructor(private scene: DefaultScene) {
     }
 
     create() {

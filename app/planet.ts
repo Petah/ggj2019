@@ -1,7 +1,9 @@
+import DefaultScene from "./scenes/default";
+
 export default class Planet {
     private image: Phaser.Physics.Arcade.Image;
 
-    constructor(private scene: Phaser.Scene, public x: number, public y: number) {
+    constructor(private scene: DefaultScene, public x: number, public y: number) {
 
     }
 

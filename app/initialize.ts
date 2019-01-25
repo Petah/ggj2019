@@ -6,7 +6,7 @@ const game = new Phaser.Game({
     height: window.innerHeight * window.devicePixelRatio,
     // zoom: 1,
     // resolution: 1,
-    type: Phaser.AUTO,
+    type: Phaser.CANVAS,
     // parent: null,
     // canvas: null,
     // canvasStyle: null,

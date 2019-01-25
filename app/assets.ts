@@ -1,5 +1,7 @@
+import DefaultScene from "./scenes/default";
+
 export default class Assets {
-    constructor(private scene: Phaser.Scene) {
+    constructor(private scene: DefaultScene) {
     }
 
     preload() {

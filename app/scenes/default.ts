@@ -8,6 +8,7 @@ export default class DefaultScene extends Phaser.Scene {
     private ship: Ship;
     private level: Level;
     private assets: Assets;
+    public graphics: Phaser.GameObjects.Graphics;
 
     constructor() {
         super('default');
@@ -21,6 +22,12 @@ export default class DefaultScene extends Phaser.Scene {
     preload() {
         this.assets = new Assets(this);
         this.assets.preload();
+
+        this.graphics = this.add.graphics({
+            fillStyle: {
+                color: 0x0000ff,
+            },
+        });
 
         this.load.image('sky', 'space3.png');
         this.progressBar = this.add.graphics();
@@ -37,6 +44,7 @@ export default class DefaultScene extends Phaser.Scene {
 
     update() {
         this.ship.update();
+        this.level.update();
     }
 
     onLoadComplete(loader, totalComplete, totalFailed) {

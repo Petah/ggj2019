@@ -1,16 +1,19 @@
 import Planet from "./planet";
+import DefaultScene from "./scenes/default";
 
 export default class Level {
     public width: number = 10000;
     public height: number = 10000;
     private planetCount = 100;
     public planets: Planet[] = [];
-    constructor(private scene: Phaser.Scene) {
+    private line: Phaser.Geom.Line;
+
+    constructor(private scene: DefaultScene) {
     }
 
     create() {
+        this.line = new Phaser.Geom.Line(0, 0, this.width, this.height);
 
-    // line1 = new Phaser.Line(handle1.x, handle1.y, handle2.x, handle2.y);
         for (let i = 0; i < this.planetCount; i++) {
             const x = Math.random() * this.width;
             const y = Math.random() * this.height;
@@ -21,6 +24,12 @@ export default class Level {
     }
 
     update() {
+        this.scene.graphics.lineStyle(5, 0xFF00FF, 1.0);
+        this.scene.graphics.beginPath();
+        this.scene.graphics.moveTo(0, 0);
+        this.scene.graphics.lineTo(this.width, this.height);
+        this.scene.graphics.strokePath();
+
         for (const planet of this.planets) {
             planet.update();
         }
