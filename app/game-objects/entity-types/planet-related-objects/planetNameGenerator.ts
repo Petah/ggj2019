@@ -1,75 +1,45 @@
 import PlanetType from "./planetType";
 
 export default class PlanetNameGenerator {
-    private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut"]
+    private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut"];
+    private volcanicNames: string[] = ["Vulkan"];
+    private continentalNames: string[] = ["Earth", "Alpha Centauri", "Eden Prime"];
+    private jungleNames: string[] = ["Bungle"];
+    private forestNames: string[] = ["Endor"]
+    private desertNames: string[] = ["Arrakis", "Tatooine"] 
+    private barrenNames: string[] = ["New Mars", "Belgium", "Dovid"] 
+    private oceanNames: string[] = ["Caladan"] 
+    private iceNames: string[] = ["Hoth"] 
+    private tundraNames: string[] = ["Gulag"] 
+    private gaianNames: string[] = ["New Dawn"] 
 
     public generateName(planet: PlanetType) {
         var name: string;
         switch (planet.typeName) {
-            case "Gas Giant": name = this.generateGasGiantName();
-            case "Volcanic": name = this.generateVolcanicName();
-            case "Continental": name = this.generateContinentalName();
-            case "Jungle": name = this.generateJungleName();
-            case "Forest": name = this.generateForestName();
-            case "Desert": name = this.generateDesertName();
-            case "Barren": name = this.generateBarrenName();
-            case "Ocean": name = this.generateOceanName();
-            case "Ice": name = this.generateIceName();
-            case "Tundra": name = this.generateTundraName();
-            case "Gaia": name = this.generateGaiaName();
+            case "Gas Giant": name = this.generatePlanetName(this.gasGiantNames);
+            case "Volcanic": name = this.generatePlanetName(this.volcanicNames);
+            case "Continental": name = this.generatePlanetName(this.continentalNames);
+            case "Jungle": name = this.generatePlanetName(this.gasGiantNames);
+            case "Forest": name = this.generatePlanetName(this.forestNames);
+            case "Desert": name = this.generatePlanetName(this.desertNames);
+            case "Barren": name = this.generatePlanetName(this.barrenNames);
+            case "Ocean": name = this.generatePlanetName(this.oceanNames);
+            case "Ice": name = this.generatePlanetName(this.iceNames);
+            case "Tundra": name = this.generatePlanetName(this.tundraNames);
+            case "Gaia": name = this.generatePlanetName(this.gaianNames);
         }
 
         return name;
     }
 
-    private generateGasGiantName(): string {
-        if (this.gasGiantNames.length == 0) {
+    private generatePlanetName(nameList: string[]): string {
+        if (nameList.length == 0) {
             return "";
         }
 
-        var index = Math.floor(Math.random() * this.gasGiantNames.length);
-        var name = this.gasGiantNames.splice(index, 1);
+        var index = Math.floor(Math.random() * nameList.length);
+        var name = nameList.splice(index, 1);
 
         return name[0];
-    }
-
-    private generateVolcanicName(): string {
-        return "Hellscape";
-    }
-
-    private generateContinentalName(): string {
-        return "Earth";
-    }
-
-    private generateJungleName(): string {
-        return "Endore";
-    }
-
-    private generateForestName(): string {
-        return "Hairy Jerry";
-    }
-
-    private generateDesertName(): string {
-        return "Tatooine";
-    }
-
-    private generateBarrenName(): string {
-        return "Dovid";
-    }
-
-    private generateOceanName(): string {
-        return "Willy";
-    }
-
-    private generateIceName(): string {
-        return "Hoth";
-    }
-
-    private generateTundraName(): string {
-        return "Belgium";
-    }
-
-    private generateGaiaName(): string {
-        return "Mega Earth";
     }
 }
