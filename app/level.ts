@@ -28,16 +28,18 @@ export default class Level implements Entity {
                 planetNameGenerator.generateName(type),
                 x,
                 y,
+                
                 1, // mining
                 1, // spacePort
                 1, // industry
                 1, // agriculture
                 1, // defence
                 1, // education
+
                 0, // population
                 0, // health
                 1, // money
-                1, // resources
+                Math.random() * 100, // resources
                 1, // food
                 Math.random() * 0.2 + 0.1, // planet size
                 type,

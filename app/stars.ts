@@ -32,7 +32,10 @@ class Layer {
         for (let i = 0; i < this.starCount; i++) {
             const x = Math.random() * this.scene.level.width;
             const y = Math.random() * this.scene.level.height;
-            this.stars.push(new Star(x, y, this.scene.add.image(x, y, 'star')));
+            const image = this.scene.add.image(x, y, 'star');
+            image.depth = offset;
+            const star = new Star(x, y, image);
+            this.stars.push(star);
         }
     }
 

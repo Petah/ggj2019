@@ -67,26 +67,30 @@
 
         .teams {
             display: flex;
-            background-color: red;
+            background-color: #868486;
+            border: 4px groove #999;
             flex: 1;
             flex-direction: column;
         }
 
         .minimap {
             display: flex;
-            background-color: blue;
+            background-color: #868486;
+            border: 4px groove #999;
             flex: 1;
         }
 
         .middle {
             display: flex;
-            background-color: green;
+            background-color: #868486;
+            border: 4px groove #999;
             flex: 1;
         }
 
         .bottom {
             display: flex;
-            background-color: pink;
+            background-color: #868486;
+            border: 4px groove #999;
             flex: 1;
         }
 
@@ -196,7 +200,22 @@
                 <div class="bottom">
                     <div class="row">
                         <div class="col">
-                            <img src="assets/red.png">
+                            <div class="row">
+                                Shields
+                                <div id="ship-shields"></div>
+                            </div>
+                            <div class="row">
+                                Colonists
+                                <div id="ship-colonists"></div>
+                            </div>
+                            <div class="row">
+                                Planets
+                                <div id="ship-planets"></div>
+                            </div>
+                            <div class="row">
+                                Money
+                                <div id="ship-money"></div>
+                            </div>
                         </div>
                         <div class="ship-levels col">
                             <div class="row">
@@ -283,9 +302,11 @@
                 and will pay $73,329 for 3,431 tons.
             </div>
             <div>
-                <button>3,120 tons</button> for $73,329<br />
-                <button>1,000 tons</button> for $2,212<br />
-                <button>Cancel</button>
+                <button id="sell-all"><span id="sell-all-tons"></span> tons</button> for $73,329<br />
+                <div id="sell-1000-tons">
+                    <button id="sell-1000">1,000 tons</button> for $2,212<br />
+                </div>
+                <button id="cancel-modal">Cancel</button>
             </div>
         </div>
     </div>
