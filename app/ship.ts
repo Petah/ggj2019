@@ -2,7 +2,7 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 
 export default class Ship {
-    private image: Phaser.Physics.Arcade.Image;
+    public image: Phaser.Physics.Arcade.Image;
     private cursors: Phaser.Input.Keyboard.CursorKeys;
     public speed: number = 0;
     public direction: number = 0;
@@ -18,14 +18,22 @@ export default class Ship {
     }
 
     update() {
-        if (this.cursors.right.isDown) {
+        if (this.cursors.right.isDown && this.cursors.down.isDown) {
+            GM.motionAdd(this, this.acceleration, 45);
+        } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
+            GM.motionAdd(this, this.acceleration, 135);
+        } else if (this.cursors.left.isDown && this.cursors.up.isDown) {
+            GM.motionAdd(this, this.acceleration, 225);
+        } else if (this.cursors.right.isDown && this.cursors.up.isDown) {
+            GM.motionAdd(this, this.acceleration, 315); 
+        } else if (this.cursors.right.isDown) {
             GM.motionAdd(this, this.acceleration, 0); 
         } else if (this.cursors.down.isDown) {
-            GM.motionAdd(this, this.acceleration, 90);
+            GM.motionAdd(this, this.acceleration, 90); 
         } else if (this.cursors.left.isDown) {
-            GM.motionAdd(this, this.acceleration, 180);
+            GM.motionAdd(this, this.acceleration, 180); 
         } else if (this.cursors.up.isDown) {
-            GM.motionAdd(this, this.acceleration, 270);
+            GM.motionAdd(this, this.acceleration, 270); 
         }
         if (this.speed > this.maxSpeed) {
             this.speed = this.maxSpeed;

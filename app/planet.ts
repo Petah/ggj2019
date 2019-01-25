@@ -9,7 +9,6 @@ export default class Planet {
 
     create() {
         this.image = this.scene.physics.add.image(this.x, this.y, 'green-circle');
-        console.log(this.x, this.y);
     }
 
     update() {

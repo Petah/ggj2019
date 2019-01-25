@@ -40,6 +40,10 @@ export default class DefaultScene extends Phaser.Scene {
         this.level.create();
         this.ship = new Ship(this);
         this.ship.create();
+
+        this.cameras.main.setBounds(0, 0, 1920 * 2, 1080 * 2);
+        this.physics.world.setBounds(0, 0, 1920 * 2, 1080 * 2);
+        this.cameras.main.startFollow(this.ship.image, true, 0.05, 0.05);
     }
 
     update() {
