@@ -1,6 +1,7 @@
 import Planet from "./planet";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
+import PlanetTypeFactory from "./game-objects/entity-types/planet-types/planetTypeFactory";
 
 export default class Level implements Entity {
     id: number
@@ -33,7 +34,7 @@ export default class Level implements Entity {
                 1,
                 1,
                 1,
-                null);
+                new PlanetTypeFactory().random());
             planet.create();
             this.planets.push(planet);
         }
