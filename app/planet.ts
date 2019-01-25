@@ -7,6 +7,7 @@ export default class Planet implements Entity {
     id: number;
     private image: Phaser.GameObjects.Image;
     private maxPopulation: number;
+    public size: number = 20;
 
     public maxMining: number;
     public maxSpacePort: number;
@@ -18,8 +19,8 @@ export default class Planet implements Entity {
     constructor(
         private scene: DefaultScene,
         public name: string,
-        private x: number,
-        private y: number,
+        public x: number,
+        public y: number,
         public mining: number,
         public spacePort: number,
         public industry: number,
