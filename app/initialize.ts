@@ -7,7 +7,7 @@ const game = new Phaser.Game({
     // zoom: 1,
     // resolution: 1,
     type: Phaser.CANVAS,
-    // parent: null,
+    parent: 'phaser-game',
     // canvas: null,
     // canvasStyle: null,
     // seed: null,
@@ -52,5 +52,4 @@ const game = new Phaser.Game({
         }
     },
     scene: DefaultScene,
-
 });
