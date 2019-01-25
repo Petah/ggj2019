@@ -148,7 +148,8 @@ export default class Ship implements Entity {
         }
         this.cargo -= amount;
         this.stoppedOnPlanet.resources += amount;
-        // @todo money
+        // @todo make planet adjust price based on demand
+        this.money += amount;
     }
 
     get x() {
