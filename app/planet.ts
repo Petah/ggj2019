@@ -41,8 +41,8 @@ export default class Planet implements Entity {
         public planetSize: number,
         public plantetType: PlanetType
     ) {
-        var sprite = this.scene.add.sprite(this.x, this.y, 'planet1').setScale(this.planetSize, this.planetSize);
-        sprite.play('planet1-animation');
+        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(name)).setScale(this.planetSize, this.planetSize);
+        sprite.play(this.animationNameFor(name));
 
         this.graphics = this.scene.add.graphics({
             lineStyle: {
@@ -68,9 +68,13 @@ export default class Planet implements Entity {
     }
 
     get infrastructure(): number {
-        return this.education + this.industry; // @todo
+        return this.agriculture
+        + this.defence
+        + this.mining
+        + this.spacePort
+        + this.education
+        + this.education;
     }
-
     draw() {
         this.graphics.clear();
         if (this.population > 0) {
@@ -80,4 +84,37 @@ export default class Planet implements Entity {
         }
         this.graphics.strokeCircleShape(this.circle);
     }
+
+    // private functions
+    private spriteNameFor(name: string) {
+        if (name == "Gas Giant") {
+            return "planet-ice"
+        }
+        else if (name == "Volcanic") {
+            return "planet-tundra"
+        }
+        else if (name == "Continental") {
+            return "planet-gaia"
+        }
+        else if (name == "Jungle") {
+            return "planet-tundra"
+        }
+        return "planet-barren"
+    }
+    private animationNameFor(name: string) {
+        if (name == "Gas Giant") {
+            return "planet-ice-animation"
+        }
+        else if (name == "Volcanic") {
+            return "planet-tundra-animation"
+        }
+        else if (name == "Continental") {
+            return "planet-gaia-animation"
+        }
+        else if (name == "Jungle") {
+            return "planet-tundra-animation"
+        }        
+        return "planet-barren-animation"
+    }
+    
 }

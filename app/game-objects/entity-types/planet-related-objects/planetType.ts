@@ -14,8 +14,6 @@ export default class PlanetType {
         public maxDefenceModifier: number,
         public educationModifier: number,
         public maxEducationModifier: number,
-        public infastructureModifier: number,
-        public maxInfastrucutreModifier: number,
         public healthModifier: number,
         public maxHealthModifier: number,
         public populationGrowthModifier: number,
