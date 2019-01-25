@@ -1,4 +1,4 @@
-class gameEvent {
+export default class GameEvent {
     title: string;
     message: string;
     imageLocation: string;
