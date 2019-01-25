@@ -15,7 +15,7 @@ export default class Ship implements Entity{
     constructor(
         private scene: DefaultScene,
     ) {
-        this.image = this.scene.physics.add.image(500, 500, 'red-circle');
+        this.image = this.scene.physics.add.image(500, 500, 'ship');
         // this.cursors = this.scene.input.keyboard.createCursorKeys();
         this.cursors = this.scene.input.keyboard.addKeys({
             up: Phaser.Input.Keyboard.KeyCodes.W,
