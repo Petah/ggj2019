@@ -27,7 +27,14 @@
 
         .header {
             display: flex;
-            background-color: tan;
+            justify-content: center;
+            background-color: blue;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: start;
+            background-color: white;
         }
 
         .body {
@@ -81,6 +88,17 @@
             background-color: pink;
             flex: 1;
         }
+
+        .col {
+            flex: 1;
+        }
+
+        .row {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -89,13 +107,36 @@
 <body>
     <div class="main">
         <div class="header">
-            Header
+            <p>Warpath - (Untitled)</p>
+        </div>
+        <div class="menu">
+            <button>File</button>
+            <button>Actions</button>
+            <button>Windows</button>
+            <button>Tutorial</button>
+            <button>Help</button>
         </div>
         <div class="body">
             <div class="left">
                 <div class="top">
                     <div class="teams">
                         Teams
+                        <div class="row">
+                            <div class="col">
+                                <img src="assets/red.png">
+                            </div>
+                            <div class="col">
+                                <img src="assets/red.png">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <img src="assets/red.png">
+                            </div>
+                            <div class="col">
+                                <img src="assets/red.png">
+                            </div>
+                        </div>
                     </div>
                     <div class="minimap">
                         Minimap
@@ -103,9 +144,35 @@
                 </div>
                 <div class="middle">
                     Middle
+                    <div class="row">
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                    </div>
                 </div>
                 <div class="bottom">
                     Bottom
+                    <div class="row">
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <img src="assets/red.png">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="right">
