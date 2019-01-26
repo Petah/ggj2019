@@ -249,6 +249,10 @@ export default class Ship implements Entity {
             this.graphics.strokeEllipseShape(ellipse);
         }
     }
+    
+    slowUpdate() {
+
+    }
 
     private getShieldColor(amount) {
         amount = Math.ceil(amount * 5);

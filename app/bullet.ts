@@ -33,6 +33,10 @@ export default class Bullet implements Entity{
             this.scene.addEntity(blast);
         }
     }
+    
+    slowUpdate() {
+
+    }
 
     get x() {
         return this.image.x;

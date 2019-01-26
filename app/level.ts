@@ -79,5 +79,9 @@ export default class Level implements Entity {
 
     update() {
     }
+    
+    slowUpdate() {
+
+    }
 }
 

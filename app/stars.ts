@@ -41,6 +41,10 @@ export default class Stars implements Entity {
             layer.update();
         }
     }
+    
+    slowUpdate() {
+
+    }
 };
 
 class Layer {

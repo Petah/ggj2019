@@ -15,6 +15,7 @@
             margin: 0;
             padding: 0;
             color: #eee;
+            text-shadow: 1px 1px 0 #000;
             background: #111;
             overflow: hidden;
             user-select: none;
@@ -355,6 +356,68 @@
             font-size: 16px;
             vertical-align: middle;
         }
+
+        #time-seg {
+            flex: 1;
+            background-color: #868486;
+            border: 4px groove #999;
+            position: relative;
+            text-align: center;
+            padding: 10px;
+        }
+
+        #time {
+            position: absolute;
+            top: 50%;
+            width: calc(100% - 20px);
+            margin-top: -7px;
+            text-align: center;
+        }
+
+        #time-seg img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        #planet-inhabitance-wrapper {
+            background-color: #868486;
+            border: 4px groove #999;
+            flex: 1;
+        }
+
+        #score-wrapper {
+            background-color: #868486;
+            border: 4px groove #999;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+
+        #score {
+            background-color: #111;
+            border: 4px groove #999;
+            flex: 1;
+            margin: 20px;
+            padding: 10px;
+        }
+
+        #score-us {
+            color: #00ff00;
+            font-size: 20px;
+            text-align: right;
+        }
+
+        #score-them {
+            color: #ff0000;
+            font-size: 20px;
+            text-align: right;
+        }
+
+        #phaser-game {
+            background-color: #868486;
+            border: 4px groove #999;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -402,9 +465,9 @@
                 </div>
                 <div class="middle row">
                     <div class="row">
-                        <div class="col">
+                        <div class="col" style="flex: 2">
                             <div class="row">
-                                <div>
+                                <div id="planet-inhabitance-wrapper">
                                     <span id="planet-inhabitance"></span>: <span id="planet-name"></span><br />
                                     Population: <span id="planet-population"></span>
                                 </div>
@@ -423,10 +486,18 @@
                         </div>
                         <div class="col">
                             <div class="row">
-                                Score
+                                <div id="score-wrapper">
+                                    <div id="score">
+                                        <div id="score-us">123,456</div>
+                                        <div id="score-them">123,456</div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
-                                Time
+                                <div id="time-seg">
+                                    <img src="assets/seg-10.png" />
+                                    <div id="time"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

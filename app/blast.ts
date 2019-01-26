@@ -31,6 +31,10 @@ export default class Blast implements Entity {
             this.scene.removeEntity(this);
         }
     }
+    
+    slowUpdate() {
+
+    }
 
     get x() {
         return this.image.x;

@@ -52,6 +52,10 @@ export default class Laser implements Entity{
             this.scene.addEntity(blast);
         }
     }
+    
+    slowUpdate() {
+
+    }
 
     get x() {
         return this.image.x;

@@ -110,6 +110,9 @@ export default class UI implements Entity {
     private planetInfrastructure: Element;
     private planetResource: Element;
 
+    private time: Element;
+    private timeImage: Element;
+
     private minimapShip: Element;
 
     private currentItem = 0;
@@ -141,6 +144,9 @@ export default class UI implements Entity {
         this.planetSickness = $('#planet-sickness');
         this.planetInfrastructure = $('#planet-infrastructure');
         this.planetResource = $('#planet-resource');
+
+        this.time = $('#time');
+        this.timeImage = $('#time-seg img');
 
         this.minimapShip = $('#minimap-ship');
 
@@ -325,6 +331,13 @@ export default class UI implements Entity {
                 top: (this.ship.y / this.scene.level.height * 100) + '%',
             });
         }
+    }
+    
+    slowUpdate() {
+        this.time.text('Year: ' + this.numberWithCommas(this.scene.gameTime / 10, 1));
+        this.timeImage.attr({
+            src: 'assets/seg-' + Math.round(10 -((this.scene.gameTime / 10) % 1) * 10) + '.png',
+        });
     }
 
     public drawMiniMap() {

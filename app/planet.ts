@@ -9,7 +9,6 @@ import Bullet from "./bullet";
 import Team from "./team";
 
 export default class Planet implements Entity {
-    id: number;
     private image: Phaser.Physics.Arcade.Sprite;
     private maxPopulation: number;
 
@@ -110,7 +109,7 @@ export default class Planet implements Entity {
                 color = 0xff0000;
                 colorText = "#ff0000";
             }
-        } 
+        }
 
         // circle
         this.graphics.lineStyle(1, color);
@@ -242,8 +241,8 @@ export default class Planet implements Entity {
 
     public canInvest(team: Team): boolean {
         let canInvest = true;
-        
-        if(this.getTotalPopulationConsumed() <= 0
+
+        if (this.getTotalPopulationConsumed() <= 0
             || this.infrastructureLevel >= this.maxInfrastructureLevel
             || this.populations.getAllegianceForPlayer(team) <= 0) {
             canInvest = false;
@@ -251,7 +250,7 @@ export default class Planet implements Entity {
 
         return canInvest
     }
-    
+
     // private functions
     private spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {

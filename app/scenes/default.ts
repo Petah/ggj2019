@@ -2,7 +2,7 @@ import Ship from "../ship";
 import Assets from "../assets";
 import Level from "../level";
 import Stars from "../stars";
-import Entity from "../entity";
+import Entity, { SlowUpdate } from "../entity";
 import UI from "../ui";
 import Team from "../team";
 import Items from "../items";
@@ -26,6 +26,7 @@ export default class DefaultScene extends Phaser.Scene {
     public playerTeam: Team;
     public items: Items;
     private numUpdates: number = 0;
+    public gameTime: number = 0;
 
     constructor() {
         super('default');
@@ -88,6 +89,7 @@ export default class DefaultScene extends Phaser.Scene {
         }
 
         this.ui.drawMiniMap();
+        this.ui.slowUpdate();
 
         this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);
@@ -96,10 +98,15 @@ export default class DefaultScene extends Phaser.Scene {
 
     update() {
         this.numUpdates++;
+        let slowUpdate = false;
+        if (this.numUpdates % 100 === 0) {
+            this.gameTime++;
+            slowUpdate = true;
+        }
         for (const entity of this.entities) {
             entity.update();
-            if (entity instanceof Planet && this.numUpdates % 1000 === 0) {
-                (entity as Planet).slowUpdate();
+            if (slowUpdate) {
+                entity.slowUpdate();
             }
         }
     }
