@@ -2,6 +2,7 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Ship from "./ship";
+import SoundManager from "./soundmanager";
 
 export default class Blast implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
@@ -25,7 +26,9 @@ export default class Blast implements Entity {
 
 
 
-        this.scene.sound.add('explosion').play();
+        //SoundManager.shared.play("explosion", 0.5);
+        this.scene.soundManager.playFromLocation("explosion", this.scene.playerShip.x, this.scene.playerShip.y);
+        
     }
 
     update() {
