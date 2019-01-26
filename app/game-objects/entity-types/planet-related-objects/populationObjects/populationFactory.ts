@@ -15,7 +15,7 @@ export default class PopulationFactory {
     }
 
     public generateSpeciesForPlanet(planet: Planet): Species {
-        let planetType = planet.plantetType;
+        let planetType = planet.planetType;
 
         switch (planetType.typeName) {
             case "Gas Giant": return this.getSpecies([]);

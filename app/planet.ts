@@ -90,12 +90,12 @@ export default class Planet implements Entity {
 
     get canSell(): boolean {
         // @todo check alliance
-        return this.population > 0;
+        return this.getTotalPopulationConsumed() > 0;
     }
 
     get canInvest(): boolean {
         // @todo check alliance
-        return this.population > 0;
+        return this.getTotalPopulationConsumed() > 0;
     }
 
     // private functions
@@ -131,16 +131,6 @@ export default class Planet implements Entity {
             case "Gaia": return "planet-gaia-animation";
         }
         return "planet-barren";
-    }
-
-    public getTotalPopulationConsumed(): number {
-        let populationConsumed: number = 0;
-
-        this.populations.forEach(populationGroup => {
-            populationConsumed += populationGroup.calculatePopulationConsumption(this);
-        });
-
-        return populationConsumed;
     }
 
     public getTotalPopulationConsumed(): number {
