@@ -212,13 +212,13 @@ export default class UI implements Entity {
         });
 
         $('#modal-invest-mining').addEventListener('click', () => {
-            if(this.ship === undefined || this.ship === null) {
+            if (this.playerShip == null) {
                 return;
             }
 
-            let planet = this.ship.stoppedOnPlanet;
-            if(planet
-                && planet.canInvest(this.ship.team)
+            let planet = this.playerShip.stoppedOnPlanet;
+            if (planet
+                && planet.canInvest(this.playerShip.team)
                 && planet.remainingInvestmentInMining() > 0) {
 
             }
@@ -314,7 +314,7 @@ export default class UI implements Entity {
             this.shipEnergyPods.attr({
                 class: 'pods pods-' + this.getPodCount(this.playerShip.energy, this.playerShip.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxEnergy - 1)),
             });
-            
+
             this.shipChargeBar.style({
                 width: this.getBarAmount(this.playerShip.charge, this.playerShip.maxCharge) + '%',
             });
@@ -338,18 +338,18 @@ export default class UI implements Entity {
             this.itemNukeCount.text(this.numberWithCommas(this.playerShip.items['nuke'].amount, 0));
             this.itemBioCount.text(this.numberWithCommas(this.playerShip.items['bio'].amount, 0));
 
-            if (this.ship.stoppedOnPlanet) {
-                this.planetName.text(this.ship.stoppedOnPlanet.name);
+            if (this.playerShip.stoppedOnPlanet) {
+                this.planetName.text(this.playerShip.stoppedOnPlanet.name);
                 this.planetInhabitance.text('Uninhabited');
-                this.planetPopulation.text(this.numberWithCommas(this.ship.stoppedOnPlanet.getTotalPopulationConsumed(), 0));
+                this.planetPopulation.text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.getTotalPopulationConsumed(), 0));
                 // this.planetSickness.text('213'); // @todo
                 // this.planetInfrastructure.text('213'); // @todo
-                // this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
+                // this.planetResource.text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.resources, 2));
 
                 $('.gauge-center').attr({
-                    'data-before': this.ship.stoppedOnPlanet.populations.getAllegianceForPlayer(this.ship.team),
+                    'data-before': this.playerShip.stoppedOnPlanet.populations.getAllegianceForPlayer(this.playerShip.team),
                 })
-                // console.log(this.ship.stoppedOnPlanet.maxInfrastructureLevel, this.ship.stoppedOnPlanet.infrastructureLevel);
+                // console.log(this.playerShip.stoppedOnPlanet.maxInfrastructureLevel, this.playerShip.stoppedOnPlanet.infrastructureLevel);
             }
 
             this.minimapShip1.style({
