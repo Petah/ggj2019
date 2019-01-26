@@ -115,7 +115,7 @@ export default class Planet implements Entity {
         }
         return "planet-barren";
     }
-    
+
     private animationNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
             case "Gas Giant": return "planet-gasgiant-animation";
@@ -136,9 +136,11 @@ export default class Planet implements Entity {
     public getTotalPopulationConsumed(): number {
         let populationConsumed: number = 0;
 
-        this.populations.forEach(populationGroup => {
-            populationConsumed += populationGroup.calculatePopulationConsumption(this);
-        });
+        if (this.populations != null && this.populations.length > 0) {
+            for (const populationGroup of this.populations) {
+                populationConsumed += populationGroup.calculatePopulationConsumption(this);
+            }
+        }
 
         return populationConsumed;
     }
