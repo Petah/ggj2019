@@ -94,6 +94,7 @@ export default class UI implements Entity {
     private shipChargePods: Element;
     private shipCargoBar: Element;
     private shipCargoPods: Element;
+    private shipShields: Element;
     private shipMoney: Element;
 
     private itemTorpedoCount: Element;
@@ -122,6 +123,7 @@ export default class UI implements Entity {
         this.shipChargePods = $('#charge-pods');
         this.shipCargoBar = $('#cargo-bar');
         this.shipCargoPods = $('#cargo-pods');
+        this.shipShields = $('#ship-shields');
         this.shipMoney = $('#ship-money');
 
         this.itemTorpedoCount = $('#item-torpedo-count');
@@ -296,6 +298,7 @@ export default class UI implements Entity {
                 class: 'pods pods-' + this.getPodCount(this.ship.cargo, this.ship.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCargo - 1)),
             });
 
+            this.shipShields.text(this.numberWithCommas(this.ship.shield, 0));
             this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
 
             this.itemTorpedoCount.text(this.numberWithCommas(this.ship.items['torpedo'].amount, 0));
