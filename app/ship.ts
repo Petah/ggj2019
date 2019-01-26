@@ -31,6 +31,7 @@ export default class Ship implements Entity {
 
     private stopOnPlanet: Planet = null;
     public stoppedOnPlanet: Planet = null;
+    public cursorOnPlanet: Planet = null;
     private mining: number = 0;
     private miningSpeed: number = 0.02;
 
@@ -59,7 +60,7 @@ export default class Ship implements Entity {
         private team: Team,
         startPlanet: Planet,
     ) {
-        this.stoppedOnPlanet = startPlanet;
+        this.setStoppedOnPlanet(startPlanet);
         this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
         this.image.depth = 200;
         this.cursors = this.scene.input.keyboard.addKeys({
@@ -83,7 +84,7 @@ export default class Ship implements Entity {
                 if (this.mining <= 0) {
                     this.direction = direction;
                     this.speed = this.maxSpeed;
-                    this.stoppedOnPlanet = null;
+                    this.setStoppedOnPlanet(null);
 
                     const planet = this.planetAtPoint(px, py, 2);
                     if (planet) {
@@ -104,6 +105,11 @@ export default class Ship implements Entity {
                     this.scene.addEntity(laser);
                 }
             }
+        });
+        this.scene.input.on('pointermove', (pointer) => {
+            const px = this.scene.cameras.main.worldView.x + pointer.x;
+            const py = this.scene.cameras.main.worldView.y + pointer.y;
+            this.setCursorOnPlanet(this.planetAtPoint(px, py));
         });
 
         for (const item of this.scene.items.items) {
@@ -148,7 +154,7 @@ export default class Ship implements Entity {
         if (planet && planet === this.stopOnPlanet) {
             this.speed = 0;
             this.stopOnPlanet = null;
-            this.stoppedOnPlanet = planet;
+            this.setStoppedOnPlanet(planet);
             if (this.cargo > 0 && this.stoppedOnPlanet.canSell) {
                 this.scene.ui.showModalSell();
             }
@@ -266,5 +272,28 @@ export default class Ship implements Entity {
 
     get y() {
         return this.image.y;
+    }
+
+    setStoppedOnPlanet(value: Planet) {
+        if (value != this.stoppedOnPlanet) {
+            if (this.stoppedOnPlanet != null) {
+                this.stoppedOnPlanet.isShipStopped = false;
+            }
+            if (value != null) {
+                value.isShipStopped = true;
+            }
+            this.stoppedOnPlanet = value;
+        }        
+    }
+    setCursorOnPlanet(value: Planet) {
+        if (value != this.cursorOnPlanet) {
+            if (this.cursorOnPlanet != null) {
+                this.cursorOnPlanet.isCursorOn = false;
+            }
+            if (value != null) {
+                value.isCursorOn = true;
+            }
+            this.cursorOnPlanet = value;
+        }
     }
 };
