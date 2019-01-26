@@ -6,8 +6,13 @@ export default class Team implements Entity {
 
     constructor(
         private scene: DefaultScene,
-        private color: number,
+        public color: number,
+        public isPlayerTeam: Boolean
     ) {
+    }
+
+    static randomColor() {
+      return 0x1000000+(Math.random())*0xffffff;
     }
 
     update() {

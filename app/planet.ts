@@ -2,10 +2,15 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import PlanetType from "./game-objects/entity-types/planet-related-objects/planetType";
 import Population from "./game-objects/entity-types/planet-related-objects/populationObjects/population";
+import Level from "./level";
+import Team from "./team";
+import GM from "./gm";
+import Ship from "./ship";
+import Bullet from "./bullet";
 
 export default class Planet implements Entity {
     id: number;
-    private image: Phaser.GameObjects.Image;
+    private image: Phaser.Physics.Arcade.Sprite;
     private maxPopulation: number;
 
     public maxMining: number;
@@ -16,6 +21,7 @@ export default class Planet implements Entity {
     public maxEducation: number;
     public maxInfastrucutre: number;
     public maxHealth: number;
+    public team: Team = null;
 
     public planetType: PlanetType;
     public isShipStopped: boolean = false;
@@ -28,12 +34,14 @@ export default class Planet implements Entity {
     private planetSize: number;
     private nameText: Phaser.GameObjects.Text;
 
+    public attackRange = 200;
+    public attackPower = 200;
+
     constructor(
         private scene: DefaultScene,
         public name: string,
         public x: number,
         public y: number,
-
         // infrastructure
         public mining: number,
         public spacePort: number,
@@ -41,7 +49,6 @@ export default class Planet implements Entity {
         public agriculture: number,
         public defence: number,
         public education: number,
-
         public populations: Population,
         public health: number,
         public money: number,
@@ -59,6 +66,14 @@ export default class Planet implements Entity {
         sprite.play(this.animationNameFor(type));
 
         this.nameText = this.scene.add.text(x + 15, y+ 15, "");
+        this.image = this.scene.physics.add
+            .staticSprite(this.x, this.y, this.spriteNameFor(this.planetType))
+            .setScale(this.planetScale, this.planetScale);
+
+        this.image.depth = 100;
+        this.image.play(this.animationNameFor(this.planetType));
+
+        this.scene.physics.world.step(0);
 
         this.graphics = this.scene.add.graphics({
             lineStyle: {
@@ -68,10 +83,9 @@ export default class Planet implements Entity {
         });
         this.circle = new Phaser.Geom.Circle(this.x, this.y, size * 0.5 + 1);
         this.rectangles = Array<Phaser.Geom.Rectangle>();
-        for (var i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             this.rectangles.push(new Phaser.Geom.Rectangle(this.x - size * 0.5, this.y - size * 0.5, size, size));
         }
-
 
         this.createMaxPopulationLimit();
     }
@@ -115,19 +129,47 @@ export default class Planet implements Entity {
         }
 
         // shield - blue square
-        // this.graphics.lineStyle(1, 0x0000ff); // blue
-        // for (var i = 0; i < this.rectangles.length; i++) {
-        //     var rectangle = this.rectangles[i];
-        //     var padding = 6.0;
-        //     var randomRange = 4.0;
-        //     rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-        //         this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-        //         this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
-        //         this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
-        //     this.graphics.strokeRectShape(rectangle);
-        // }
+        if (true) {
+            this.graphics.lineStyle(1, 0x0000ff, 0.7); // blue
+            for (var i = 0; i < this.rectangles.length; i++) {
+                var rectangle = this.rectangles[i];
+                var padding = 6.0;
+                var randomRange = 3.0;
+                rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
+                this.graphics.strokeRectShape(rectangle);
+            }
+        }
 
 
+        const shipToShoot = this.findShipToShootAt();
+        if (shipToShoot && this.team && shipToShoot.team !== this.team) {
+            const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
+            const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
+            this.scene.addEntity(bullet);
+        }
+    }
+
+    private findShipToShootAt() {
+        let closest = {
+            distance: null,
+            ship: null,
+        };
+        for (const ship of this.scene.entities) {
+            if (ship instanceof Ship) {
+                const distance = GM.pointDistance(this.x, this.y, ship.x, ship.y);
+                if (!closest.ship || closest.distance > distance) {
+                    closest.ship = ship;
+                    closest.distance = distance;
+                }
+            }
+        }
+        if (closest.distance < this.attackRange) {
+            return closest.ship;
+        }
+        return null;
     }
 
     slowUpdate() {
@@ -179,34 +221,56 @@ export default class Planet implements Entity {
     // private functions
     private spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
-            case "Gas Giant": return "planet-gasgiant";
-            case "Volcanic": return "planet-volcanic";
-            case "Continental": return "planet-continental";
-            case "Jungle": return "planet-jungle";
-            case "Forest": return "planet-forest";
-            case "Desert": return "planet-desert";
-            case "Barren": return "planet-barren";
-            case "Ocean": return "planet-ocean";
-            case "Ice": return "planet-ice";
-            case "Tundra": return "planet-tundra";
-            case "Gaia": return "planet-gaia";
+            case "Gas Giant":
+                return "planet-gasgiant";
+            case "Volcanic":
+                return "planet-volcanic";
+            case "Continental":
+                return "planet-continental";
+            case "Jungle":
+                return "planet-jungle";
+            case "Forest":
+                return "planet-forest";
+            case "Desert":
+                return "planet-desert";
+            case "Barren":
+                return "planet-barren";
+            case "Ocean":
+                return "planet-ocean";
+            case "Ice":
+                return "planet-ice";
+            case "Tundra":
+                return "planet-tundra";
+            case "Gaia":
+                return "planet-gaia";
         }
         return "planet-barren";
     }
 
     private animationNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
-            case "Gas Giant": return "planet-gasgiant-animation";
-            case "Volcanic": return "planet-volcanic-animation";
-            case "Continental": return "planet-continental-animation";
-            case "Jungle": return "planet-jungle-animation";
-            case "Forest": return "planet-forest-animation";
-            case "Desert": return "planet-desert-animation";
-            case "Barren": return "planet-barren-animation";
-            case "Ocean": return "planet-ocean-animation";
-            case "Ice": return "planet-ice-animation";
-            case "Tundra": return "planet-tundra-animation";
-            case "Gaia": return "planet-gaia-animation";
+            case "Gas Giant":
+                return "planet-gasgiant-animation";
+            case "Volcanic":
+                return "planet-volcanic-animation";
+            case "Continental":
+                return "planet-continental-animation";
+            case "Jungle":
+                return "planet-jungle-animation";
+            case "Forest":
+                return "planet-forest-animation";
+            case "Desert":
+                return "planet-desert-animation";
+            case "Barren":
+                return "planet-barren-animation";
+            case "Ocean":
+                return "planet-ocean-animation";
+            case "Ice":
+                return "planet-ice-animation";
+            case "Tundra":
+                return "planet-tundra-animation";
+            case "Gaia":
+                return "planet-gaia-animation";
         }
         return "planet-barren-animation";
     }
@@ -219,5 +283,22 @@ export default class Planet implements Entity {
         }
 
         return populationConsumed;
+    }
+
+    static getHabitablePlanetFromLevel(level: Level): Planet {
+        let planet: Planet = null;
+        let bail = 100;
+        do {
+            const tempPlanet = level.planets[Math.floor(Math.random() * level.planets.length)];
+            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption() == 0) {
+                planet = tempPlanet;
+                break;
+            }
+            if (bail-- <= 0) {
+                throw new Error('Can not find home planet');
+            }
+        } while (planet === null);
+
+        return planet;
     }
 }

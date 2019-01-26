@@ -36,7 +36,7 @@ export default class Ship implements Entity {
     private mining: number = 0;
     private miningSpeed: number = 0.02;
 
-    private cursors: Phaser.Input.Keyboard.CursorKeys;
+    protected cursors: Phaser.Input.Keyboard.CursorKeys;
     private keyMine: Phaser.Input.Keyboard.Key;
 
     public money: number = 500;
@@ -62,62 +62,67 @@ export default class Ship implements Entity {
     public shipWidth: number = 50.0;
     public shipHeight: number = 43.0;
 
+    public shildColor: number = 0x00ff00;
+
     constructor(
         private scene: DefaultScene,
-        private team: Team,
+        public team: Team,
         startPlanet: Planet,
     ) {
         this.setStoppedOnPlanet(startPlanet);
         this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
         this.image.depth = 200;
-        this.cursors = this.scene.input.keyboard.addKeys({
-            up: Phaser.Input.Keyboard.KeyCodes.W,
-            down: Phaser.Input.Keyboard.KeyCodes.S,
-            left: Phaser.Input.Keyboard.KeyCodes.A,
-            right: Phaser.Input.Keyboard.KeyCodes.D,
-            space: Phaser.Input.Keyboard.KeyCodes.SPACE,
-        });
-        this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-        this.scene.input.on('pointerdown', (pointer) => {
-            if (this.dead > 0) {
-                return;
-            }
+        if (this.team.isPlayerTeam) {
+            this.cursors = this.scene.input.keyboard.addKeys({
+                up: Phaser.Input.Keyboard.KeyCodes.W,
+                down: Phaser.Input.Keyboard.KeyCodes.S,
+                left: Phaser.Input.Keyboard.KeyCodes.A,
+                right: Phaser.Input.Keyboard.KeyCodes.D,
+                space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            });
+            this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-            const px = this.scene.cameras.main.worldView.x + pointer.x;
-            const py = this.scene.cameras.main.worldView.y + pointer.y;
-            const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
-            if (pointer.buttons == 1) {
-                if (this.mining <= 0) {
-                    this.direction = direction;
-                    this.speed = this.maxSpeed;
-                    this.setStoppedOnPlanet(null);
+            this.scene.input.on('pointerdown', (pointer) => {
+                if (this.dead > 0) {
+                    return;
+                }
 
-                    const planet = this.planetAtPoint(px, py, 2);
-                    if (planet) {
-                        this.stopOnPlanet = planet;
-                    } else {
-                        this.stopOnPlanet = null;
+                const px = this.scene.cameras.main.worldView.x + pointer.x;
+                const py = this.scene.cameras.main.worldView.y + pointer.y;
+                const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
+                if (pointer.buttons == 1) {
+                    if (this.mining <= 0) {
+                        this.direction = direction;
+                        this.speed = this.maxSpeed;
+                        this.setStoppedOnPlanet(null);
+
+                        const planet = this.planetAtPoint(px, py, 2);
+                        if (planet) {
+                            this.stopOnPlanet = planet;
+                        } else {
+                            this.stopOnPlanet = null;
+                        }
                     }
                 }
-            }
-            if (pointer.buttons == 2) {
-                // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
-                // this.scene.addEntity(bullet);
+                if (pointer.buttons == 2) {
+                    // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
+                    // this.scene.addEntity(bullet);
 
-                const fireCost = 0.1; // @todo get charge amount from item
-                if (this.charge > fireCost) {
-                    this.charge -= fireCost;
-                    const laser = new Laser(this.scene, this, px, py, direction);
-                    this.scene.addEntity(laser);
+                    const fireCost = 0.1; // @todo get charge amount from item
+                    if (this.charge > fireCost) {
+                        this.charge -= fireCost;
+                        const laser = new Laser(this.scene, this, px, py, direction);
+                        this.scene.addEntity(laser);
+                    }
                 }
-            }
-        });
-        this.scene.input.on('pointermove', (pointer) => {
-            const px = this.scene.cameras.main.worldView.x + pointer.x;
-            const py = this.scene.cameras.main.worldView.y + pointer.y;
-            this.setCursorOnPlanet(this.planetAtPoint(px, py));
-        });
+            });
+            this.scene.input.on('pointermove', (pointer) => {
+                const px = this.scene.cameras.main.worldView.x + pointer.x;
+                const py = this.scene.cameras.main.worldView.y + pointer.y;
+                this.setCursorOnPlanet(this.planetAtPoint(px, py));
+            });
+        }
 
         for (const item of this.scene.items.items) {
             this.items[item.key] = new ShipItem(item);
@@ -178,9 +183,11 @@ export default class Ship implements Entity {
             }
         }
 
-        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
-            if (this.mining <= 0) {
-                this.mining = 0.50 + (0.45 * Math.random());
+        if (this.team.isPlayerTeam) {
+            if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
+                if (this.mining <= 0) {
+                    this.mining = 0.50 + (0.45 * Math.random());
+                }
             }
         }
         if (this.mining > 0) {
@@ -238,7 +245,7 @@ export default class Ship implements Entity {
                 this.shipWidth * 0.5 + h_padding + (Math.random() * randomRange * 2.0 - randomRange),
                 this.shipHeight * 0.5 + v_padding + (Math.random() * randomRange * 2.0 - randomRange),
             );
-            this.graphics.lineStyle(1, color, 1); // green
+            this.graphics.lineStyle(1, color, 1);
             this.graphics.strokeEllipseShape(ellipse);
         }
     }
