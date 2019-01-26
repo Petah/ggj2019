@@ -65,6 +65,7 @@ export default class Ship implements Entity {
     public shipHeight: number = 43.0;
 
     public shildColor: number = 0x00ff00;
+    private miningAudio: Phaser.Sound.BaseSound = null;
 
     constructor(
         protected scene: DefaultScene,
@@ -123,6 +124,25 @@ export default class Ship implements Entity {
                 const px = this.scene.cameras.main.worldView.x + pointer.x;
                 const py = this.scene.cameras.main.worldView.y + pointer.y;
                 this.setCursorOnPlanet(this.planetAtPoint(px, py));
+            });
+
+            // audio
+            this.miningAudio = this.scene.sound.add('mining');
+
+            this.scene.input.keyboard.on('keydown_C', (event) => { 
+                if (this.team.isPlayerTeam) {
+                    if (this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
+                        if (this.cargo < this.maxCargo) {
+                            if (this.mining <= 0) {
+                                this.miningAudio.play();
+                                this.mining = 0.50 + (0.45 * Math.random());
+                            }
+                        }
+                    }
+                }                
+            });
+            this.scene.input.keyboard.on('keyup_C', (event) => { 
+                this.stopMining();
             });
         }
 
@@ -184,7 +204,7 @@ export default class Ship implements Entity {
                 } else if (this.stoppedOnPlanet.resources > 0) {
                     miningAmount = this.stoppedOnPlanet.resources;
                 } else {
-                    this.mining = 0;
+                    this.stopMining();
                 }
                 if (this.cargo + miningAmount > this.maxCargo) {
                     miningAmount = this.maxCargo - this.cargo;
@@ -193,7 +213,7 @@ export default class Ship implements Entity {
                 this.mining -= miningAmount;
                 this.cargo += miningAmount;
             } else {
-                this.mining = 0;
+                this.stopMining();
             }
         }
 
@@ -391,5 +411,9 @@ export default class Ship implements Entity {
             }
             this.cursorOnPlanet = value;
         }
+    }
+    stopMining() {
+        this.mining = 0;
+        this.miningAudio.stop();
     }
 };

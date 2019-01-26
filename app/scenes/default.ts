@@ -100,7 +100,7 @@ export default class DefaultScene extends Phaser.Scene {
         var loopMarker = {
             name: 'loop',
             start: 0,
-            duration: 1.0,
+            duration: 120.0,
             config: {
                 loop: true
             }
@@ -108,7 +108,8 @@ export default class DefaultScene extends Phaser.Scene {
         var music = this.sound.add('bgm');
         music.addMarker(loopMarker);
         music.play('loop', {
-            delay: 0
+            delay: 0,
+            volume: 0.1
         });
 
     }
