@@ -122,6 +122,7 @@ export default class UI implements Entity {
     
     private time: Element;
     private timeImage: Element;
+    private menuAudio: Phaser.Sound.BaseSound = null;
 
     constructor(
         private scene: DefaultScene,
@@ -160,26 +161,32 @@ export default class UI implements Entity {
         this.timeImage = $('#time-seg img');
 
         $('.cancel-modal').addEventListener('click', () => {
+            this.playMenuAudio();
             this.hideModals();
         });
 
         $('#sell-all').addEventListener('click', () => {
+            this.playMenuAudio();
             this.playerShip.sell();
             this.modalWrapper.hide();
         });
 
         $('#sell-1000').addEventListener('click', () => {
+            this.playMenuAudio();
             this.playerShip.sell(1);
             this.modalWrapper.hide();
         });
 
         $('#mine').addEventListener('click', () => {
+            this.playMenuAudio();
         });
 
         $('#populate').addEventListener('click', () => {
+            this.playMenuAudio();
         });
 
         $('#modal-wrapper').addEventListener('click', (event) => {
+            this.playMenuAudio();
             if (this.modalWrapper.is(event.target)) {
                 this.hideModals();
             }
@@ -199,6 +206,7 @@ export default class UI implements Entity {
         });
 
         $('#next-item').addEventListener('click', () => {
+            this.playMenuAudio();
             this.currentItem++;
             if (this.currentItem >= this.scene.items.items.length) {
                 this.currentItem = 0;
@@ -207,6 +215,7 @@ export default class UI implements Entity {
         });
 
         $('#prev-item').addEventListener('click', () => {
+            this.playMenuAudio();
             this.currentItem--;
             if (this.currentItem < 0) {
                 this.currentItem = this.scene.items.items.length - 1;
@@ -215,6 +224,7 @@ export default class UI implements Entity {
         });
 
         $('#modal-invest-mining').addEventListener('click', () => {
+            this.playMenuAudio();
             if (this.playerShip == null) {
                 return;
             }
@@ -228,18 +238,21 @@ export default class UI implements Entity {
         })
 
         $('#buy-1').addEventListener('click', () => {
+            this.playMenuAudio();
             const item = this.scene.items.items[this.currentItem];
             this.playerShip.buyItem(item, 1);
             // @TODO subtract money
         });
 
         $('#buy-10').addEventListener('click', () => {
+            this.playMenuAudio();
             const item = this.scene.items.items[this.currentItem];
             this.playerShip.buyItem(item, 10);
             // @TODO subtract money
         });
 
         $('#buy-100').addEventListener('click', () => {
+            this.playMenuAudio();
             const item = this.scene.items.items[this.currentItem];
             this.playerShip.buyItem(item, 100);
             // @TODO subtract money
@@ -278,6 +291,8 @@ export default class UI implements Entity {
         const el = $('#' + id);
         this.modalWrapper.show();
         el.show();
+
+        this.playMenuAudio();
     }
 
     private hideModals() {
@@ -394,5 +409,9 @@ export default class UI implements Entity {
                 backgroundColor: planet.getTotalPopulationConsumed() > 0 ? '#00ff00' : '#ddd',
             }));
         }
+    }
+
+    playMenuAudio() {
+        this.scene.sound.add('menu_switch').play();
     }
 }

@@ -26,6 +26,7 @@ export default class Assets {
         this.scene.load.audio('mining', 'audio/mining.mp3');
         this.scene.load.audio('explosion', 'audio/explosion.mp3');
         this.scene.load.audio('lazer', 'audio/lazer.wav');
+        this.scene.load.audio('menu_switch', 'audio/menu_switch.mp3');
 
     }
 
