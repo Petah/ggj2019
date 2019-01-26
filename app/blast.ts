@@ -8,7 +8,6 @@ import Planet from "./planet";
 export default class Blast implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
     private life = 10;
-    private sprite: Phaser.GameObjects.Sprite;
 
     constructor(
         private scene: DefaultScene,
@@ -17,15 +16,19 @@ export default class Blast implements Entity {
         public blastDirection: number,
         public damage: number,
     ) {
-        this.sprite = this.scene.add.sprite(x, y, "explosion").setScale(0.5, 0.5);
-        this.sprite.depth = 100;
-        this.sprite.play("explosion-animation");
+        const spriteName = "explosion" +  (Math.floor(Math.random() * 4) + 1) + "";
+        const animationName = spriteName + "-animation";
+        const scale = 1.0;
+        this.life = 64;
+
+        console.log(spriteName);
 
         this.image = this.scene.physics.add
-            .staticSprite(x, y, "explosion")
-            .setScale(0.5, 0.5);
-        this.image.depth = 300;
-        this.image.play("explosion-animation");
+            .staticSprite(x, y, spriteName)
+            .setScale(scale, scale);
+        this.image.depth = 100;
+        this.image.play(animationName);
+
 
         this.scene.soundManager.playFromLocation("explosion", x, y);
 
@@ -51,7 +54,7 @@ export default class Blast implements Entity {
         this.life--;
         if (this.life <= 0) {
             this.scene.removeEntity(this);
-            this.sprite.destroy();
+            this.image.destroy();
         }
     }
 

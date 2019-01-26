@@ -23,11 +23,14 @@ export default class Assets {
                 frameHeight: 69,
             });
         }
-        this.scene.load.spritesheet("explosion", "explosion-sprite.png", {
-            frameWidth: 64,
-            frameHeight: 64,
-        });
 
+
+        for (const explosionName of ["explosion", "explosion1", "explosion2", "explosion3", "explosion4"]) {
+            this.scene.load.spritesheet(explosionName, explosionName + "-sprite.png", {
+                frameWidth: 64,
+                frameHeight: 64,
+            });
+        }
 
         this.scene.load.audio('bgm', 'audio/Warpath BGM.mp3');
         this.scene.load.audio('numkey', 'audio/numkey.wav');
@@ -61,6 +64,19 @@ export default class Assets {
             frameRate: Math.random() * 10 + 10,
             repeat: 0,
         });
+        var explosionNames = ["explosion1", "explosion2", "explosion3", "explosion4"];
+        for (var explosionName of explosionNames) {
+            this.scene.anims.create({
+                key: explosionName + "-animation",
+                frames: this.scene.anims.generateFrameNumbers(explosionName, {
+                    start: 0,
+                    end: 64,
+                }),
+                frameRate: 200,
+                repeat: 0,
+            });
+        }
+        
 
     }
 }
