@@ -3,15 +3,13 @@ import DefaultScene from "./scenes/default";
 import Bullet from "./bullet";
 import Entity from "./entity";
 import Planet from "./planet";
-import UI from "./ui";
 import Team from "./team";
 import { Item } from "./items";
 import Laser from "./laser";
-import { shadeBlendConvert } from "./color";
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 
 class ShipItem {
-    public amount: number = 100;
+    public amount: number = 0;
 
     constructor(
         public item: Item,
@@ -41,7 +39,7 @@ export default class Ship implements Entity {
     protected cursors: Phaser.Input.Keyboard.CursorKeys;
     protected keyMine: Phaser.Input.Keyboard.Key;
 
-    public money: number = 500000;
+    public money: number = 500;
     public colonists: number = 0;
     public maxColonists: number = 1999;
     public cargo: number = 0;
@@ -365,7 +363,7 @@ export default class Ship implements Entity {
         if (!amount || amount > this.cargo) {
             amount = this.cargo;
         }
-        return this.stoppedOnPlanet.resources * amount * 1000;
+        return (100 - this.stoppedOnPlanet.resources) * amount * 300;
     }
 
     buyItem(item: Item, amount: number) {

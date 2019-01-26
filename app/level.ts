@@ -8,8 +8,8 @@ import GM from "./gm";
 
 export default class Level implements Entity {
     id: number
-    public width: number = 6000;
-    public height: number = 6000;
+    public width: number = 3000;
+    public height: number = 3000;
     private planetCount = 13;
     public planets: Planet[] = [];
 

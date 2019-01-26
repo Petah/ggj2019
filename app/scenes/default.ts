@@ -87,6 +87,7 @@ export default class DefaultScene extends Phaser.Scene {
         playerHomePlanet.defence = 0.5 + (Math.random() * 0.5);
         playerHomePlanet.maxShield = Math.round(5 * playerHomePlanet.defence);
         playerHomePlanet.shield = playerHomePlanet.maxShield;
+        playerHomePlanet.resources = Math.random() * 40 + 10;
         playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
 
         const enemyHomePlanets = [];
@@ -104,6 +105,7 @@ export default class DefaultScene extends Phaser.Scene {
             enemyHomePlanet.defence = 0.5 + (Math.random() * 0.5);
             enemyHomePlanet.maxShield = Math.round(5 * enemyHomePlanet.defence);
             enemyHomePlanet.shield = enemyHomePlanet.maxShield;
+            enemyHomePlanet.resources = Math.random() * 40 + 10;
             enemyHomePlanet.populations.setAllegianceForTeam(enemyTeam, 100);
             enemyHomePlanets.push(enemyHomePlanet);
         }

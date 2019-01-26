@@ -598,9 +598,9 @@ export default class UI implements Entity {
                 this.planetResource.style({
                     height: this.numberWithCommas(this.playerShip.stoppedOnPlanet.resources, 2) + '%',
                 });
-                // $('#planet-inhabitance-image img').attr({
-                //     src: 'assets/planets/' + this.playerShip.stoppedOnPlanet.spriteNameFor(this.playerShip.stoppedOnPlanet.type) + '-sprite.png',
-                // });
+                $('#planet-inhabitance-image img').attr({
+                    src: 'assets/planets/' + this.playerShip.stoppedOnPlanet.spriteNameFor(this.playerShip.stoppedOnPlanet.planetType) + '-sprite.png',
+                });
 
                 const allegiance = this.playerShip.stoppedOnPlanet.getAllegiance(this.playerShip.team);
                 if (allegiance === null) {
