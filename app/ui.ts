@@ -298,7 +298,7 @@ export default class UI implements Entity {
                 class: 'pods pods-' + this.getPodCount(this.ship.cargo, this.ship.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCargo - 1)),
             });
 
-            this.shipShields.text(this.numberWithCommas(this.ship.shield, 0));
+            this.shipShields.text(this.numberWithCommas(this.ship.maxShield, 0));
             this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
 
             this.itemTorpedoCount.text(this.numberWithCommas(this.ship.items['torpedo'].amount, 0));

@@ -7,6 +7,7 @@ import UI from "./ui";
 import Team from "./team";
 import { Item } from "./items";
 import Laser from "./laser";
+import { shadeBlendConvert } from "./color";
 
 class ShipItem {
     public amount: number = 0;
@@ -47,13 +48,13 @@ export default class Ship implements Entity {
     public maxEnergy: number = 1;
     public charge: number = 1;
     public maxCharge: number = 1;
+    public rechargeRate: number = 0.0025;
     public shield: number = 0;
     public maxShield: number = 0;
 
     public dead: number = 0;
 
     public items: ItemMap = {};
-    public isGathering: boolean;
 
     private ellipses: Array<Phaser.Geom.Ellipse>;
     private graphics: Phaser.GameObjects.Graphics;
@@ -82,7 +83,7 @@ export default class Ship implements Entity {
             if (this.dead > 0) {
                 return;
             }
-            
+
             const px = this.scene.cameras.main.worldView.x + pointer.x;
             const py = this.scene.cameras.main.worldView.y + pointer.y;
             const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
@@ -126,19 +127,20 @@ export default class Ship implements Entity {
             lineStyle: {
                 width: 1,
                 color: 0xdddddd,
+                alpha: 1,
             }
         });
-        
+        this.graphics.depth = 400;
+
         this.ellipses = Array<Phaser.Geom.Ellipse>();
         for (var i = 0; i < 3; i++) {
             this.ellipses.push(new Phaser.Geom.Ellipse(
-                this.x, 
-                this.y, 
-                this.shipWidth * 0.5, 
-                this.shipHeight * 0.5));
+                this.x,
+                this.y,
+                this.shipWidth * 0.5,
+                this.shipHeight * 0.5,
+            ));
         }
-
-        this.isGathering = true; // tmp...
     }
 
     update() {
@@ -151,7 +153,7 @@ export default class Ship implements Entity {
             return;
         }
 
-        this.charge += 0.001;
+        this.charge += this.rechargeRate;
         if (this.charge > this.maxCharge) {
             this.charge = this.maxCharge;
         }
@@ -202,40 +204,55 @@ export default class Ship implements Entity {
             }
         }
 
-
         this.graphics.clear();
-
-        if (this.isGathering) {
-            if (this.stoppedOnPlanet != null) {          
-                this.graphics.lineStyle(1, 0x0000ff); // blue
-                for (var i=0; i<10; i++) {
-                    var randomRange = 20.0;
-                    var line = new Phaser.Geom.Line(
-                        this.x, 
-                        this.y, 
-                        this.stoppedOnPlanet.x + (Math.random() * randomRange*2.0 - randomRange), 
-                        this.stoppedOnPlanet.y + (Math.random() * randomRange*2.0 - randomRange));
-                    this.graphics.strokeLineShape(line);
-                }
+        if (this.mining > 0) {
+            for (let i = 0; i < 10; i++) {
+                const randomRange = this.stoppedOnPlanet.size / 2;
+                const line = new Phaser.Geom.Line(
+                    this.x,
+                    this.y,
+                    this.stoppedOnPlanet.x + GM.lengthDirX(Math.random() * randomRange, Math.random() * 360),
+                    this.stoppedOnPlanet.y + GM.lengthDirY(Math.random() * randomRange, Math.random() * 360),
+                );
+                this.graphics.lineStyle(1, 0xffffff, 1); // blue
+                this.graphics.strokeLineShape(line);
             }
         }
 
         // shield
-        if (true) {
-            this.graphics.lineStyle(1, 0x00ff00); // green
-            for (var i = 0; i < this.ellipses.length; i++) {
-                var ellipse = this.ellipses[i];
-                var h_padding = 33.0;
-                var v_padding = 30.0;
-                var randomRange = 3.0;
-                ellipse.setTo(this.x + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.y + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.shipWidth * 0.5 + h_padding + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.shipHeight * 0.5 + v_padding + (Math.random() * randomRange * 2.0 - randomRange));
-                this.graphics.strokeEllipseShape(ellipse);
+        for (let i = this.ellipses.length - 1; i >= 0; i--) {
+            if (i >= this.maxShield) {
+                continue;
             }
+            let color = 0x00ff00;
+            if (i == 0) {
+                color = this.getShieldColor(this.shield % 1);
+            }
+            const ellipse = this.ellipses[i];
+            const h_padding = 33.0;
+            const v_padding = 30.0;
+            const randomRange = 3.0;
+            ellipse.setTo(
+                this.x + (Math.random() * randomRange * 2.0 - randomRange),
+                this.y + (Math.random() * randomRange * 2.0 - randomRange),
+                this.shipWidth * 0.5 + h_padding + (Math.random() * randomRange * 2.0 - randomRange),
+                this.shipHeight * 0.5 + v_padding + (Math.random() * randomRange * 2.0 - randomRange),
+            );
+            this.graphics.lineStyle(1, color, 1); // green
+            this.graphics.strokeEllipseShape(ellipse);
         }
-        
+    }
+
+    private getShieldColor(amount) {
+        amount = Math.ceil(amount * 5);
+        switch (amount) {
+            case 1: return 0xFF0000;
+            case 2: return 0xFF7700;
+            case 3: return 0xFFFF00;
+            case 4: return 0x77FF00;
+            case 5: return 0x00FF00;
+        }
+        return 0x00FF00;
     }
 
     private planetAtPoint(x: number, y: number, size: number = 1) {
@@ -283,7 +300,8 @@ export default class Ship implements Entity {
                 this.money -= item.price;
             }
         } else if (item.key == 'shield') {
-            if (this.maxShield < 6) {
+            if (this.maxShield < 5) {
+                this.shield += 1;
                 this.maxShield += 1;
                 this.money -= item.price;
             }
@@ -297,7 +315,16 @@ export default class Ship implements Entity {
     }
 
     damage(amount: number) {
-        this.energy -= amount;
+        if (this.shield > 0) {
+            this.shield -= amount;
+            this.maxShield = Math.ceil(this.shield);
+            if (this.shield < 0) {
+                this.energy += this.shield;
+                this.shield = 0;
+            }
+        } else {
+            this.energy -= amount;
+        }
         if (this.energy <= 0) {
             this.dead = 100;
             this.image.alpha = 0;
@@ -321,7 +348,7 @@ export default class Ship implements Entity {
                 value.isShipStopped = true;
             }
             this.stoppedOnPlanet = value;
-        }        
+        }
     }
     setCursorOnPlanet(value: Planet) {
         if (value != this.cursorOnPlanet) {
