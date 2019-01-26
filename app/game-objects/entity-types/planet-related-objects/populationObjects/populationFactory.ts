@@ -5,33 +5,17 @@ import Human from "./human";
 import Population from "./population";
 
 export default class PopulationFactory {
-    private continentalSpecies: Species[] = [new Ork, new Human]
+    private species: Species[] = [new Ork, new Human]
 
-    public generatePopulationForPlanet(planet: Planet): Population {
-        let population = new Population(this.generateSpeciesForPlanet(planet),
+    public generatePopulationForPlanet(): Population {
+        let population = new Population(this.generateSpeciesForPlanet(),
             100,
             100);
         return population;
     }
 
-    public generateSpeciesForPlanet(planet: Planet): Species {
-        let planetType = planet.planetType;
-
-        switch (planetType.typeName) {
-            case "Gas Giant": return this.getSpecies([]);
-            case "Volcanic": return this.getSpecies([]);
-            case "Continental": return this.getSpecies(this.continentalSpecies);
-            case "Jungle": return this.getSpecies([]);
-            case "Forest": return this.getSpecies([]);
-            case "Desert": return this.getSpecies([]);
-            case "Barren": return this.getSpecies([]);
-            case "Ocean": return this.getSpecies([]);
-            case "Ice": return this.getSpecies([]);
-            case "Tundra": return this.getSpecies([]);
-            case "Gaia": return this.getSpecies([]);
-        }
-
-        return null;
+    public generateSpeciesForPlanet(): Species {
+        return this.getSpecies(this.species);
     }
 
     private getSpecies(speciesList: Species[]): Species {
