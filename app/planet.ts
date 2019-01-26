@@ -37,6 +37,9 @@ export default class Planet implements Entity {
     public attackRange = 200;
     public attackPower = 200;
 
+    public shield: number = 5;
+    public maxShield: number = 5;
+
     constructor(
         private scene: DefaultScene,
         public name: string,
@@ -65,7 +68,7 @@ export default class Planet implements Entity {
         sprite.depth = 100;
         sprite.play(this.animationNameFor(type));
 
-        this.nameText = this.scene.add.text(x + 15, y+ 15, "");
+        this.nameText = this.scene.add.text(x + 15, y + 15, "");
         this.image = this.scene.physics.add
             .staticSprite(this.x, this.y, this.spriteNameFor(this.planetType))
             .setScale(this.planetScale, this.planetScale);
@@ -81,7 +84,7 @@ export default class Planet implements Entity {
                 color: 0xdddddd,
             }
         });
-        this.circle = new Phaser.Geom.Circle(this.x, this.y, size * 0.5 + 1);
+        this.circle = new Phaser.Geom.Circle(this.x - 1, this.y - 1, size * 0.5 + 1);
         this.rectangles = Array<Phaser.Geom.Rectangle>();
         for (let i = 0; i < 3; i++) {
             this.rectangles.push(new Phaser.Geom.Rectangle(this.x - size * 0.5, this.y - size * 0.5, size, size));
@@ -99,26 +102,23 @@ export default class Planet implements Entity {
         if (false) { // neutral - yellow
             color = 0xffff00;
             colorText = "#ffff00";
-        }
-        else if (true) { // ally - green
+        } else if (true) { // ally - green
             color = 0x00ff00;
             colorText = "#00ff00";
-        }
-        else if (true) { // enemy - red
+        } else if (true) { // enemy - red
             color = 0xff0000;
             colorText = "#ff0000";
-        }     
+        }
 
         // circle
         this.graphics.lineStyle(1, color);
         this.graphics.strokeCircleShape(this.circle);
 
-
         // text
         if (this.isShipStopped || this.isCursorOn) {
             this.graphics.strokeLineShape(new Phaser.Geom.Line(
-                this.x, 
-                this.y, 
+                this.x,
+                this.y,
                 this.x + 15,
                 this.y + 15));
             this.nameText.setText(this.name);
@@ -129,20 +129,26 @@ export default class Planet implements Entity {
         }
 
         // shield - blue square
-        if (true) {
-            this.graphics.lineStyle(1, 0x0000ff, 0.7); // blue
-            for (var i = 0; i < this.rectangles.length; i++) {
-                var rectangle = this.rectangles[i];
-                var padding = 6.0;
-                var randomRange = 3.0;
-                rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
-                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
-                this.graphics.strokeRectShape(rectangle);
+        for (var i = 0; i < this.rectangles.length; i++) {
+            if (i >= this.maxShield) {
+                continue;
             }
+            let color = 0x0000FF;
+            if (i == 0) {
+                color = this.getShieldColor(this.shield % 1);
+            }
+            var rectangle = this.rectangles[i];
+            var padding = 6.0;
+            var randomRange = 3.0;
+            rectangle.setTo(
+                (this.x - 1) - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                (this.y - 1) - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+            );
+            this.graphics.lineStyle(1, color, 0.7);
+            this.graphics.strokeRectShape(rectangle);
         }
-
 
         const shipToShoot = this.findShipToShootAt();
         if (shipToShoot && this.team && shipToShoot.team !== this.team) {
@@ -150,6 +156,18 @@ export default class Planet implements Entity {
             const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
             this.scene.addEntity(bullet);
         }
+    }
+
+    private getShieldColor(amount) {
+        amount = Math.ceil(amount * 5);
+        switch (amount) {
+            case 1: return 0xFF0000;
+            case 2: return 0xFF0077;
+            case 3: return 0xFF00FF;
+            case 4: return 0x7700FF;
+            case 5: return 0x0000FF;
+        }
+        return 0x0000FF;
     }
 
     private findShipToShootAt() {

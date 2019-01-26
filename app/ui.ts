@@ -110,6 +110,8 @@ export default class UI implements Entity {
     private planetInfrastructure: Element;
     private planetResource: Element;
 
+    private minimapShip: Element;
+
     private currentItem = 0;
 
     constructor(
@@ -139,6 +141,8 @@ export default class UI implements Entity {
         this.planetSickness = $('#planet-sickness');
         this.planetInfrastructure = $('#planet-infrastructure');
         this.planetResource = $('#planet-resource');
+
+        this.minimapShip = $('#minimap-ship');
 
         $('.cancel-modal').addEventListener('click', () => {
             this.hideModals();
@@ -283,7 +287,7 @@ export default class UI implements Entity {
             this.shipEnergyPods.attr({
                 class: 'pods pods-' + this.getPodCount(this.ship.energy, this.ship.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxEnergy - 1)),
             });
-            
+
             this.shipChargeBar.style({
                 width: this.getBarAmount(this.ship.charge, this.ship.maxCharge) + '%',
             });
@@ -315,6 +319,11 @@ export default class UI implements Entity {
                 this.planetInfrastructure.text('213'); // @todo
                 this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
             }
+
+            this.minimapShip.style({
+                left: (this.ship.x / this.scene.level.width * 100) + '%',
+                top: (this.ship.y / this.scene.level.height * 100) + '%',
+            });
         }
     }
 
