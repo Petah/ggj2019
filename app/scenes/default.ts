@@ -9,19 +9,21 @@ import Items from "../items";
 import Population from "../game-objects/entity-types/planet-related-objects/populationObjects/population";
 import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 import Planet from "../planet";
+import Enemy from "../enemy";
 
 
 export default class DefaultScene extends Phaser.Scene {
 
-    private ship: Ship;
+    public playerShip: Ship;
+    public enemyShips: Ship[] = [];
     public level: Level;
     public ui: UI;
     private assets: Assets;
     private stars: Stars;
     public graphics: Phaser.GameObjects.Graphics;
     public entities: Entity[] = [];
-    public teams: Team[] = [];
-    public team: Team;
+    public enemyTeams: Team[] = [];
+    public playerTeam: Team;
     public items: Items;
     private numUpdates: number = 0;
 
@@ -39,8 +41,7 @@ export default class DefaultScene extends Phaser.Scene {
         this.assets = new Assets(this);
         this.assets.preload();
 
-        this.graphics = this.add.graphics({
-        });
+        this.graphics = this.add.graphics({});
 
         this.load.image('sky', 'space3.png');
         this.load.on('progress', this.onLoadProgress, this);
@@ -58,44 +59,47 @@ export default class DefaultScene extends Phaser.Scene {
         this.stars = new Stars(this);
         this.addEntity(this.stars);
 
-        const teamColor = 0x00FF00;
-        this.team = new Team(this, teamColor);
+        this.playerTeam = new Team(this, 0x00FF00, true);
 
-        let homePlanet: Planet = null;
-        let bail = 100;
-        do {
-            const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
-            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption() == 0) {
-                homePlanet = tempPlanet;
-                break;
-            }
+        const populationFactory = new PopulationFactory();
 
-            if (bail-- <= 0) {
-                throw new Error('Can not find home planet');
-            }
-        } while (homePlanet === null);
+        let playerHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
+        playerHomePlanet.populations = populationFactory.generatePopulationForPlanet(playerHomePlanet);
+        playerHomePlanet.team = this.playerTeam;
+        this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
+        this.ui.ship = this.playerShip;
+        this.addEntity(this.playerShip);
+        playerHomePlanet.draw();
 
+        const maxEnemyTeams = 3;
+        for (let i = 0; i < maxEnemyTeams; i++) {
+            let color = Team.randomColor();
+            let team = new Team(this, color, false);
+            this.enemyTeams.push(team);
 
-        homePlanet.populations = new PopulationFactory().generatePopulationForPlanet(homePlanet);
+            let homePlanet = Planet.getHabitablePlanetFromLevel(this.level);
+            homePlanet.team = team;
+            homePlanet.populations = populationFactory.generatePopulationForPlanet(homePlanet);
 
-        this.ship = new Ship(this, this.team, homePlanet);
-        this.ui.ship = this.ship;
-        this.addEntity(this.ship);
-        homePlanet.draw();
+            let enemyShip = new Enemy(this, team, homePlanet);
+            this.enemyShips.push(enemyShip);
+            this.addEntity(enemyShip);
+            homePlanet.draw();
+        }
 
         this.ui.drawMiniMap();
 
         this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);
-        this.cameras.main.startFollow(this.ship.image, true, 0.05, 0.05);
+        this.cameras.main.startFollow(this.playerShip.image, true, 0.05, 0.05);
     }
 
     update() {
         this.numUpdates++;
         for (const entity of this.entities) {
             entity.update();
-            if(entity instanceof Planet && this.numUpdates % 1000 === 0) {
-              (entity as Planet).slowUpdate();
+            if (entity instanceof Planet && this.numUpdates % 1000 === 0) {
+                (entity as Planet).slowUpdate();
             }
         }
     }
@@ -107,6 +111,7 @@ export default class DefaultScene extends Phaser.Scene {
     removeEntity(entity: Entity) {
         this.entities.splice(this.entities.indexOf(entity), 1);
     }
+
 
     onLoadComplete(loader, totalComplete, totalFailed) {
         console.log('onLoadComplete');

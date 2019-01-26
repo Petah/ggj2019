@@ -35,7 +35,7 @@ export default class Ship implements Entity {
     private mining: number = 0;
     private miningSpeed: number = 0.02;
 
-    private cursors: Phaser.Input.Keyboard.CursorKeys;
+    protected cursors: Phaser.Input.Keyboard.CursorKeys;
     private keyMine: Phaser.Input.Keyboard.Key;
 
     public money: number = 500;
@@ -57,7 +57,7 @@ export default class Ship implements Entity {
 
     constructor(
         private scene: DefaultScene,
-        private team: Team,
+        public team: Team,
         startPlanet: Planet,
     ) {
         this.setStoppedOnPlanet(startPlanet);
