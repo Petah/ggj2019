@@ -74,9 +74,11 @@ export default class DefaultScene extends Phaser.Scene {
         }
 
         // Set the home planets
+        const human = new Human();
+        const ork = new Ork();
         let playerHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
         playerHomePlanet.populations.quantity = 1000;
-        playerHomePlanet.populations.species = new Human();
+        playerHomePlanet.populations.species = human;
         playerHomePlanet.team = this.playerTeam;
         playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
 
@@ -85,20 +87,20 @@ export default class DefaultScene extends Phaser.Scene {
             let enemyHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
             enemyHomePlanet.team = enemyTeam;
             enemyHomePlanet.populations.quantity = 1000;
-            enemyHomePlanet.populations.species = new Ork();
+            enemyHomePlanet.populations.species = ork;
             enemyHomePlanet.populations.setAllegianceForTeam(enemyTeam, 100);
             enemyHomePlanets.push(enemyHomePlanet);
         }
 
         // Spawn the ships
-        this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
+        this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet, human);
         this.ui.playerShip = this.playerShip;
         this.addEntity(this.playerShip);
         playerHomePlanet.draw();
         
         for (let i = 0; i < maxEnemyTeams; i++) {
             const enemyTeam = this.enemyTeams[i];
-            let enemyShip = new Enemy(this, enemyTeam, enemyHomePlanets[i]);
+            let enemyShip = new Enemy(this, enemyTeam, enemyHomePlanets[i], ork);
             this.enemyShips.push(enemyShip);
             this.ui["enemyShip"+i] = enemyShip;
             this.addEntity(enemyShip);

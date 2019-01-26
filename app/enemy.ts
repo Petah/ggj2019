@@ -6,6 +6,7 @@ import GM from "./gm";
 import Bullet from "./bullet";
 import ship from "./ship";
 import Map = Phaser.Structs.Map;
+import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 
 export enum EnemyState {
     ATTACK_ENEMY,
@@ -38,10 +39,13 @@ export default class Enemy extends Ship {
     private damageDirection: number;
     private reenteringBounds: Boolean = false;
 
-    constructor(scene: DefaultScene,
-                team: Team,
-                startPlanet: Planet,) {
-        super(scene, team, startPlanet);
+    constructor(
+        scene: DefaultScene,
+        team: Team,
+        startPlanet: Planet,
+        species: Species,
+    ) {
+        super(scene, team, startPlanet, species);
 
         this.changeState();
     }
@@ -190,7 +194,7 @@ export default class Enemy extends Ship {
 
     private shoot(target: any) {
         if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange
-        && this.framesSinceAttack >= this.framePerAttack) {
+            && this.framesSinceAttack >= this.framePerAttack) {
             const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
             const bullet = new Bullet(this.scene, this, target.x, target.y, direction);
             this.scene.addEntity(bullet);
