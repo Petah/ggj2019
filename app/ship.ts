@@ -5,6 +5,18 @@ import Entity from "./entity";
 import Planet from "./planet";
 import UI from "./ui";
 import Team from "./team";
+import { Item } from "./items";
+
+class ShipItem {
+    public amount: number = 0;
+
+    constructor(
+        public item: Item,
+    ) {
+    }
+}
+
+interface ItemMap { [key: string]: ShipItem; };
 
 export default class Ship implements Entity {
     id: number;
@@ -34,6 +46,8 @@ export default class Ship implements Entity {
     public charge: number = 0;
     public maxCharge: number = 1;
 
+    public items: ItemMap = {};
+
     constructor(
         private scene: DefaultScene,
         private team: Team,
@@ -60,7 +74,7 @@ export default class Ship implements Entity {
                     this.direction = direction;
                     this.speed = this.maxSpeed;
                     this.stoppedOnPlanet = null;
-    
+
                     const planet = this.planetAtPoint(px, py, 2);
                     if (planet) {
                         this.stopOnPlanet = planet;
@@ -74,6 +88,10 @@ export default class Ship implements Entity {
                 this.scene.addEntity(bullet);
             }
         });
+
+        for (const item of this.scene.items.items) {
+            this.items[item.key] = new ShipItem(item);
+        }
     }
 
     update() {
@@ -132,7 +150,7 @@ export default class Ship implements Entity {
         };
         for (const planet of this.scene.level.planets) {
             const distance = GM.pointDistance(x, y, planet.x, planet.y);
-            if (distance < (10 * size) && (closest.distance === null || distance < closest.distance)) {
+            if (distance < (15 * size) && (closest.distance === null || distance < closest.distance)) {
                 closest.planet = planet;
                 closest.distance = distance;
             }
@@ -150,7 +168,7 @@ export default class Ship implements Entity {
         this.cargo -= amount;
         this.stoppedOnPlanet.resources += amount;
         // @todo make planet adjust price based on demand
-        this.money += amount;
+        this.money += amount * 1000;
     }
 
     get x() {

@@ -70,12 +70,12 @@ export default class Planet implements Entity {
 
     get infrastructure(): number {
         return this.agriculture
-        + this.defence
-        + this.mining
-        + this.spacePort
-        + this.education
-        + this.education;
+            + this.defence
+            + this.mining
+            + this.spacePort
+            + this.education;
     }
+
     draw() {
         this.graphics.clear();
         if (this.population > 0) {
@@ -84,6 +84,16 @@ export default class Planet implements Entity {
             this.graphics.lineStyle(1, 0xdddddd);
         }
         this.graphics.strokeCircleShape(this.circle);
+    }
+
+    get canSell(): boolean {
+        // @todo check alliance
+        return this.population > 0;
+    }
+
+    get canInvest(): boolean {
+        // @todo check alliance
+        return this.population > 0;
     }
 
     // private functions
@@ -114,8 +124,8 @@ export default class Planet implements Entity {
         }
         else if (name == "Jungle") {
             return "planet-tundra-animation"
-        }        
+        }
         return "planet-barren-animation"
     }
-    
+
 }

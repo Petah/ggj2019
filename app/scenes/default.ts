@@ -5,6 +5,7 @@ import Stars from "../stars";
 import Entity from "../entity";
 import UI from "../ui";
 import Team from "../team";
+import Items from "../items";
 
 export default class DefaultScene extends Phaser.Scene {
 
@@ -17,6 +18,7 @@ export default class DefaultScene extends Phaser.Scene {
     public entities: Entity[] = [];
     public teams: Team[] = [];
     public team: Team;
+    public items: Items;
 
     constructor() {
         super('default');
@@ -42,6 +44,8 @@ export default class DefaultScene extends Phaser.Scene {
 
     create() {
         this.assets.create();
+
+        this.items = new Items(this);
 
         this.level = new Level(this);
         this.addEntity(this.level);
