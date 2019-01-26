@@ -173,7 +173,7 @@ export default class Ship implements Entity {
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
 
-        const planet = this.planetAtPoint(this.x, this.y);
+        const planet = this.planetAtPoint(this.x, this.y, 3.5);
         if (planet && planet === this.stopOnPlanet) {
             this.speed = 0;
             this.stopOnPlanet = null;
@@ -269,7 +269,7 @@ export default class Ship implements Entity {
         };
         for (const planet of this.scene.level.planets) {
             const distance = GM.pointDistance(x, y, planet.x, planet.y);
-            if (distance < (50 * size) && (closest.distance === null || distance < closest.distance)) {
+            if (distance < (15 * size) && (closest.distance === null || distance < closest.distance)) {
                 closest.planet = planet;
                 closest.distance = distance;
             }

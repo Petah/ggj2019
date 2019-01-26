@@ -114,11 +114,9 @@ export default class DefaultScene extends Phaser.Scene {
 
 
     onLoadComplete(loader, totalComplete, totalFailed) {
-        console.log('onLoadComplete');
     }
 
     onLoadProgress(progress) {
-        console.log('onLoadProgress');
     }
 
 };
