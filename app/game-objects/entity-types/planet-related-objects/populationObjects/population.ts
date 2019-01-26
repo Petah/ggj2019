@@ -1,5 +1,5 @@
 import Species from "./species";
-import Planet from "../../../planet";
+import Planet from "../../../../planet";
 
 export default class Population {
     private maxHealth = 100;
@@ -41,9 +41,13 @@ export default class Population {
     }
 
     public calculatePopulationConsumption(planet: Planet): number {
+        if(this.species == null || this.quantity == 0) {
+            return 0;
+        }
+
         let populationConsumption = this.quantity * this.species.populationConsumption;
 
-        if (planet.plantetType !== this.species.prefferedPlanetType) {
+        if (planet.planetType !== this.species.prefferedPlanetType) {
             populationConsumption *= 3;
         }
 
