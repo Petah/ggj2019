@@ -333,7 +333,10 @@ export default class UI implements Entity {
                 // this.planetInfrastructure.text('213'); // @todo
                 // this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
 
-                // console.log(this.ship.stoppedOnPlanet.populations.getAllegianceForPlayer(this.ship.team));
+                $('.gauge-center').attr({
+                    'data-before': this.ship.stoppedOnPlanet.populations.getAllegianceForPlayer(this.ship.team),
+                })
+                // console.log(this.ship.stoppedOnPlanet.maxInfrastructureLevel, this.ship.stoppedOnPlanet.infrastructureLevel);
             }
         }
     }
