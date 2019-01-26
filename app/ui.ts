@@ -289,6 +289,7 @@ export default class UI implements Entity {
             }).style({
                 left: (xp * 100) + '%',
                 top: (yp * 100) + '%',
+                backgroundColor: planet.getTotalPopulationConsumed() > 0 ? '#00ff00' : '#ddd',
             }));
         }
     }
