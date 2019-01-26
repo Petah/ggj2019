@@ -6,6 +6,7 @@ import Planet from "./planet";
 import UI from "./ui";
 import Team from "./team";
 import { Item } from "./items";
+import Laser from "./laser";
 
 class ShipItem {
     public amount: number = 0;
@@ -84,8 +85,11 @@ export default class Ship implements Entity {
                 }
             }
             if (pointer.buttons == 2) {
-                const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
-                this.scene.addEntity(bullet);
+                // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
+                // this.scene.addEntity(bullet);
+                
+                const laser = new Laser(this.scene, this, px, py, direction);
+                this.scene.addEntity(laser);
             }
         });
 

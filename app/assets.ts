@@ -11,6 +11,7 @@ export default class Assets {
         this.scene.load.image('star', 'star.png');
         this.scene.load.image('bullet', 'bullet.png');
         this.scene.load.image('ship', 'ship.png');
+        this.scene.load.image('laser', 'laser.png');
 
 
         var planetNames = ["barren", "continental", "desert", "forest", "gaia", "gasgiant", "ice", "jungle", "ocean", "tundra", "volcanic"];
