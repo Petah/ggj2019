@@ -7,7 +7,6 @@ import Team from "./team";
 import GM from "./gm";
 import Ship from "./ship";
 import Bullet from "./bullet";
-import ship from "./ship";
 
 export default class Planet implements Entity {
     id: number;

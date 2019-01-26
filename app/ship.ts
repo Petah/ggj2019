@@ -69,54 +69,57 @@ export default class Ship implements Entity {
         this.setStoppedOnPlanet(startPlanet);
         this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
         this.image.depth = 200;
-        this.cursors = this.scene.input.keyboard.addKeys({
-            up: Phaser.Input.Keyboard.KeyCodes.W,
-            down: Phaser.Input.Keyboard.KeyCodes.S,
-            left: Phaser.Input.Keyboard.KeyCodes.A,
-            right: Phaser.Input.Keyboard.KeyCodes.D,
-            space: Phaser.Input.Keyboard.KeyCodes.SPACE,
-        });
-        this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-        this.scene.input.on('pointerdown', (pointer) => {
-            if (this.dead > 0) {
-                return;
-            }
-            
-            const px = this.scene.cameras.main.worldView.x + pointer.x;
-            const py = this.scene.cameras.main.worldView.y + pointer.y;
-            const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
-            if (pointer.buttons == 1) {
-                if (this.mining <= 0) {
-                    this.direction = direction;
-                    this.speed = this.maxSpeed;
-                    this.setStoppedOnPlanet(null);
+        if (this.team.isPlayerTeam) {
+            this.cursors = this.scene.input.keyboard.addKeys({
+                up: Phaser.Input.Keyboard.KeyCodes.W,
+                down: Phaser.Input.Keyboard.KeyCodes.S,
+                left: Phaser.Input.Keyboard.KeyCodes.A,
+                right: Phaser.Input.Keyboard.KeyCodes.D,
+                space: Phaser.Input.Keyboard.KeyCodes.SPACE,
+            });
+            this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-                    const planet = this.planetAtPoint(px, py, 2);
-                    if (planet) {
-                        this.stopOnPlanet = planet;
-                    } else {
-                        this.stopOnPlanet = null;
+            this.scene.input.on('pointerdown', (pointer) => {
+                if (this.dead > 0) {
+                    return;
+                }
+
+                const px = this.scene.cameras.main.worldView.x + pointer.x;
+                const py = this.scene.cameras.main.worldView.y + pointer.y;
+                const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
+                if (pointer.buttons == 1) {
+                    if (this.mining <= 0) {
+                        this.direction = direction;
+                        this.speed = this.maxSpeed;
+                        this.setStoppedOnPlanet(null);
+
+                        const planet = this.planetAtPoint(px, py, 2);
+                        if (planet) {
+                            this.stopOnPlanet = planet;
+                        } else {
+                            this.stopOnPlanet = null;
+                        }
                     }
                 }
-            }
-            if (pointer.buttons == 2) {
-                // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
-                // this.scene.addEntity(bullet);
+                if (pointer.buttons == 2) {
+                    // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
+                    // this.scene.addEntity(bullet);
 
-                const fireCost = 0.1; // @todo get charge amount from item
-                if (this.charge > fireCost) {
-                    this.charge -= fireCost;
-                    const laser = new Laser(this.scene, this, px, py, direction);
-                    this.scene.addEntity(laser);
+                    const fireCost = 0.1; // @todo get charge amount from item
+                    if (this.charge > fireCost) {
+                        this.charge -= fireCost;
+                        const laser = new Laser(this.scene, this, px, py, direction);
+                        this.scene.addEntity(laser);
+                    }
                 }
-            }
-        });
-        this.scene.input.on('pointermove', (pointer) => {
-            const px = this.scene.cameras.main.worldView.x + pointer.x;
-            const py = this.scene.cameras.main.worldView.y + pointer.y;
-            this.setCursorOnPlanet(this.planetAtPoint(px, py));
-        });
+            });
+            this.scene.input.on('pointermove', (pointer) => {
+                const px = this.scene.cameras.main.worldView.x + pointer.x;
+                const py = this.scene.cameras.main.worldView.y + pointer.y;
+                this.setCursorOnPlanet(this.planetAtPoint(px, py));
+            });
+        }
 
         for (const item of this.scene.items.items) {
             this.items[item.key] = new ShipItem(item);
@@ -176,9 +179,11 @@ export default class Ship implements Entity {
             }
         }
 
-        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
-            if (this.mining <= 0) {
-                this.mining = 0.50 + (0.45 * Math.random());
+        if (this.team.isPlayerTeam) {
+            if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
+                if (this.mining <= 0) {
+                    this.mining = 0.50 + (0.45 * Math.random());
+                }
             }
         }
         if (this.mining > 0) {
