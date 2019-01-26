@@ -21,6 +21,12 @@ export default class Assets {
                 frameHeight: 69,
             });
         }
+        this.scene.load.audio('bgm', 'audio/Warpath BGM.mp3');
+        this.scene.load.audio('numkey', 'audio/numkey.wav');
+        this.scene.load.audio('mining', 'audio/mining.mp3');
+        this.scene.load.audio('explosion', 'audio/explosion.mp3');
+        this.scene.load.audio('lazer', 'audio/lazer.wav');
+
     }
 
     create() {
