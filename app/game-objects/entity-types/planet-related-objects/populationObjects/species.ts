@@ -7,6 +7,5 @@ export default interface Species {
     imageLocation: string,
     populationGrowthRate: number,
     populationConsumption: number,
-    foodConsumption: number,
-    prefferedPlanetType: PlanetType
+    foodConsumption: number
 }

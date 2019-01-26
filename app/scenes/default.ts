@@ -65,10 +65,11 @@ export default class DefaultScene extends Phaser.Scene {
         let bail = 100;
         do {
             const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
-            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption(tempPlanet) == 0) {
+            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption() == 0) {
                 homePlanet = tempPlanet;
                 break;
             }
+
             if (bail-- <= 0) {
                 throw new Error('Can not find home planet');
             }

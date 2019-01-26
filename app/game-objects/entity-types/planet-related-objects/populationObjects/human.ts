@@ -9,9 +9,4 @@ export default class Human implements Species {
     populationGrowthRate = 1.0;
     populationConsumption = 1.0;
     foodConsumption = 1.0;
-    prefferedPlanetType = new PlanetTypeFactory().continental()
-
-
-    // ORKS ORKS ORKS ORKS
-    // WAAAAAAGHHH!
 } 
