@@ -73,9 +73,10 @@ export default class Ship implements Entity {
         public team: Team,
         startPlanet: Planet,
         public species: Species,
+        public shipSprite: string,
     ) {
         this.setStoppedOnPlanet(startPlanet);
-        this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
+        this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, shipSprite);
         this.image.depth = 200;
 
         if (this.team.isPlayerTeam) {

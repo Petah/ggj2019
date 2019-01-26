@@ -109,14 +109,14 @@ export default class DefaultScene extends Phaser.Scene {
         }
 
         // Spawn the ships
-        this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet, human);
+        this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet, human, 'ship');
         this.ui.playerShip = this.playerShip;
         this.addEntity(this.playerShip);
         playerHomePlanet.draw();
 
         for (let i = 0; i < maxEnemyTeams; i++) {
             const enemyTeam = this.enemyTeams[i];
-            let enemyShip = new Enemy(this, enemyTeam, enemyHomePlanets[i], ork);
+            let enemyShip = new Enemy(this, enemyTeam, enemyHomePlanets[i], ork, 'ship' + (i + 2));
             this.enemyShips.push(enemyShip);
             this.ui["enemyShip" + i] = enemyShip;
             this.addEntity(enemyShip);

@@ -44,8 +44,9 @@ export default class Enemy extends Ship {
         team: Team,
         startPlanet: Planet,
         species: Species,
+        shipSprite: string,
     ) {
-        super(scene, team, startPlanet, species);
+        super(scene, team, startPlanet, species, shipSprite);
 
         this.changeState();
     }
