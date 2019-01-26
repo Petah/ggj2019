@@ -53,6 +53,7 @@ export default class Ship implements Entity {
     public rechargeRate: number = 0.0015;
     public shield: number = 1;
     public maxShield: number = 1;
+    public weapon: string = null;
 
     public dead: number = 0;
 
@@ -110,14 +111,20 @@ export default class Ship implements Entity {
                     }
                 }
                 if (pointer.buttons == 2) {
-                    // const bullet = new Bullet(this.scene, this, px, py, direction);
-                    // this.scene.addEntity(bullet);
-
-                    const fireCost = 0.1; // @todo get charge amount from item
-                    if (this.charge > fireCost) {
-                        this.charge -= fireCost;
-                        const laser = new Laser(this.scene, this, px, py, direction);
-                        this.scene.addEntity(laser);
+                    if (this.weapon) {
+                        const fireCost = 0.1; // @todo get charge amount from item
+                        if (this.charge > fireCost) {
+                            this.charge -= fireCost;
+                            const bullet = new Bullet(this.scene, this, px, py, direction);
+                            this.scene.addEntity(bullet);
+                        }
+                    } else {
+                        const fireCost = 0.1; // @todo get charge amount from item
+                        if (this.charge > fireCost) {
+                            this.charge -= fireCost;
+                            const laser = new Laser(this.scene, this, px, py, direction);
+                            this.scene.addEntity(laser);
+                        }
                     }
                 }
             });

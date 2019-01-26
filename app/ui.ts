@@ -281,27 +281,27 @@ export default class UI implements Entity {
         });
 
         this.itemLaserButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemLaserButton);
+            this.selectWeaponButton(this.itemLaserButton, null);
         });
 
         this.itemTorpedoButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemTorpedoButton);
+            this.selectWeaponButton(this.itemTorpedoButton, 'torpedo');
         });
 
         this.itemMineButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemMineButton);
+            this.selectWeaponButton(this.itemMineButton, 'mine');
         });
 
         this.itemHotTorpedoButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemHotTorpedoButton);
+            this.selectWeaponButton(this.itemHotTorpedoButton, 'hot-torpedo');
         });
 
         this.itemNeutronBombButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemNeutronBombButton);
+            this.selectWeaponButton(this.itemNeutronBombButton, 'nuke');
         });
 
         this.itemPlagueBombButton.addEventListener('click', () => {
-            this.selectWeaponButton(this.itemPlagueBombButton);
+            this.selectWeaponButton(this.itemPlagueBombButton, 'bio');
         });
 
         this.itemShieldButton.addEventListener('click', () => {
@@ -378,7 +378,41 @@ export default class UI implements Entity {
             this.playerShip.buyItem(item, 100);
             this.toggleBuyButtons();
         });
+
+        // $('#item-laser').addEventListener('click', () => {
+        //     this.playerShip.weapon = null;
+        //     this.toggleWeaponButton();
+        // });
+
+        // $('#item-torpedo').addEventListener('click', () => {
+        //     this.playerShip.weapon = 'torpedo';
+        //     this.toggleWeaponButton();
+        // });
+
+        // $('#item-hot-torpedo').addEventListener('click', () => {
+        //     this.playerShip.weapon = 'hot-torpedo';
+        //     this.toggleWeaponButton();
+        // });
+
+        // $('#item-nuke').addEventListener('click', () => {
+        //     this.playerShip.weapon = 'nuke';
+        //     this.toggleWeaponButton();
+        // });
+
+        // $('#item-bio').addEventListener('click', () => {
+        //     this.playerShip.weapon = 'bio';
+        //     this.toggleWeaponButton();
+        // });
+
+        // $('#item-mine').addEventListener('click', () => {
+        //     this.playerShip.weapon = 'mine';
+        //     this.toggleWeaponButton();
+        // });
     }
+
+    // private toggleWeaponButton() {
+
+    // }
 
     private toggleBuyButtons() {
         const item = this.scene.items.items[this.currentItem];
@@ -619,11 +653,12 @@ export default class UI implements Entity {
     playMenuAudio() {
         this.scene.soundManager.play("menu_switch");
     }
-    selectWeaponButton(selectedButton: Element) {
+    selectWeaponButton(selectedButton: Element, weapon: string) {
         this.playMenuAudio();
         var changed = false;
         for (const weaponButton of this.itemWeaponButtons) {
             weaponButton.setActive(weaponButton == selectedButton);
         }
+        this.playerShip.weapon = weapon;
     }
 }
