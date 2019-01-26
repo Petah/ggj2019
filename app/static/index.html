@@ -77,11 +77,29 @@
             flex-direction: column;
         }
 
-        .minimap {
+        #minimap-wrapper {
             display: flex;
             background-color: #868486;
             border: 4px groove #999;
             flex: 1;
+            padding: 20px;
+        }
+
+        #minimap {
+            border: 4px groove #999;
+            background-color: #111;
+            position: relative;
+            flex: 1;
+        }
+
+        .minimap-planet {
+            background-color: #ddd;
+            width: 5px;
+            height: 5px;
+            margin-left: -2.5px;
+            margin-top: -2.5px;
+            border-radius: 5px;
+            position: absolute;
         }
 
         .middle {
@@ -191,8 +209,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="minimap">
-                        Minimap
+                    <div id="minimap-wrapper">
+                        <div id="minimap">
+                        </div>
                     </div>
                 </div>
                 <div class="middle row">

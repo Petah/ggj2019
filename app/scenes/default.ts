@@ -67,6 +67,8 @@ export default class DefaultScene extends Phaser.Scene {
         this.addEntity(this.ship);
         homePlanet.draw();
 
+        this.ui.drawMiniMap();
+
         this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.startFollow(this.ship.image, true, 0.05, 0.05);

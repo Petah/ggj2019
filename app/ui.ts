@@ -6,6 +6,10 @@ const $ = (selector) => {
     return new Element(<any>document.querySelectorAll(selector));
 };
 
+const e = (tagName) => {
+    return new Element([document.createElement(tagName)]);
+};
+
 class Element {
     constructor(
         public elements: HTMLElement[]
@@ -16,24 +20,28 @@ class Element {
         for (const el of this.elements) {
             el.style.display = '';
         }
+        return this;
     }
 
     hide() {
         for (const el of this.elements) {
             el.style.display = 'none';
         }
+        return this;
     }
 
     addEventListener(event: string, callback: (event: any) => void) {
         for (const el of this.elements) {
             el.addEventListener(event, callback);
         }
+        return this;
     }
 
     text(text: string) {
         for (const el of this.elements) {
             el.innerText = text;
         }
+        return this;
     }
 
     is(element: HTMLElement) {
@@ -43,6 +51,32 @@ class Element {
             }
         }
         return false;
+    }
+
+    attr(attrs) {
+        for (const el of this.elements) {
+            for (const key in attrs) {
+                el.setAttribute(key, attrs[key]);
+            }
+        }
+        return this;
+    }
+
+    style(styles) {
+        for (const el of this.elements) {
+            for (const key in styles) {
+                el.style[key] = styles[key];
+            }
+        }
+        return this;
+    }
+
+    append(child: Element) {
+        for (const el of this.elements) {
+            el.appendChild(child.elements[0]);
+            break;
+        }
+        return this;
     }
 }
 
@@ -243,6 +277,21 @@ export default class UI implements Entity {
                 this.planetInfrastructure.text('213'); // @todo
                 this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
             }
+        }
+    }
+
+    public drawMiniMap() {
+        const minimap = $('#minimap');
+        for (const planet of this.scene.level.planets) {
+            console.log(planet);
+            const xp = planet.x / this.scene.level.width;
+            const yp = planet.y / this.scene.level.height;
+            minimap.append(e('div').attr({
+                class: 'minimap-planet',
+            }).style({
+                left: (xp * 100) + '%',
+                top: (yp * 100) + '%',
+            }));
         }
     }
 }
