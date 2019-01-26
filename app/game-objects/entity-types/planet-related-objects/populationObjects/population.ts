@@ -59,7 +59,15 @@ export default class Population {
         return populationConsumption;
     }
 
-    public getAllegianceForPlayer(team: Team) {
+    public getAllegianceForPlayer(team: Team): number {
+        if(this.calculatePopulationConsumption() <= 0 ) {
+            return 0;
+        }
+
+        if(!this.allegiances[team.id]) {
+            this.allegiances[team.id] = 50;
+        }
+
         return this.allegiances[team.id];
     }
 
