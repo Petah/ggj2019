@@ -18,13 +18,15 @@ export default class Planet implements Entity {
     public maxHealth: number;
 
     public planetType: PlanetType;
+    public isShipStopped: boolean = false;
+    public isCursorOn: boolean = false;
 
     private circle: Phaser.Geom.Circle;
     private rectangles: Array<Phaser.Geom.Rectangle>;
     private graphics: Phaser.GameObjects.Graphics;
     private planetScale: number;
     private planetSize: number;
-    
+    private nameText: Phaser.GameObjects.Text;
 
     constructor(
         private scene: DefaultScene,
@@ -56,6 +58,8 @@ export default class Planet implements Entity {
         sprite.depth = 100;
         sprite.play(this.animationNameFor(type));
 
+        this.nameText = this.scene.add.text(x + 15, y+ 15, "");
+
         this.graphics = this.scene.add.graphics({
             lineStyle: {
                 width: 1,
@@ -75,25 +79,53 @@ export default class Planet implements Entity {
     update() {
         this.graphics.clear();
 
-        //this.graphics.lineStyle(1, 0xffffff); // unoccupied - white
-        //this.graphics.lineStyle(1, 0xffff00); // neutral - yellow
-        this.graphics.lineStyle(1, 0x00ff00); // ally - green
-        //this.graphics.lineStyle(1, 0xff0000); // enemy - red
+        var color = 0xffffff; // unoccupied - white
+        var colorText = "#ffffff";
+
+        if (false) { // neutral - yellow
+            color = 0xffff00;
+            colorText = "#ffff00";
+        }
+        else if (true) { // ally - green
+            color = 0x00ff00;
+            colorText = "#00ff00";
+        }
+        else if (true) { // enemy - red
+            color = 0xff0000;
+            colorText = "#ff0000";
+        }     
+
+        // circle
+        this.graphics.lineStyle(1, color);
         this.graphics.strokeCircleShape(this.circle);
 
 
-        // shield - blue square
-        this.graphics.lineStyle(1, 0x0000ff); // blue
-        for (var i = 0; i < this.rectangles.length; i++) {
-            var rectangle = this.rectangles[i];
-            var padding = 6.0;
-            var randomRange = 4.0;
-            rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-                this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
-                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
-                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
-            this.graphics.strokeRectShape(rectangle);
+        // text
+        if (this.isShipStopped || this.isCursorOn) {
+            this.graphics.strokeLineShape(new Phaser.Geom.Line(
+                this.x, 
+                this.y, 
+                this.x + 15,
+                this.y + 15));
+            this.nameText.setText(this.name);
+            this.nameText.setColor(colorText)
         }
+        else {
+            this.nameText.setText("");
+        }
+
+        // shield - blue square
+        // this.graphics.lineStyle(1, 0x0000ff); // blue
+        // for (var i = 0; i < this.rectangles.length; i++) {
+        //     var rectangle = this.rectangles[i];
+        //     var padding = 6.0;
+        //     var randomRange = 4.0;
+        //     rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+        //         this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+        //         this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+        //         this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
+        //     this.graphics.strokeRectShape(rectangle);
+        // }
 
 
     }
