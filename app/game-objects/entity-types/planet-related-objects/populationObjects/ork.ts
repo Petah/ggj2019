@@ -9,8 +9,6 @@ export default class Ork implements Species {
     populationGrowthRate = 1.5;
     populationConsumption = 0.8;
     foodConsumption = 1.3;
-    prefferedPlanetType = new PlanetTypeFactory().continental()
-
 
     // ORKS ORKS ORKS ORKS
     // WAAAAAAGHHH!

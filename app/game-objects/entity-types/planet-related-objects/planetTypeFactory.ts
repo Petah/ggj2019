@@ -1,6 +1,9 @@
 import PlanetType from "./planetType";
 
 export default class PlanetTypeFactory {
+    constructor() {
+        
+    }
 
     random(): PlanetType {
         var random = Math.floor(Math.random() * 4) + 1;
@@ -11,6 +14,11 @@ export default class PlanetTypeFactory {
             case 2: planetType = this.volcanic(); break;
             case 3: planetType = this.continental(); break;
             case 4: planetType = this.jungle(); break;
+            case 5: planetType = this.forest(); break;
+            case 6: planetType = this.ice();
+            case 7: planetType = this.tundra();
+            case 8: planetType = this.ocean();
+            case 9: planetType = this.gaia();
             default: planetType = this.gasGiant(); break;
         }
         return planetType;

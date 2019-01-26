@@ -183,7 +183,7 @@ export default class Planet implements Entity {
         let populationConsumed: number = 0;
 
         if (this.populations !== undefined || this.populations != null) {
-            populationConsumed += this.populations.calculatePopulationConsumption(this);
+            populationConsumed += this.populations.calculatePopulationConsumption();
         }
 
         return populationConsumed;

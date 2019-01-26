@@ -44,16 +44,12 @@ export default class Population {
         this.quantity += populationChange
     }
 
-    public calculatePopulationConsumption(planet: Planet): number {
+    public calculatePopulationConsumption(): number {
         if(this.species == null || this.quantity == 0) {
             return 0;
         }
 
         let populationConsumption = this.quantity * this.species.populationConsumption;
-
-        if (planet.planetType !== this.species.prefferedPlanetType) {
-            populationConsumption *= 3;
-        }
 
         return populationConsumption;
     }
