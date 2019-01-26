@@ -2,15 +2,13 @@ import Ship from "../ship";
 import Assets from "../assets";
 import Level from "../level";
 import Stars from "../stars";
-import Entity, { SlowUpdate } from "../entity";
+import Entity from "../entity";
 import UI from "../ui";
 import Team from "../team";
 import Items from "../items";
-import Population from "../game-objects/entity-types/planet-related-objects/populationObjects/population";
 import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 import Planet from "../planet";
 import Enemy from "../enemy";
-
 
 export default class DefaultScene extends Phaser.Scene {
 
