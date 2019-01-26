@@ -22,6 +22,11 @@
             font-family: monospace;
         }
 
+        p {
+            margin-bottom: 5px;
+            margin-top: 0;
+        }
+
         .main {
             display: flex;
             flex-direction: column;
@@ -31,7 +36,7 @@
         .header {
             display: flex;
             justify-content: center;
-            background-color: blue;
+            background-color: #000BCB;
         }
 
         .menu {
@@ -46,8 +51,10 @@
         }
 
         .footer {
-            display: flex;
-            background-color: rebeccapurple;
+            background-color: #868486;
+            border: 4px groove #999;
+            padding: 2px 5px;
+            text-align: right;
         }
 
         .left {
@@ -72,6 +79,7 @@
         }
 
         .teams {
+            padding: 10px;
             display: flex;
             background-color: #868486;
             border: 4px groove #999;
@@ -111,7 +119,7 @@
         }
 
         .minimap-ship-enemy {
-            border-bottom: 8px solid #ff0000;
+            border-bottom: 8px solid rebeccapurple;
         }
 
         .minimap-planet {
@@ -150,13 +158,21 @@
         }
 
         .modal {
-            padding: 20px;
             background-color: #868486;
             border: 4px groove #999;
             color: white;
             display: flex;
             flex-direction: column;
             width: 300px;
+        }
+
+        .modal-header {
+            background-color: #000BCB;
+            padding: 5px 10px
+        }
+
+        .modal-body {
+            padding: 10px;
         }
 
         #modal-wrapper {
@@ -181,6 +197,10 @@
             border-color: #FFFFFF #808080 #808080 #FFFFFF;
             padding: 4px 10px;
             margin: 3px;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 5px;
+            margin-right: 5px;
         }
 
         button:active,
@@ -191,6 +211,29 @@
 
         .item-desc {
             height: 100px;
+            background-color: #333;
+            border: 4px groove #999;
+            padding: 10px;
+            flex: 1;
+        }
+
+        .item-next-prev {
+            display: flex;
+        }
+
+        .item-next-prev button {
+            flex: 1;
+            margin: 0;
+        }
+
+        .item-buy-buttons {
+            display: flex;
+        }
+
+        .item-buy-buttons button {
+            flex: 1;
+            margin: 0;
+            margin-bottom: 10px;
         }
 
         .bar-wrapper {
@@ -578,6 +621,37 @@
             right: 0;
             position: absolute;
         }
+
+        .team {
+            background-color: #333;
+            border: 4px groove #999;
+            flex: 1;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .team img {
+            display: block;
+            max-width: calc(100% - 15px);
+            max-height: calc(100% - 15px);
+            filter: drop-shadow(3px 2px 0 #111);
+        }
+
+        .team-name {
+            text-align: left;
+            width: 100%;
+        }
+
+        .invest-button {
+            height: 100px;
+        }
+
+        .invest-button img {
+            height: 50px;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -599,30 +673,39 @@
             <div class="left">
                 <div class="top">
                     <div class="teams">
-                        Teams
                         <div class="row">
                             <div class="col">
-                                <img src="assets/ladypig.gif" width="90%">
+                                <div class="team">
+                                    <div class="team-name">Gnarf</div>
+                                    <img src="assets/ladypig.gif" />
+                                </div>
                             </div>
                             <div class="col">
-                                <img src="assets/fripo.gif" width="90%">
+                                <div class="team">
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <img src="assets/red.png">
+                                <div class="team">
+                                </div>
                             </div>
                             <div class="col">
-                                <img src="assets/red.png">
+                                <div class="team">
+                                    <div class="team-name">Depton</div>
+                                    <img src="assets/fripo.gif" />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div id="minimap-wrapper">
                         <div id="minimap">
-                            <div id="minimap-ship-1" class="minimap-ship"></div>
-                            <div id="minimap-ship-2" class="minimap-ship minimap-ship-enemy"></div>
-                            <div id="minimap-ship-3" class="minimap-ship minimap-ship-enemy"></div>
-                            <div id="minimap-ship-4" class="minimap-ship minimap-ship-enemy"></div>
+                            <div id="minimap-ship-1" class="minimap-ship" style="left: 50%; top: 50%;"></div>
+                            <div id="minimap-ship-2" class="minimap-ship minimap-ship-enemy" style="left: 50%; top: 50%;"></div>
+                            <div id="minimap-ship-3" class="minimap-ship minimap-ship-enemy" style="left: 50%; top: 50%;"></div>
+                            <div id="minimap-ship-4" class="minimap-ship minimap-ship-enemy" style="left: 50%; top: 50%;"></div>
+                            <div id="minimap-line-1" style="left: 50%; top: 0; bottom: 0; border-left: 1px solid red; height: 100%; position: absolute;"></div>
+                            <div id="minimap-line-2" style="top: 50%; left: 0; right: 0; border-top: 1px solid red; width: 100%; position: absolute;"></div>
                         </div>
                     </div>
                 </div>
@@ -647,7 +730,7 @@
                                                     <div class="st slice-item"></div>
                                                     <div class="st slice-item"></div>
                                                 </div>
-                                                <div class="needle" style="transform: rotate(75deg);"></div>
+                                                <div class="needle" style="transform: rotate(90deg);"></div>
                                                 <div class="gauge-center"></div>
                                             </div>
                                         </div>
@@ -696,28 +779,28 @@
                                 <div class="stat-box">
                                     <img src="assets/shield.png" />
                                     x
-                                    <span id="ship-shields" class="stat-text"></span>
+                                    <span id="ship-shields" class="stat-text">0</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="stat-box">
                                     <img src="assets/people.png" />
                                     x
-                                    <span id="ship-colonists" class="stat-text"></span>
+                                    <span class="stat-text ship-colonists">0</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="stat-box">
                                     <img src="assets/planet.png" />
                                     x
-                                    <span id="ship-planets" class="stat-text"></span>
+                                    <span id="total-planets" class="stat-text">0</span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="stat-box">
                                     <img src="assets/money.png" />
                                     x
-                                    <span id="ship-money" class="stat-text"></span>
+                                    <span class="ship-money stat-text"></span>
                                 </div>
                             </div>
                         </div>
@@ -798,7 +881,7 @@
             <div class="right">
                 <div>
                     <button id="mine">Mine</button>
-                    <button id="populate">Populate</button>
+                    <button id="populate">Populate <br/><span class="ship-colonists"></span></button>
                     <button id="open-invest">Invest</button>
                     <button id="open-buy">Buy</button>
                 </div>
@@ -821,57 +904,75 @@
             </div>
         </div>
         <div class="footer">
-            Footer
+            <div>Copyright 1993 &copy; Synthetic Reality Co. All rights reserved.</div>
         </div>
     </div>
     <div id="modal-wrapper" style="display: none">
         <div id="modal-invest" class="modal" style="display: none">
-            <div>McDOW Investment Brokers</div>
-            <div>Click on icon to make an investment</div>
+            <div class="modal-header">McDOW Investment Brokers</div>
+            <div class="modal-body">
+                <p>Click on icon to make an investment</p>
 
-            <div>
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/farming.png" /><br />
+                                Agriculture <br /><span>40%</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/shield.png" /><br />
+                                Defence <br /><span>40%</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/education.png" /><br />
+                                Education <br /><span>40%</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/industry.png" /><br />
+                                Industry <br /><span>40%</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/mining.png" /><br />
+                                Mining <br /><span>40%</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button class="invest-button">
+                                <img src="assets/spaceport.png" /><br />
+                                Space Port <br /><span>40%</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 1
+                        <p>
+                            Cash on hand:<br />
+                            <span class="ship-money">123,456</span>
+                        </p>
                     </div>
                     <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 2
-                    </div>
-                    <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 3
+                        <p>
+                            Amount to invest:<br />
+                            <span>10,000</span>
+                        </p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 4
-                    </div>
-                    <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 5
-                    </div>
-                    <div class="col">
-                        <img src="https://via.placeholder.com/100x100" /><br />
-                        Resource 6
-                    </div>
+                <div style="text-align: right">
+                    <button class="cancel-modal">Cancel</button>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    Cash on hand:<br />
-                    123,456
-                </div>
-                <div class="col">
-                    Amount to invest:<br />
-                    10,000
-                </div>
-            </div>
-            <div>
-                <button class="cancel-modal">Cancel</button>
             </div>
         </div>
 
@@ -891,40 +992,49 @@
             </div>
         </div>
 
-        <div id="modal-buy" class="modal" style="display: none">
-            <div>Honest Xzyll's Trading Post</div>
-            <div>
-                Item: <span id="item-name"></span>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div>
-                        Price: <span id="item-price"></span>
+        <div id="modal-buy" class="modal" style="display: none; width: 400px;">
+            <div class="modal-header">Honest Xzyll's Trading Post</div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <div style="padding: 10px">
+                            <img id="item-icon" src="assets/cargo.png" style="height: 50px" />
+                        </div>
+                    </div>
+                    <div class="col" style="flex: 10">
+                        <div style="margin-bottom: 10px;">
+                            Item: <span id="item-name"></span>
+                        </div>
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col">
+                                <div>
+                                    Price: <span id="item-price"></span>
+                                </div>
+                                <div>
+                                    Quantity in stock: <span id="item-quantity"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div>
-                        Quantity in stock: <span id="item-quantity"></span>
+                <div class="row">
+                    <div class="item-desc">
+                        <div>Description</div>
+                        <div id="item-description"></div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="item-desc">
-                    <div>Description</div>
-                    <div id="item-description"></div>
+                <div class="item-next-prev">
+                    <button id="prev-item">Prev Item</button>
+                    <button id="next-item">Next Item</button>
                 </div>
-            </div>
-            <div>
-                <button id="prev-item">Prev Item</button>
-                <button id="next-item">Next Item</button>
-            </div>
-            <div>
-                <button id="buy-1">Buy One</button>
-                <button id="buy-10">Buy Ten</button>
-                <button id="buy-100">Buy 100</button>
-            </div>
-            <div>
-                <button class="cancel-modal">Cancel</button>
+                <div class="item-buy-buttons">
+                    <button id="buy-1">Buy One</button>
+                    <button id="buy-10">Buy Ten</button>
+                    <button id="buy-100">Buy 100</button>
+                </div>
+                <div style="text-align: right">
+                    <button class="cancel-modal" style="margin: 0;">Cancel</button>
+                </div>
             </div>
         </div>
     </div>

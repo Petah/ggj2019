@@ -43,6 +43,8 @@ export default class Planet implements Entity {
     private framesPerAttack = 60;
     private framesSinceAttack = 60;
 
+    public takeColonistsTimer: number = 0;
+
     constructor(
         public scene: DefaultScene,
         public name: string,
@@ -101,6 +103,8 @@ export default class Planet implements Entity {
     }
 
     update() {
+        this.takeColonistsTimer -= 1;
+        
         this.graphics.clear();
 
         const color = this.getPlanetColorHex(this.scene.playerShip.team);
@@ -235,13 +239,13 @@ export default class Planet implements Entity {
     }
 
     private createInfrastructureLimits() {
-        var temp = 1000000000;
-        this.maxAgriculture = temp * this.planetType.maxAgricultureModifier * this.planetSize
-        this.maxDefence = temp * this.planetType.maxDefenceModifier * this.planetSize
-        this.maxEducation = temp * this.planetType.maxEducationModifier * this.planetSize
-        this.maxIndustry = temp * this.planetType.maxIndustryModifier * this.planetSize
-        this.maxMining = temp * this.planetType.maxMiningModifier * this.planetSize
-        this.maxSpacePort = temp * this.planetType.maxSpacePortModifier * this.planetSize
+        var temp = 100;
+        this.maxAgriculture = temp * this.planetType.maxAgricultureModifier * this.planetSize;
+        this.maxDefence = temp * this.planetType.maxDefenceModifier * this.planetSize;
+        this.maxEducation = temp * this.planetType.maxEducationModifier * this.planetSize;
+        this.maxIndustry = temp * this.planetType.maxIndustryModifier * this.planetSize;
+        this.maxMining = temp * this.planetType.maxMiningModifier * this.planetSize;
+        this.maxSpacePort = temp * this.planetType.maxSpacePortModifier * this.planetSize;
     }
 
     get infrastructureLevel(): number {

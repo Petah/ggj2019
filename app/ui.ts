@@ -99,6 +99,8 @@ export default class UI implements Entity {
     private shipCargoPods: Element;
     private shipShields: Element;
     private shipMoney: Element;
+    private shipColonists: Element;
+    private totalPlanets: Element;
 
     private itemTorpedoCount: Element;
     private itemHotTorpedoCount: Element;
@@ -139,7 +141,9 @@ export default class UI implements Entity {
         this.shipCargoBar = $('#cargo-bar');
         this.shipCargoPods = $('#cargo-pods');
         this.shipShields = $('#ship-shields');
-        this.shipMoney = $('#ship-money');
+        this.shipMoney = $('.ship-money');
+        this.shipColonists = $('.ship-colonists');
+        this.totalPlanets = $('#total-planets');
 
         this.itemTorpedoCount = $('#item-torpedo-count');
         this.itemHotTorpedoCount = $('#item-hot-torpedo-count');
@@ -189,6 +193,7 @@ export default class UI implements Entity {
 
         $('#populate').addEventListener('click', () => {
             this.playMenuAudio();
+            this.playerShip.populatePlanet();
         });
 
         $('#modal-wrapper').addEventListener('click', (event) => {
@@ -273,6 +278,9 @@ export default class UI implements Entity {
         $('#item-description').text(item.description);
         $('#item-price').text(this.numberWithCommas(item.price, 0));
         $('#item-quantity').text('100');
+        $('#item-icon').attr({
+            src: item.icon,
+        });
     }
 
     public showModalSell() {
@@ -332,7 +340,7 @@ export default class UI implements Entity {
 
     public update() {
     }
-    
+
     public updateUi() {
         if (this.playerShip) {
             this.shipEnergyBar.style({
@@ -358,6 +366,7 @@ export default class UI implements Entity {
 
             this.shipShields.text(this.numberWithCommas(this.playerShip.maxShield, 0));
             this.shipMoney.text(this.numberWithCommas(this.playerShip.money, 0));
+            this.shipColonists.text(this.numberWithCommas(this.playerShip.colonists, 0));
 
             this.itemTorpedoCount.text(this.numberWithCommas(this.playerShip.items['torpedo'].amount, 0));
             this.itemHotTorpedoCount.text(this.numberWithCommas(this.playerShip.items['hot-torpedo'].amount, 0));

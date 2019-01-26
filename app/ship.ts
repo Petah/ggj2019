@@ -5,9 +5,10 @@ import Entity from "./entity";
 import Planet from "./planet";
 import UI from "./ui";
 import Team from "./team";
-import {Item} from "./items";
+import { Item } from "./items";
 import Laser from "./laser";
-import {shadeBlendConvert} from "./color";
+import { shadeBlendConvert } from "./color";
+import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 
 class ShipItem {
     public amount: number = 0;
@@ -71,6 +72,7 @@ export default class Ship implements Entity {
         protected scene: DefaultScene,
         public team: Team,
         startPlanet: Planet,
+        public species: Species,
     ) {
         this.setStoppedOnPlanet(startPlanet);
         this.image = this.scene.physics.add.image(startPlanet.x, startPlanet.y - 10, 'ship');
@@ -129,7 +131,7 @@ export default class Ship implements Entity {
             // audio
             this.miningAudio = this.scene.sound.add('mining');
 
-            this.scene.input.keyboard.on('keydown_C', (event) => { 
+            this.scene.input.keyboard.on('keydown_C', (event) => {
                 if (this.team.isPlayerTeam) {
                     if (this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
                         if (this.cargo < this.maxCargo) {
@@ -139,9 +141,9 @@ export default class Ship implements Entity {
                             }
                         }
                     }
-                }                
+                }
             });
-            this.scene.input.keyboard.on('keyup_C', (event) => { 
+            this.scene.input.keyboard.on('keyup_C', (event) => {
                 this.stopMining();
             });
         }
@@ -255,7 +257,7 @@ export default class Ship implements Entity {
             this.graphics.strokeEllipseShape(ellipse);
         }
     }
-    
+
     slowUpdate() {
 
     }
@@ -394,10 +396,20 @@ export default class Ship implements Entity {
             if (this.stoppedOnPlanet != null) {
                 this.stoppedOnPlanet.isShipStopped = false;
             }
+            this.stoppedOnPlanet = value;
             if (value != null) {
                 value.isShipStopped = true;
+
+                if (this.stoppedOnPlanet.takeColonistsTimer <= 0) {
+                    let takeColonistsAmount = Math.floor(this.stoppedOnPlanet.getTotalPopulationConsumed() / 10);
+                    if (this.colonists + takeColonistsAmount > this.maxColonists) {
+                        takeColonistsAmount = this.maxColonists - this.colonists;
+                    }
+                    this.colonists += takeColonistsAmount;
+                    this.stoppedOnPlanet.populations.quantity -= takeColonistsAmount;
+                    this.stoppedOnPlanet.takeColonistsTimer = 200;
+                }
             }
-            this.stoppedOnPlanet = value;
         }
     }
 
@@ -416,5 +428,20 @@ export default class Ship implements Entity {
     stopMining() {
         this.mining = 0;
         this.miningAudio.stop();
+    }
+
+    populatePlanet() {
+        if (!this.stoppedOnPlanet) {
+            return;
+        }
+        let populateAmount = 100;
+        if (populateAmount > this.colonists) {
+            populateAmount = this.colonists;
+        }
+        if (!this.stoppedOnPlanet.populations.species) {
+            this.stoppedOnPlanet.populations.species = this.
+        }
+        this.stoppedOnPlanet.populations.quantity += this.colonists;
+        this.colonists -= populateAmount;
     }
 };
