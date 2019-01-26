@@ -4,7 +4,7 @@ import Entity from "./entity";
 import Ship from "./ship";
 
 export default class Blast implements Entity {
-    private image: Phaser.GameObjects.Image;
+    private image: Phaser.Physics.Arcade.Sprite;
     private life = 10;
 
     constructor(
@@ -13,8 +13,19 @@ export default class Blast implements Entity {
         y: number,
         public blastDirection: number
     ) {
-        this.image = this.scene.add.image(x, y, 'red-circle');
+        var sprite = this.scene.add.sprite(x, y, "explosion").setScale(0.5, 0.5);
+        sprite.depth = 100;
+        sprite.play("explosion-animation");
+
+        this.image = this.scene.physics.add
+            .staticSprite(x, y, "explosion")
+            .setScale(0.5, 0.5);
         this.image.depth = 300;
+        this.image.play("explosion-animation");
+
+
+
+        this.scene.sound.add('explosion').play();
     }
 
     update() {
@@ -28,7 +39,6 @@ export default class Blast implements Entity {
                     }
                 }
             }
-            this.image.destroy();
             this.scene.removeEntity(this);
         }
     }

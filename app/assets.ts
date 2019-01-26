@@ -13,7 +13,6 @@ export default class Assets {
         this.scene.load.image('ship', 'ship.png');
         this.scene.load.image('laser', 'laser.png');
 
-
         var planetNames = ["barren", "continental", "desert", "forest", "gaia", "gasgiant", "ice", "jungle", "ocean", "tundra", "volcanic"];
         for (var planetName of planetNames) {
             this.scene.load.spritesheet("planet-" + planetName, "planet-" + planetName + "-sprite.png", {
@@ -21,6 +20,12 @@ export default class Assets {
                 frameHeight: 69,
             });
         }
+        this.scene.load.spritesheet("explosion", "explosion-sprite.png", {
+            frameWidth: 64,
+            frameHeight: 64,
+        });
+
+
         this.scene.load.audio('bgm', 'audio/Warpath BGM.mp3');
         this.scene.load.audio('numkey', 'audio/numkey.wav');
         this.scene.load.audio('mining', 'audio/mining.mp3');
@@ -43,6 +48,16 @@ export default class Assets {
                 repeat: -1,
             });
         }
+
+        this.scene.anims.create({
+            key: "explosion-animation",
+            frames: this.scene.anims.generateFrameNumbers("explosion", {
+                start: 0,
+                end: 18,
+            }),
+            frameRate: Math.random() * 10 + 10,
+            repeat: 0,
+        });
 
     }
 }
