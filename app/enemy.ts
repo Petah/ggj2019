@@ -75,6 +75,8 @@ export default class Enemy extends Ship {
                 this.evade(this.damageDirection);
                 break;
         }
+        this.graphics.clear();
+        this.drawShield();
     }
 
     private bounceIfAtEdgeOfMap() {
