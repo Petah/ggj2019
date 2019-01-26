@@ -50,6 +50,9 @@ export default class Ship implements Entity {
     public dead: number = 0;
 
     public items: ItemMap = {};
+    public isGathering: boolean;
+
+    private graphics: Phaser.GameObjects.Graphics;
 
     constructor(
         private scene: DefaultScene,
@@ -106,6 +109,14 @@ export default class Ship implements Entity {
         for (const item of this.scene.items.items) {
             this.items[item.key] = new ShipItem(item);
         }
+
+        this.graphics = this.scene.add.graphics({
+            lineStyle: {
+                width: 1,
+                color: 0xdddddd,
+            }
+        });
+        this.isGathering = true; // tmp...
     }
 
     update() {
@@ -168,6 +179,24 @@ export default class Ship implements Entity {
                 this.mining = 0;
             }
         }
+
+
+        this.graphics.clear();
+
+        if (this.isGathering) {
+            if (this.stoppedOnPlanet != null) {          
+                this.graphics.lineStyle(1, 0x0000ff); // blue
+                for (var i=0; i<10; i++) {
+                    var randomRange = 20.0;
+                    var line = new Phaser.Geom.Line(
+                        this.x, 
+                        this.y, 
+                        this.stoppedOnPlanet.x + (Math.random() * randomRange*2.0 - randomRange), 
+                        this.stoppedOnPlanet.y + (Math.random() * randomRange*2.0 - randomRange));
+                    this.graphics.strokeLineShape(line);
+                }
+            }
+        }
     }
 
     private planetAtPoint(x: number, y: number, size: number = 1) {
@@ -177,7 +206,7 @@ export default class Ship implements Entity {
         };
         for (const planet of this.scene.level.planets) {
             const distance = GM.pointDistance(x, y, planet.x, planet.y);
-            if (distance < (15 * size) && (closest.distance === null || distance < closest.distance)) {
+            if (distance < (50 * size) && (closest.distance === null || distance < closest.distance)) {
                 closest.planet = planet;
                 closest.distance = distance;
             }

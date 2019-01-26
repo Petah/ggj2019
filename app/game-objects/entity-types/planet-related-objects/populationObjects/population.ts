@@ -34,7 +34,7 @@ export default class Population {
             return;
         }
 
-        let populationChange = Math.pow(this.quantity * this.species.populationGrowthRate * (this.health/100), 2)
+        let populationChange = Math.pow(this.quantity * this.species.populationGrowthRate * (this.health/100), 0.9)
         
         if (this.quantity + populationChange > maxPopulation) {
             populationChange = maxPopulation - this.quantity;

@@ -17,11 +17,14 @@ export default class Planet implements Entity {
     public maxInfastrucutre: number;
     public maxHealth: number;
 
+    public planetType: PlanetType;
+
     private circle: Phaser.Geom.Circle;
     private rectangles: Array<Phaser.Geom.Rectangle>;
     private graphics: Phaser.GameObjects.Graphics;
     private planetScale: number;
     private planetSize: number;
+    
 
     constructor(
         private scene: DefaultScene,
@@ -43,13 +46,15 @@ export default class Planet implements Entity {
         public resources: number,
         public food: number,
         public size: number,
-        public planetType: PlanetType
+        public type: PlanetType
     ) {
         this.planetSize = size;
         this.planetScale = size / 74.0;
-        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(planetType)).setScale(this.planetScale, this.planetScale);
+        this.planetType = type;
+
+        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(type)).setScale(this.planetScale, this.planetScale);
         sprite.depth = 100;
-        sprite.play(this.animationNameFor(planetType));
+        sprite.play(this.animationNameFor(type));
 
         this.graphics = this.scene.add.graphics({
             lineStyle: {
