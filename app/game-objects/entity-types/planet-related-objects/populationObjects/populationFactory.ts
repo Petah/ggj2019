@@ -7,8 +7,9 @@ import Population from "./population";
 export default class PopulationFactory {
     private species: Species[] = [new Ork, new Human]
 
-    public generatePopulationForPlanet(): Population {
+    public generatePopulationForPlanet(planet: Planet): Population {
         return new Population(
+            planet.scene,
             null,
             0,
             100,

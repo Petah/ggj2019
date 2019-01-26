@@ -412,6 +412,7 @@ export default class Ship implements Entity {
             this.cursorOnPlanet = value;
         }
     }
+    
     stopMining() {
         this.mining = 0;
         this.miningAudio.stop();

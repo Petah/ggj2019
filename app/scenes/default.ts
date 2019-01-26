@@ -60,36 +60,47 @@ export default class DefaultScene extends Phaser.Scene {
         this.stars = new Stars(this);
         this.addEntity(this.stars);
 
-        this.playerTeam = new Team(this, 0x00FF00, true, 1);
+        const maxEnemyTeams = 3;
 
+        // Make the teams
+        this.playerTeam = new Team(this, 0x00FF00, true, 1);
+        for (let i = 0; i < maxEnemyTeams; i++) {
+            const color = Team.randomColor();
+            const enemyTeam = new Team(this, color, false, i + 2);
+            this.enemyTeams.push(enemyTeam);
+
+        }
+
+        // Set the home planets
         let playerHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
         playerHomePlanet.populations.quantity = 1000;
         playerHomePlanet.populations.species = new Human();
-        playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
         playerHomePlanet.team = this.playerTeam;
+        playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
+
+        const enemyHomePlanets = [];
+        for (const enemyTeam of this.enemyTeams) {
+            let enemyHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
+            enemyHomePlanet.team = enemyTeam;
+            enemyHomePlanet.populations.quantity = 1000;
+            enemyHomePlanet.populations.species = new Ork();
+            enemyHomePlanet.populations.setAllegianceForTeam(enemyTeam, 100);
+            enemyHomePlanets.push(enemyHomePlanet);
+        }
+
+        // Spawn the ships
         this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
         this.ui.playerShip = this.playerShip;
         this.addEntity(this.playerShip);
         playerHomePlanet.draw();
-
-        //@TODO set back to 3
-        const maxEnemyTeams = 3;
+        
         for (let i = 0; i < maxEnemyTeams; i++) {
-            let color = Team.randomColor();
-            let team = new Team(this, color, false, i + 2);
-            this.enemyTeams.push(team);
-
-            let homePlanet = Planet.getHabitablePlanetFromLevel(this.level);
-            homePlanet.team = team;
-            playerHomePlanet.populations.quantity = 1000;
-            playerHomePlanet.populations.species = new Ork();
-            playerHomePlanet.populations.setAllegianceForTeam(team, 100);
-
-            let enemyShip = new Enemy(this, team, homePlanet);
+            const enemyTeam = this.enemyTeams[i];
+            let enemyShip = new Enemy(this, enemyTeam, enemyHomePlanets[i]);
             this.enemyShips.push(enemyShip);
             this.ui["enemyShip"+i] = enemyShip;
             this.addEntity(enemyShip);
-            homePlanet.draw();
+            enemyHomePlanets[i].draw();
         }
 
         this.ui.drawMiniMap();

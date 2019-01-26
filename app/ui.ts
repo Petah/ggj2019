@@ -386,12 +386,23 @@ export default class UI implements Entity {
         for (const planet of this.scene.level.planets) {
             const xp = planet.x / this.scene.level.width;
             const yp = planet.y / this.scene.level.height;
+            const allegiance = planet.getAllegiance(this.playerShip.team);
+            let color = '#ddd';
+            if (planet.getTotalPopulationConsumed() > 0) {
+                if (allegiance <= 33) {
+                    color = '#ff0000';
+                } else if (allegiance <= 66) {
+                    color = '#ffff00';
+                } else {
+                    color = '#00ff00';
+                }
+            }
             minimap.append(e('div').attr({
                 class: 'minimap-planet',
             }).style({
                 left: (xp * 100) + '%',
                 top: (yp * 100) + '%',
-                backgroundColor: planet.getTotalPopulationConsumed() > 0 ? '#00ff00' : '#ddd',
+                backgroundColor: color,
             }));
         }
     }

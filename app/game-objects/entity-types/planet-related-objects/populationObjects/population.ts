@@ -1,17 +1,19 @@
 import Species from "./species";
 import Planet from "../../../../planet";
 import Team from "../../../../team";
+import DefaultScene from "../../../../scenes/default";
 
 interface AllegianceMap {
     [key: number]: number;
 };
 
 export default class Population {
-    private maxHealth = 100;
-    private minHealth = -100;
-    private allegiances: AllegianceMap = {};
+    public maxHealth = 100;
+    public minHealth = -100;
+    public allegiances: AllegianceMap = {};
 
     constructor(
+        public scene: DefaultScene,
         public species: Species,
         public quantity: number,
         public health: number
@@ -62,10 +64,6 @@ export default class Population {
             return 0;
         }
 
-        if (!this.allegiances[team.teamNumber]) {
-            this.allegiances[team.teamNumber] = 50;
-        }
-
         return this.allegiances[team.teamNumber];
     }
 
@@ -91,5 +89,13 @@ export default class Population {
             throw new Error('Invalid amount');
         }
         this.allegiances[team.teamNumber] = amount;
+        if (this.scene.playerTeam != team) {
+            this.allegiances[this.scene.playerTeam.teamNumber] = 100 - amount;
+        }
+        for (const enemyTeam of this.scene.enemyTeams) {
+            if (enemyTeam != team) {
+                this.allegiances[enemyTeam.teamNumber] = 100 - amount;
+            }
+        }
     }
 }

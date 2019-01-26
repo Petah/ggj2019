@@ -41,7 +41,7 @@ export default class Planet implements Entity {
     public maxShield: number = 0;
 
     constructor(
-        private scene: DefaultScene,
+        public scene: DefaultScene,
         public name: string,
         public x: number,
         public y: number,
@@ -94,7 +94,7 @@ export default class Planet implements Entity {
         this.createMaxPopulationLimit();
         this.createInfrastructureLimits();
         
-        this.populations = populationFactory.generatePopulationForPlanet();
+        this.populations = populationFactory.generatePopulationForPlanet(this);
     }
 
     update() {
@@ -255,15 +255,17 @@ export default class Planet implements Entity {
     }
 
     public canInvest(team: Team): boolean {
-        let canInvest = true;
-
-        if (this.getTotalPopulationConsumed() <= 0
-            || this.infrastructureLevel >= this.maxInfrastructureLevel
-            || this.populations.getAllegianceForPlayer(team) <= 0) {
-            canInvest = false;
+        const allegiance = this.getAllegiance(team);
+        if (allegiance === null) {
+            return false;
         }
-
-        return canInvest
+        if (allegiance <= 20) {
+            return false;
+        }
+        if (this.infrastructureLevel >= this.maxInfrastructureLevel) {
+            return false;
+        }
+        return true;
     }
 
     public remainingInvestmentInAgriculture(): number {
