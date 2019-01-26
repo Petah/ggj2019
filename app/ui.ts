@@ -55,8 +55,11 @@ export default class UI implements Entity {
 
     public ship: Ship = null;
     private shipEnergy: Element;
+    private shipEnergyMax: Element;
     private shipCharge: Element;
+    private shipChargeMax: Element;
     private shipCargo: Element;
+    private shipCargoMax: Element;
     private shipMoney: Element;
 
     private itemTorpedoCount: Element;
@@ -80,8 +83,11 @@ export default class UI implements Entity {
         this.modalWrapper = $('#modal-wrapper');
 
         this.shipEnergy = $('#ship-energy');
+        this.shipEnergyMax = $('#ship-energy-max');
         this.shipCharge = $('#ship-charge');
+        this.shipChargeMax = $('#ship-charge-max');
         this.shipCargo = $('#ship-cargo');
+        this.shipCargoMax = $('#ship-cargo-max');
         this.shipMoney = $('#ship-money');
 
         this.itemTorpedoCount = $('#item-torpedo-count');
@@ -156,19 +162,19 @@ export default class UI implements Entity {
 
         $('#buy-1').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.items[item.key].amount += 1;
+            this.ship.buyItem(item, 1);
             // @TODO subtract money
         });
 
         $('#buy-10').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.items[item.key].amount += 10;
+            this.ship.buyItem(item, 10);
             // @TODO subtract money
         });
 
         $('#buy-100').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.items[item.key].amount += 100;
+            this.ship.buyItem(item, 100);
             // @TODO subtract money
         });
     }
@@ -177,17 +183,18 @@ export default class UI implements Entity {
         const item = this.scene.items.items[itemNumber];
         $('#item-name').text(item.name);
         $('#item-description').text(item.description);
-        $('#item-price').text(item.price);
+        $('#item-price').text(this.numberWithCommas(item.price, 0));
         $('#item-quantity').text('100');
     }
 
     public showModalSell() {
-        if (this.ship.cargo > 1) {
+        const tons = Math.round(this.ship.cargo * 1000);
+        if (tons > 1000) {
             $('#sell-1000-tons').show();
         } else {
             $('#sell-1000-tons').hide();
         }
-        $('#sell-all-tons').text(this.numberWithCommas(this.ship.cargo * 1000, 0));
+        $('#sell-all-tons').text(this.numberWithCommas(tons, 0));
         this.showModal('modal-sell');
     }
 
@@ -214,8 +221,12 @@ export default class UI implements Entity {
     public update() {
         if (this.ship) {
             this.shipEnergy.text(this.numberWithCommas(this.ship.energy, 2));
+            this.shipEnergyMax.text(this.numberWithCommas(this.ship.maxEnergy, 2));
             this.shipCharge.text(this.numberWithCommas(this.ship.charge, 2));
+            this.shipChargeMax.text(this.numberWithCommas(this.ship.maxCharge, 2));
             this.shipCargo.text(this.numberWithCommas(this.ship.cargo, 2));
+            this.shipCargoMax.text(this.numberWithCommas(this.ship.maxCargo, 2));
+
             this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
 
             this.itemTorpedoCount.text(this.numberWithCommas(this.ship.items['torpedo'].amount, 0));

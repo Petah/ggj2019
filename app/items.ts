@@ -13,7 +13,7 @@ export default class Items {
         }));
         this.items.push(new Item({
             key: 'mine',
-            name: '@todo',
+            name: 'Proximity Fused Plasma Mine',
             description: '@todo',
             price: 1000,
         }));
@@ -25,15 +25,33 @@ export default class Items {
         }));
         this.items.push(new Item({
             key: 'nuke',
-            name: '@todo',
+            name: 'Neutron Bomb',
             description: '@todo',
             price: 10000,
         }));
         this.items.push(new Item({
             key: 'bio',
-            name: '@todo',
+            name: 'Plague Bomb',
             description: '@todo',
             price: 10000,
+        }));
+        this.items.push(new Item({
+            key: 'cargo-pod',
+            name: 'Cargo Pod',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'energy-pod',
+            name: 'Energy Pod',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'charge-pod',
+            name: 'Charge Pod',
+            description: '@todo',
+            price: 100,
         }));
     }
 }
@@ -42,7 +60,7 @@ export class Item {
     public key: string;
     public name: string;
     public description: string;
-    public price: string;
+    public price: number;
     constructor(
         props: object,
     ) {

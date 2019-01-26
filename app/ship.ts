@@ -36,7 +36,7 @@ export default class Ship implements Entity {
     private cursors: Phaser.Input.Keyboard.CursorKeys;
     private keyMine: Phaser.Input.Keyboard.Key;
 
-    public money: number = 0;
+    public money: number = 500;
     public colonists: number = 0;
     public maxColonists: number = 1999;
     public cargo: number = 0;
@@ -169,6 +169,31 @@ export default class Ship implements Entity {
         this.stoppedOnPlanet.resources += amount;
         // @todo make planet adjust price based on demand
         this.money += amount * 1000;
+    }
+
+    buyItem(item: Item, amount: number) {
+        if (item.key == 'cargo-pod') {
+            if (this.maxCargo < 6) {
+                this.maxCargo += 1;
+                this.money -= item.price;
+            }
+        } else if (item.key == 'energy-pod') {
+            if (this.maxEnergy < 6) {
+                this.maxEnergy += 1;
+                this.money -= item.price;
+            }
+        } else if (item.key == 'charge-pod') {
+            if (this.maxCharge < 6) {
+                this.maxCharge += 1;
+                this.money -= item.price;
+            }
+        } else {
+            if (item.price * amount > this.money) {
+                amount = Math.floor(this.money / item.price);
+            }
+            this.items[item.key].amount += amount;
+            this.money -= item.price * amount;
+        }
     }
 
     get x() {

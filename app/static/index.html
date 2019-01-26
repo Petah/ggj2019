@@ -148,6 +148,10 @@
             border-color: transparent;
             background: #D0D0D0;
         }
+
+        .item-desc {
+            height: 100px;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -244,16 +248,25 @@
                         </div>
                         <div class="ship-levels col">
                             <div class="row">
-                                Energy
-                                <div id="ship-energy"></div>
+                                <div>
+                                    Energy
+                                    <div id="ship-energy"></div>
+                                    <div id="ship-energy-max"></div>
+                                </div>
                             </div>
                             <div class="row">
-                                Charge
-                                <div id="ship-charge"></div>
+                                <div>
+                                    Charge
+                                    <div id="ship-charge"></div>
+                                    <div id="ship-charge-max"></div>
+                                </div>
                             </div>
                             <div class="row">
-                                Cargo
-                                <div id="ship-cargo"></div>
+                                <div>
+                                    Cargo
+                                    <div id="ship-cargo"></div>
+                                    <div id="ship-cargo-max"></div>
+                                </div>
                             </div>
                             <div class="row">
                                 Speed
@@ -361,14 +374,27 @@
 
         <div id="modal-buy" class="modal" style="display: none">
             <div>Honest Xzyll's Trading Post</div>
-            <div>Item: <div id="item-name"></div>
+            <div>
+                Item: <span id="item-name"></span>
             </div>
-            <div>Price: <div id="item-price"></div>
+            <div class="row">
+                <div class="col">
+                    <div>
+                        Price: <span id="item-price"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        Quantity in stock: <span id="item-quantity"></span>
+                    </div>
+                </div>
             </div>
-            <div>Quantity in stock: <div id="item-quantity"></div>
+            <div class="row">
+                <div class="item-desc">
+                    <div>Description</div>
+                    <div id="item-description"></div>
+                </div>
             </div>
-            <div>Description</div>
-            <div id="item-description"></div>
             <div>
                 <button id="prev-item">Prev Item</button>
                 <button id="next-item">Next Item</button>
