@@ -81,6 +81,8 @@ class Element {
 }
 
 export default class UI implements Entity {
+    slowUpdate() {
+    }
 
     public static width = 600;
     public static height = 600;
@@ -109,11 +111,6 @@ export default class UI implements Entity {
     private planetSickness: Element;
     private planetInfrastructure: Element;
     private planetResource: Element;
-
-    private time: Element;
-    private timeImage: Element;
-
-    private minimapShip: Element;
 
     private currentItem = 0;
 
@@ -144,11 +141,6 @@ export default class UI implements Entity {
         this.planetSickness = $('#planet-sickness');
         this.planetInfrastructure = $('#planet-infrastructure');
         this.planetResource = $('#planet-resource');
-
-        this.time = $('#time');
-        this.timeImage = $('#time-seg img');
-
-        this.minimapShip = $('#minimap-ship');
 
         $('.cancel-modal').addEventListener('click', () => {
             this.hideModals();
@@ -205,6 +197,19 @@ export default class UI implements Entity {
             this.showItem(this.currentItem);
         });
 
+        $('#modal-invest-mining').addEventListener('click', () => {
+            if(this.ship === undefined || this.ship === null) {
+                return;
+            }
+
+            let planet = this.ship.stoppedOnPlanet;
+            if(planet
+                && planet.canInvest(this.ship.team)
+                && planet.remainingInvestmentInMining() > 0) {
+
+            }
+        })
+
         $('#buy-1').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
             this.ship.buyItem(item, 1);
@@ -222,6 +227,8 @@ export default class UI implements Entity {
             this.ship.buyItem(item, 100);
             // @TODO subtract money
         });
+
+
     }
 
     private showItem(itemNumber) {
@@ -287,13 +294,14 @@ export default class UI implements Entity {
 
     public update() {
         if (this.ship) {
+
             this.shipEnergyBar.style({
                 width: this.getBarAmount(this.ship.energy, this.ship.maxEnergy) + '%',
             });
             this.shipEnergyPods.attr({
                 class: 'pods pods-' + this.getPodCount(this.ship.energy, this.ship.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxEnergy - 1)),
             });
-
+            
             this.shipChargeBar.style({
                 width: this.getBarAmount(this.ship.charge, this.ship.maxCharge) + '%',
             });
@@ -327,19 +335,7 @@ export default class UI implements Entity {
 
                 // console.log(this.ship.stoppedOnPlanet.populations.getAllegianceForPlayer(this.ship.team));
             }
-
-            this.minimapShip.style({
-                left: (this.ship.x / this.scene.level.width * 100) + '%',
-                top: (this.ship.y / this.scene.level.height * 100) + '%',
-            });
         }
-    }
-    
-    slowUpdate() {
-        this.time.text('Year: ' + this.numberWithCommas(this.scene.gameTime / 10, 1));
-        this.timeImage.attr({
-            src: 'assets/seg-' + Math.round(10 -((this.scene.gameTime / 10) % 1) * 10) + '.png',
-        });
     }
 
     public drawMiniMap() {
