@@ -11,21 +11,25 @@ export default class SoundManager {
 
     playFromLocation(name: string, x: number, y: number) {
         if (this.scene != null) {
-            // var horizontalDistance = Math.abs(x - this.scene.playerShip.x);
-            // var verticalDistance = Math.abs(y - this.scene.playerShip.y);
-            // var distance = Math.sqrt(horizontalDistance * horizontalDistance + verticalDistance * verticalDistance);
-            var distance = GM.pointDistance(this.scene.playerShip.x, x, this.scene.playerShip.y, y);
-            var maxDistance = 100.0;
-            var volume = (distance < maxDistance) ? (maxDistance - distance) / maxDistance : 0.0;
-            // console.log("player: (x:" + this.scene.playerShip.x + ", y: " + this.scene.playerShip.y + ")");
-            // console.log("blast: (x:" + x + ", y: " + y + ")");
-            // console.log("distance: " + distance + ", volume: " + volume);
+            var distance = GM.pointDistance(this.scene.playerShip.x, this.scene.playerShip.y, x, y);
+            var maxDistance = 450.0;
+            var volume = (distance < maxDistance) ? ((maxDistance - distance) / maxDistance) * 0.3 : 0.0;
             this.play(name, volume);
         }
     }
     play(name: string, volume: number = null) {
         if (this.scene != null) {
-            this.scene.sound.add(name).play(null, {
+            var marker = {
+                name: 'marker',
+                start: 0,
+                config: {
+                    loop: false
+                }
+            };
+            var music = this.scene.sound.add(name)
+            music.addMarker(marker);
+            music.play('marker', {
+                delay: 0.0,
                 volume: (volume != null) ? volume : 1.0
             });
         }
@@ -47,6 +51,5 @@ export default class SoundManager {
             });
         }
     }
-
     
 };

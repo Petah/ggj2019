@@ -26,8 +26,8 @@ export default class Blast implements Entity {
 
 
 
-        //SoundManager.shared.play("explosion", 0.5);
-        this.scene.soundManager.playFromLocation("explosion", this.scene.playerShip.x, this.scene.playerShip.y);
+        // this.scene.soundManager.play("explosion", 0.1);
+        this.scene.soundManager.playFromLocation("explosion", x, y);
         
     }
 
