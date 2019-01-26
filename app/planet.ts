@@ -18,6 +18,7 @@ export default class Planet implements Entity {
 
     private circle: Phaser.Geom.Circle;
     private graphics: Phaser.GameObjects.Graphics;
+    private planetScale: number;
 
     constructor(
         private scene: DefaultScene,
@@ -39,11 +40,12 @@ export default class Planet implements Entity {
         public resources: number,
         public food: number,
         public planetSize: number,
-        public plantetType: PlanetType
+        public planetType: PlanetType
     ) {
-        const sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(name)).setScale(this.planetSize, this.planetSize);
+        this.planetScale = planetSize / 74.0;
+        var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(planetType)).setScale(this.planetScale, this.planetScale);
         sprite.depth = 100;
-        sprite.play(this.animationNameFor(name));
+        sprite.play(this.animationNameFor(planetType));
 
         this.graphics = this.scene.add.graphics({
             lineStyle: {
@@ -51,8 +53,8 @@ export default class Planet implements Entity {
                 color: 0xdddddd,
             }
         });
-        this.circle = new Phaser.Geom.Circle(this.x, this.y, this.planetSize * 25 + 4);
-        this.draw();
+        this.circle = new Phaser.Geom.Circle(this.x, this.y, planetSize * 0.5 + 4);
+
         this.createMaxPopulationLimit();
     }
 
@@ -64,7 +66,7 @@ export default class Planet implements Entity {
         // 0.1 small planet size
 
         var temp = 60000000000; // 60 billion
-        this.maxPopulation = temp * this.plantetType.maxPopulationModifier * this.planetSize
+        this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
         console.log("Max Population for: " + this.name + " is " + this.maxPopulation);
     }
 
@@ -97,35 +99,38 @@ export default class Planet implements Entity {
     }
 
     // private functions
-    private spriteNameFor(name: string) {
-        if (name == "Gas Giant") {
-            return "planet-ice"
+    private spriteNameFor(planetType: PlanetType) {
+        switch (planetType.typeName) {
+            case "Gas Giant": return "planet-gasgiant";
+            case "Volcanic": return "planet-volcanic";
+            case "Continental": return "planet-continental";
+            case "Jungle": return "planet-jungle";
+            case "Forest": return "planet-forest";
+            case "Desert": return "planet-desert";
+            case "Barren": return "planet-barren";
+            case "Ocean": return "planet-ocean";
+            case "Ice": return "planet-ice";
+            case "Tundra": return "planet-tundra";
+            case "Gaia": return "planet-gaia";
         }
-        else if (name == "Volcanic") {
-            return "planet-tundra"
-        }
-        else if (name == "Continental") {
-            return "planet-gaia"
-        }
-        else if (name == "Jungle") {
-            return "planet-tundra"
-        }
-        return "planet-barren"
+        return "planet-barren";
     }
-    private animationNameFor(name: string) {
-        if (name == "Gas Giant") {
-            return "planet-ice-animation"
+    
+    private animationNameFor(planetType: PlanetType) {
+        switch (planetType.typeName) {
+            case "Gas Giant": return "planet-gasgiant-animation";
+            case "Volcanic": return "planet-volcanic-animation";
+            case "Continental": return "planet-continental-animation";
+            case "Jungle": return "planet-jungle-animation";
+            case "Forest": return "planet-forest-animation";
+            case "Desert": return "planet-desert-animation";
+            case "Barren": return "planet-barren-animation";
+            case "Ocean": return "planet-ocean-animation";
+            case "Ice": return "planet-ice-animation";
+            case "Tundra": return "planet-tundra-animation";
+            case "Gaia": return "planet-gaia-animation";
         }
-        else if (name == "Volcanic") {
-            return "planet-tundra-animation"
-        }
-        else if (name == "Continental") {
-            return "planet-gaia-animation"
-        }
-        else if (name == "Jungle") {
-            return "planet-tundra-animation"
-        }
-        return "planet-barren-animation"
+        return "planet-barren";
     }
 
 }

@@ -41,7 +41,7 @@ export default class Level implements Entity {
                 1, // money
                 Math.random() * 100, // resources
                 1, // food
-                Math.random() * 0.2 + 0.1, // planet size
+                Math.random() * 5 + 20, // planet size
                 type,
             );
             this.planets.push(planet);

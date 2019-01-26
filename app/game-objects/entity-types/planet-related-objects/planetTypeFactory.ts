@@ -3,16 +3,15 @@ import PlanetType from "./planetType";
 export default class PlanetTypeFactory {
 
     random(): PlanetType {
-        var random = Math.random() * 4;
+        var random = Math.floor(Math.random() * 4) + 1;
         var planetType: PlanetType;
         switch(random) {
-            case 1: planetType = this.gasGiant();
-            case 2: planetType = this.volcanic();
-            case 3: planetType = this.continental();
-            case 4: planetType = this.jungle();
-            default: planetType = this.gasGiant();
+            case 1: planetType = this.gasGiant(); break;
+            case 2: planetType = this.volcanic(); break;
+            case 3: planetType = this.continental(); break;
+            case 4: planetType = this.jungle(); break;
+            default: planetType = this.gasGiant(); break;
         }
-
         return planetType;
     }
 

@@ -2,7 +2,7 @@ import PlanetType from "./planetType";
 
 export default class PlanetNameGenerator {
     private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut"];
-    private volcanicNames: string[] = ["Vulkan"];
+    private volcanicNames: string[] = ["Vulkan", "Waluigi"];
     private continentalNames: string[] = ["Earth", "Alpha Centauri", "Eden Prime", "Kerbol", "Olimar"];
     private jungleNames: string[] = ["Bungle", "Kipling"];
     private forestNames: string[] = ["Endor", "Solaria"]
@@ -11,7 +11,7 @@ export default class PlanetNameGenerator {
     private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon"] 
     private iceNames: string[] = ["Hoth", "Yump"] 
     private tundraNames: string[] = ["Gulag", "Melpomenia"] 
-    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden"] 
+    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia"] 
 
     public generateName(planet: PlanetType) {
         var name: string;
