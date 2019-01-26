@@ -2,16 +2,16 @@ import PlanetType from "./planetType";
 
 export default class PlanetNameGenerator {
     private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut", "Kachoria", "Gretchin", "You'reanus", "Dandledoom", "Dongle", "Zephyr", "Fart Joke"];
-    private volcanicNames: string[] = ["Vulkan", "Waluigi", "Nintenduu 64", "Excalbia", "Menjin", "Krypton", "Waikato", "Mustafaa", "Krakatoa", "RIP Coffix"];
+    private volcanicNames: string[] = ["Vulkan", "Waluigi", "Nintenduu 64", "Excalbia", "Menjin", "Krypton", "Waikato", "Mustafaa", "Krakatoa", "RIP Coffix", "Promethea"];
     private continentalNames: string[] = ["Earth", "Alpha Centauri", "Eden Prime", "Kerbol", "Olimar", "Holy Terra", "New New Spain", "Abeir-Toril", "Kyrnn", "Corneria", "Ooo", "Hyrule"];
     private jungleNames: string[] = ["Bungle", "Kipling", "Omicron Persei 8", "Fortuna", "Ixalan", "Pendis", "Seed", "Petah", "Buhikon", "Shazzb0tt", "Abnegate"];
-    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad", "Klap", "Resting place of the Blorg", "Groogy", "Neu Leben"];
-    private desertNames: string[] = ["Arrakis", "Tatooine", "Not Tatooine (Jakku)", "Athas", "Kharak", "Korriban", "Hocotate", "Ocampa", "Toroth", "Vulcan"]
-    private barrenNames: string[] = ["New Mars", "Belgium", "Dovid", "Giedi", "Spheron I", "127.0.0.1", "Slurt", "Cadia", "Phyrexia", "Istvan 5", "https://www.printicular.com", "Cornflake Homunculus"]
-    private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon", "Thalassa", "Russalka", "Muur", "4546B", "GQ", "Alba", "Greater Denmark", "Atlantis", "+64275054757"]
-    private iceNames: string[] = ["Hoth", "Yump", "Neutral Planet", "Gethen", "Fichina", "Bicth", "Ryan Renolds the planet", "Popscicle", "Serra", "Django"]
-    private tundraNames: string[] = ["Gulag", "Melpomenia", "Atlas", "Gimp", "Ganthiya", "Factfur", "MEA", "New Norway", "The Highlands", "Mirrodin"]
-    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia Rising", "ɐıʃɐɹʇsn∀", "Ego", "The Three Mountains", "Byzantium", "Utopia"]
+    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad", "Klap", "Resting place of the Blorg", "Groogy", "Neu Leben", "Lillith"];
+    private desertNames: string[] = ["Arrakis", "Tatooine", "Not Tatooine (Jakku)", "Athas", "Kharak", "Korriban", "Hocotate", "Ocampa", "Toroth", "Vulcan"] 
+    private barrenNames: string[] = ["New Mars", "Belgium", "Dovid", "Giedi", "Spheron I", "127.0.0.1", "Slurt", "Cadia", "Phyrexia", "Istvan 5", "https://www.printicular.com", "Cornflake Homunculus"] 
+    private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon", "Thalassa", "Russalka", "Muur", "4546B", "GQ", "Alba", "Greater Denmark", "Atlantis", "+64275054757"] 
+    private iceNames: string[] = ["Hoth", "Yump", "Neutral Planet", "Gethen", "Fichina", "Bicth", "Ryan Renolds the planet", "Popscicle", "Serra", "Django"] 
+    private tundraNames: string[] = ["Gulag", "Melpomenia", "Atlas", "Gimp", "Ganthiya", "Factfur", "MEA", "New Norway", "The Highlands", "Mirrodin", "Aquator"]
+    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia Rising", "ɐıʃɐɹʇsn∀", "Ego", "The Three Mountains", "Byzantium", "Utopia"] 
 
     public generateName(planet: PlanetType) {
         var name: string;
