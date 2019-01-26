@@ -652,6 +652,11 @@
         .invest-button img {
             height: 50px;
         }
+
+        .item-buttons img {
+            height: 40px;
+            filter: drop-shadow(1px 1px 0 #111);
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -886,9 +891,9 @@
                     <button id="open-buy">Buy</button>
                 </div>
                 <div id="phaser-game"></div>
-                <div>
+                <div class="item-buttons">
                     <button id="item-laser" class="active">Laser</button>
-                    <button id="item-torpedo">Torpedo <span id="item-torpedo-count"></span></button>
+                    <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br/>Torpedo <span id="item-torpedo-count"></span></button>
                     <button id="item-mine">Proximity Mine <span id="item-mine-count"></span></button>
                     <button id="item-hot-torpedo">Hot Torpedo <span id="item-hot-torpedo-count"></span></button>
                     <button id="item-nuke">Nuke <span id="item-nuke-count"></span></button>
