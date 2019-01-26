@@ -60,14 +60,18 @@ export default class DefaultScene extends Phaser.Scene {
         const teamColor = 0x00FF00;
         this.team = new Team(this, teamColor);
 
-        let homePlanet: Planet;
-        while(homePlanet === undefined) {
-          const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
-          if(tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations[0].calculatePopulationConsumption(tempPlanet) == 0) {
-              homePlanet = tempPlanet;
-              break;
-          }
-        }
+        let homePlanet: Planet = null;
+        let bail = 100;
+        do {
+            const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
+            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations[0].calculatePopulationConsumption(tempPlanet) == 0) {
+                homePlanet = tempPlanet;
+                break;
+            }
+            if (bail-- <= 0) {
+                throw new Error('Can not find home planet');
+            }
+        } while (homePlanet === null);
 
 
         homePlanet.populations = [new PopulationFactory().generatePopulationForPlanet(homePlanet)];
