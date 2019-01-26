@@ -111,12 +111,12 @@ export default class Ship implements Entity {
             this.speed = 0;
             this.stopOnPlanet = null;
             this.stoppedOnPlanet = planet;
-            if (this.cargo > 0 && this.stoppedOnPlanet.population > 0) {
+            if (this.cargo > 0 && this.stoppedOnPlanet.canSell) {
                 this.scene.ui.showModalSell();
             }
         }
 
-        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.population == 0) {
+        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
             if (this.mining <= 0) {
                 this.mining = 1;
             }

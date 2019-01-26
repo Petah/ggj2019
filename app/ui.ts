@@ -139,7 +139,6 @@ export default class UI implements Entity {
         this.planetResource = $('#planet-resource');
 
         $('.cancel-modal').addEventListener('click', () => {
-            console.log('cancel-modal');
             this.hideModals();
         });
 
@@ -283,7 +282,6 @@ export default class UI implements Entity {
     public drawMiniMap() {
         const minimap = $('#minimap');
         for (const planet of this.scene.level.planets) {
-            console.log(planet);
             const xp = planet.x / this.scene.level.width;
             const yp = planet.y / this.scene.level.height;
             minimap.append(e('div').attr({

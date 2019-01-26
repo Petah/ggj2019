@@ -4,6 +4,7 @@ import Entity from "./entity";
 import PlanetTypeFactory from "./game-objects/entity-types/planet-related-objects/planetTypeFactory";
 import PlanetNameGenerator from "./game-objects/entity-types/planet-related-objects/planetNameGenerator";
 import PopulationFactory from "./game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
+import GM from "./gm";
 
 export default class Level implements Entity {
     id: number
@@ -21,8 +22,17 @@ export default class Level implements Entity {
         let populationFactory = new PopulationFactory();
 
         for (let i = 0; i < this.planetCount; i++) {
-            const x = Math.random() * this.width;
-            const y = Math.random() * this.height;
+            let x;
+            let y;
+            let bail = 100;
+            do {
+                x = Math.random() * this.width;
+                y = Math.random() * this.height;
+                if (bail-- <= 0) {
+                    break;
+                }
+            } while (!this.planetSpaceFree(x, y));
+
             const type = new PlanetTypeFactory().random();
 
             const planet = new Planet(
@@ -51,6 +61,22 @@ export default class Level implements Entity {
             this.planets.push(planet);
             this.scene.addEntity(planet);
         }
+    }
+
+    planetSpaceFree(x: number, y: number): boolean {
+        if (x < 100 || x > this.width - 100) {
+            return false;
+        }
+        if (y < 100 || y > this.height - 100) {
+            return false;
+        }
+        for (const planet of this.planets) {
+            const distance = GM.pointDistance(planet.x, planet.y, x, y);
+            if (distance < 100) {
+                return false;
+            }
+        }
+        return true;
     }
 
     update() {
