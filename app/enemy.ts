@@ -5,6 +5,8 @@ import Planet from "./planet";
 
 export default class Enemy extends Ship {
 
+    public shildColor: number = 0xff0000;
+
     constructor(scene: DefaultScene,
                 team: Team,
                 startPlanet: Planet,) {

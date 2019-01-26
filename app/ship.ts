@@ -61,6 +61,8 @@ export default class Ship implements Entity {
     public shipWidth: number = 50.0;
     public shipHeight: number = 43.0;
 
+    public shildColor: number = 0x00ff00;
+
     constructor(
         private scene: DefaultScene,
         public team: Team,
@@ -227,7 +229,7 @@ export default class Ship implements Entity {
 
         // shield
         if (true) {
-            this.graphics.lineStyle(1, 0x00ff00, 0.5); // green
+            this.graphics.lineStyle(1, this.shildColor, 0.5); // green
             for (var i = 0; i < this.ellipses.length; i++) {
                 var ellipse = this.ellipses[i];
                 var h_padding = 33.0;
