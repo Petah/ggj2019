@@ -66,10 +66,11 @@ export default class DefaultScene extends Phaser.Scene {
         playerHomePlanet.populations = populationFactory.generatePopulationForPlanet();
         playerHomePlanet.team = this.playerTeam;
         this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
-        this.ui.ship = this.playerShip;
+        this.ui.playerShip = this.playerShip;
         this.addEntity(this.playerShip);
         playerHomePlanet.draw();
 
+        //@TODO set back to 3
         const maxEnemyTeams = 3;
         for (let i = 0; i < maxEnemyTeams; i++) {
             let color = Team.randomColor();
@@ -82,6 +83,7 @@ export default class DefaultScene extends Phaser.Scene {
 
             let enemyShip = new Enemy(this, team, homePlanet);
             this.enemyShips.push(enemyShip);
+            this.ui["enemyShip"+i] = enemyShip;
             this.addEntity(enemyShip);
             homePlanet.draw();
         }
@@ -98,7 +100,7 @@ export default class DefaultScene extends Phaser.Scene {
         var loopMarker = {
             name: 'loop',
             start: 0,
-            duration: 1.0,
+            duration: 120.0,
             config: {
                 loop: true
             }
@@ -106,7 +108,8 @@ export default class DefaultScene extends Phaser.Scene {
         var music = this.sound.add('bgm');
         music.addMarker(loopMarker);
         music.play('loop', {
-            delay: 0
+            delay: 0,
+            volume: 0.1
         });
 
     }

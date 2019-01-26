@@ -89,7 +89,11 @@ export default class UI implements Entity {
 
     private modalWrapper: Element;
 
-    public ship: Ship = null;
+    public playerShip: Ship = null;
+    public enemyShip0: Ship = null;
+    public enemyShip1: Ship = null;
+    public enemyShip2: Ship = null;
+
     private shipEnergyBar: Element;
     private shipEnergyPods: Element;
     private shipChargeBar: Element;
@@ -111,6 +115,11 @@ export default class UI implements Entity {
     private planetSickness: Element;
     private planetInfrastructure: Element;
     private planetResource: Element;
+
+    private minimapShip1: Element;
+    private minimapShip2: Element;
+    private minimapShip3: Element;
+    private minimapShip4: Element;
 
     private currentItem = 0;
 
@@ -142,17 +151,22 @@ export default class UI implements Entity {
         this.planetInfrastructure = $('#planet-infrastructure');
         this.planetResource = $('#planet-resource');
 
+        this.minimapShip1 = $('#minimap-ship-1');
+        this.minimapShip2 = $('#minimap-ship-2');
+        this.minimapShip3 = $('#minimap-ship-3');
+        this.minimapShip4 = $('#minimap-ship-4');
+
         $('.cancel-modal').addEventListener('click', () => {
             this.hideModals();
         });
 
         $('#sell-all').addEventListener('click', () => {
-            this.ship.sell();
+            this.playerShip.sell();
             this.modalWrapper.hide();
         });
 
         $('#sell-1000').addEventListener('click', () => {
-            this.ship.sell(1);
+            this.playerShip.sell(1);
             this.modalWrapper.hide();
         });
 
@@ -169,13 +183,13 @@ export default class UI implements Entity {
         });
 
         $('#open-invest').addEventListener('click', () => {
-            if (this.ship && this.ship.stoppedOnPlanet && this.ship.stoppedOnPlanet.canInvest) {
+            if (this.playerShip && this.playerShip.stoppedOnPlanet && this.playerShip.stoppedOnPlanet.canInvest) {
                 this.showModal('modal-invest');
             }
         });
 
         $('#open-buy').addEventListener('click', () => {
-            if (this.ship && this.ship.stoppedOnPlanet && this.ship.stoppedOnPlanet.canSell) {
+            if (this.playerShip && this.playerShip.stoppedOnPlanet && this.playerShip.stoppedOnPlanet.canSell) {
                 this.showItem(this.currentItem);
                 this.showModal('modal-buy');
             }
@@ -212,19 +226,19 @@ export default class UI implements Entity {
 
         $('#buy-1').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.buyItem(item, 1);
+            this.playerShip.buyItem(item, 1);
             // @TODO subtract money
         });
 
         $('#buy-10').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.buyItem(item, 10);
+            this.playerShip.buyItem(item, 10);
             // @TODO subtract money
         });
 
         $('#buy-100').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
-            this.ship.buyItem(item, 100);
+            this.playerShip.buyItem(item, 100);
             // @TODO subtract money
         });
 
@@ -240,7 +254,7 @@ export default class UI implements Entity {
     }
 
     public showModalSell() {
-        const tons = Math.round(this.ship.cargo * 1000);
+        const tons = Math.round(this.playerShip.cargo * 1000);
         if (tons > 1000) {
             $('#sell-1000-tons').show();
         } else {
@@ -293,37 +307,36 @@ export default class UI implements Entity {
     }
 
     public update() {
-        if (this.ship) {
-
+        if (this.playerShip) {
             this.shipEnergyBar.style({
-                width: this.getBarAmount(this.ship.energy, this.ship.maxEnergy) + '%',
+                width: this.getBarAmount(this.playerShip.energy, this.playerShip.maxEnergy) + '%',
             });
             this.shipEnergyPods.attr({
-                class: 'pods pods-' + this.getPodCount(this.ship.energy, this.ship.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxEnergy - 1)),
+                class: 'pods pods-' + this.getPodCount(this.playerShip.energy, this.playerShip.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxEnergy - 1)),
             });
             
             this.shipChargeBar.style({
-                width: this.getBarAmount(this.ship.charge, this.ship.maxCharge) + '%',
+                width: this.getBarAmount(this.playerShip.charge, this.playerShip.maxCharge) + '%',
             });
             this.shipChargePods.attr({
-                class: 'pods pods-' + this.getPodCount(this.ship.charge, this.ship.maxCharge) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCharge - 1)),
+                class: 'pods pods-' + this.getPodCount(this.playerShip.charge, this.playerShip.maxCharge) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxCharge - 1)),
             });
 
             this.shipCargoBar.style({
-                width: this.getBarAmount(this.ship.cargo, this.ship.maxCargo) + '%',
+                width: this.getBarAmount(this.playerShip.cargo, this.playerShip.maxCargo) + '%',
             });
             this.shipCargoPods.attr({
-                class: 'pods pods-' + this.getPodCount(this.ship.cargo, this.ship.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCargo - 1)),
+                class: 'pods pods-' + this.getPodCount(this.playerShip.cargo, this.playerShip.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxCargo - 1)),
             });
 
-            this.shipShields.text(this.numberWithCommas(this.ship.maxShield, 0));
-            this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
+            this.shipShields.text(this.numberWithCommas(this.playerShip.maxShield, 0));
+            this.shipMoney.text(this.numberWithCommas(this.playerShip.money, 0));
 
-            this.itemTorpedoCount.text(this.numberWithCommas(this.ship.items['torpedo'].amount, 0));
-            this.itemHotTorpedoCount.text(this.numberWithCommas(this.ship.items['hot-torpedo'].amount, 0));
-            this.itemMineCount.text(this.numberWithCommas(this.ship.items['mine'].amount, 0));
-            this.itemNukeCount.text(this.numberWithCommas(this.ship.items['nuke'].amount, 0));
-            this.itemBioCount.text(this.numberWithCommas(this.ship.items['bio'].amount, 0));
+            this.itemTorpedoCount.text(this.numberWithCommas(this.playerShip.items['torpedo'].amount, 0));
+            this.itemHotTorpedoCount.text(this.numberWithCommas(this.playerShip.items['hot-torpedo'].amount, 0));
+            this.itemMineCount.text(this.numberWithCommas(this.playerShip.items['mine'].amount, 0));
+            this.itemNukeCount.text(this.numberWithCommas(this.playerShip.items['nuke'].amount, 0));
+            this.itemBioCount.text(this.numberWithCommas(this.playerShip.items['bio'].amount, 0));
 
             if (this.ship.stoppedOnPlanet) {
                 this.planetName.text(this.ship.stoppedOnPlanet.name);
@@ -338,6 +351,23 @@ export default class UI implements Entity {
                 })
                 // console.log(this.ship.stoppedOnPlanet.maxInfrastructureLevel, this.ship.stoppedOnPlanet.infrastructureLevel);
             }
+
+            this.minimapShip1.style({
+                left: (this.playerShip.x / this.scene.level.width * 100) + '%',
+                top: (this.playerShip.y / this.scene.level.height * 100) + '%',
+            });
+            this.minimapShip2.style({
+                left: (this.enemyShip0.x / this.scene.level.width * 100) + '%',
+                top: (this.enemyShip0.y / this.scene.level.height * 100) + '%',
+            });
+            this.minimapShip3.style({
+                left: (this.enemyShip1.x / this.scene.level.width * 100) + '%',
+                top: (this.enemyShip1.y / this.scene.level.height * 100) + '%',
+            });
+            this.minimapShip4.style({
+                left: (this.enemyShip2.x / this.scene.level.width * 100) + '%',
+                top: (this.enemyShip2.y / this.scene.level.height * 100) + '%',
+            });
         }
     }
 

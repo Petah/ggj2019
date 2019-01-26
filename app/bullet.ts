@@ -13,7 +13,7 @@ export default class Bullet implements Entity{
         y: number,
         private dx: number,
         private dy: number,
-        private direction: number,
+        public direction: number,
     ) {
         this.image = this.scene.physics.add.image(x, y, 'bullet');
     }
@@ -29,7 +29,7 @@ export default class Bullet implements Entity{
         if (distance < 10) {
             this.image.destroy();
             this.scene.removeEntity(this);
-            const blast = new Blast(this.scene, this.x, this.y);
+            const blast = new Blast(this.scene, this.x, this.y, this.direction);
             this.scene.addEntity(blast);
         }
     }
