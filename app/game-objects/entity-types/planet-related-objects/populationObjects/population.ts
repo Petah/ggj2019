@@ -30,6 +30,10 @@ export default class Population {
     }
 
     public calculatePopulationChange(maxPopulation: number) {
+        if(this.species === undefined || this.species === null) {
+            return;
+        }
+
         let populationChange = Math.pow(this.quantity * this.species.populationGrowthRate * (this.health/100), 2)
         
         if (this.quantity + populationChange > maxPopulation) {
