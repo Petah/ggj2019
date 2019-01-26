@@ -65,7 +65,7 @@ export default class DefaultScene extends Phaser.Scene {
         let bail = 100;
         do {
             const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
-            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations[0].calculatePopulationConsumption(tempPlanet) == 0) {
+            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption(tempPlanet) == 0) {
                 homePlanet = tempPlanet;
                 break;
             }
@@ -75,7 +75,7 @@ export default class DefaultScene extends Phaser.Scene {
         } while (homePlanet === null);
 
 
-        homePlanet.populations = [new PopulationFactory().generatePopulationForPlanet(homePlanet)];
+        homePlanet.populations = new PopulationFactory().generatePopulationForPlanet(homePlanet);
 
         this.ship = new Ship(this, this.team, homePlanet);
         this.ui.ship = this.ship;

@@ -37,7 +37,7 @@ export default class Planet implements Entity {
         public defence: number,
         public education: number,
 
-        public populations: Population[],
+        public populations: Population,
         public health: number,
         public money: number,
         public resources: number,
@@ -58,11 +58,11 @@ export default class Planet implements Entity {
             }
         });
         this.circle = new Phaser.Geom.Circle(this.x, this.y, size * 0.5 + 1);
-        this.rectangles =  Array<Phaser.Geom.Rectangle>();
-        for (var i=0; i<3; i++) {
-            this.rectangles.push(new Phaser.Geom.Rectangle(this.x - size*0.5, this.y - size*0.5, size, size));
+        this.rectangles = Array<Phaser.Geom.Rectangle>();
+        for (var i = 0; i < 3; i++) {
+            this.rectangles.push(new Phaser.Geom.Rectangle(this.x - size * 0.5, this.y - size * 0.5, size, size));
         }
-    
+
 
         this.createMaxPopulationLimit();
     }
@@ -79,23 +79,23 @@ export default class Planet implements Entity {
 
         // shield - blue square
         this.graphics.lineStyle(1, 0x0000ff); // blue
-        for (var i=0; i<this.rectangles.length; i++) {
+        for (var i = 0; i < this.rectangles.length; i++) {
             var rectangle = this.rectangles[i];
             var padding = 6.0;
             var randomRange = 4.0;
-            rectangle.setTo(this.x - this.planetSize*0.5 - padding + (Math.random() * randomRange*2.0 - randomRange),
-                this.y - this.planetSize*0.5 - padding + (Math.random() * randomRange*2.0 - randomRange),
-                this.planetSize + padding*2.0 + (Math.random() * randomRange*2.0 - randomRange),
-                this.planetSize + padding*2.0 + (Math.random() * randomRange*2.0 - randomRange));
+            rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+                this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
             this.graphics.strokeRectShape(rectangle);
         }
-        
+
 
     }
 
     slowUpdate() {
         this.draw();
-        this.populations[0].calculatePopulationChange(this.maxPopulation);
+        this.populations.calculatePopulationChange(this.maxPopulation);
     }
 
     private createMaxPopulationLimit() {
@@ -177,13 +177,8 @@ export default class Planet implements Entity {
     public getTotalPopulationConsumed(): number {
         let populationConsumed: number = 0;
 
-        if (this.populations != null && this.populations.length > 0) {
-            for (const populationGroup of this.populations) {
-                if(populationGroup == undefined || populationGroup == null) {
-                    break;
-                }
-                populationConsumed += populationGroup.calculatePopulationConsumption(this);
-            }
+        if (this.populations !== undefined || this.populations != null) {
+            populationConsumed += this.populations.calculatePopulationConsumption(this);
         }
 
         return populationConsumed;
