@@ -18,8 +18,10 @@ export default class Planet implements Entity {
     public maxHealth: number;
 
     private circle: Phaser.Geom.Circle;
+    private rectangles: Array<Phaser.Geom.Rectangle>;
     private graphics: Phaser.GameObjects.Graphics;
     private planetScale: number;
+    private planetSize: number;
 
     constructor(
         private scene: DefaultScene,
@@ -40,10 +42,11 @@ export default class Planet implements Entity {
         public money: number,
         public resources: number,
         public food: number,
-        public planetSize: number,
+        public size: number,
         public planetType: PlanetType
     ) {
-        this.planetScale = planetSize / 74.0;
+        this.planetSize = size;
+        this.planetScale = size / 74.0;
         var sprite = this.scene.add.sprite(this.x, this.y, this.spriteNameFor(planetType)).setScale(this.planetScale, this.planetScale);
         sprite.depth = 100;
         sprite.play(this.animationNameFor(planetType));
@@ -54,12 +57,40 @@ export default class Planet implements Entity {
                 color: 0xdddddd,
             }
         });
-        this.circle = new Phaser.Geom.Circle(this.x, this.y, planetSize * 0.5 + 4);
-        this.draw();
+        this.circle = new Phaser.Geom.Circle(this.x, this.y, size * 0.5 + 1);
+        this.rectangles =  Array<Phaser.Geom.Rectangle>();
+        for (var i=0; i<3; i++) {
+            this.rectangles.push(new Phaser.Geom.Rectangle(this.x - size*0.5, this.y - size*0.5, size, size));
+        }
+    
+
         this.createMaxPopulationLimit();
     }
 
     update() {
+        this.graphics.clear();
+
+        //this.graphics.lineStyle(1, 0xffffff); // unoccupied - white
+        //this.graphics.lineStyle(1, 0xffff00); // neutral - yellow
+        this.graphics.lineStyle(1, 0x00ff00); // ally - green
+        //this.graphics.lineStyle(1, 0xff0000); // enemy - red
+        this.graphics.strokeCircleShape(this.circle);
+
+
+        // shield - blue square
+        this.graphics.lineStyle(1, 0x0000ff); // blue
+        for (var i=0; i<this.rectangles.length; i++) {
+            var rectangle = this.rectangles[i];
+            var padding = 6.0;
+            var randomRange = 4.0;
+            rectangle.setTo(this.x - this.planetSize*0.5 - padding + (Math.random() * randomRange*2.0 - randomRange),
+                this.y - this.planetSize*0.5 - padding + (Math.random() * randomRange*2.0 - randomRange),
+                this.planetSize + padding*2.0 + (Math.random() * randomRange*2.0 - randomRange),
+                this.planetSize + padding*2.0 + (Math.random() * randomRange*2.0 - randomRange));
+            this.graphics.strokeRectShape(rectangle);
+        }
+        
+
     }
 
     private createMaxPopulationLimit() {
@@ -135,7 +166,7 @@ export default class Planet implements Entity {
             case "Tundra": return "planet-tundra-animation";
             case "Gaia": return "planet-gaia-animation";
         }
-        return "planet-barren";
+        return "planet-barren-animation";
     }
 
     public getTotalPopulationConsumed(): number {
