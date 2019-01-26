@@ -110,8 +110,10 @@
         }
 
         .modal {
-            background: greenyellow;
-            color: black;
+            padding: 20px;
+            background-color: #868486;
+            border: 4px groove #999;
+            color: white;
             display: flex;
             flex-direction: column;
             width: 300px;
@@ -127,6 +129,24 @@
             align-items: center;
             justify-content: center;
             background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            font-family: "MS Sans Serif";
+            font-size: 11px;
+            outline: 1px solid #000000;
+            background: #C0C0C0;
+            border-width: 1px;
+            border-style: solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            padding: 4px 10px;
+            margin: 3px;
+        }
+
+        button:active,
+        button.active {
+            border-color: transparent;
+            background: #D0D0D0;
         }
     </style>
     <script defer src='vendor.js'></script>
@@ -252,7 +272,7 @@
                 </div>
                 <div id="phaser-game"></div>
                 <div>
-                    <button id="item-laser">Laser</button>
+                    <button id="item-laser" class="active">Laser</button>
                     <button id="item-torpedo">Torpedo <span id="item-torpedo-count"></span></button>
                     <button id="item-mine">Proximity Mine <span id="item-mine-count"></span></button>
                     <button id="item-hot-torpedo">Hot Torpedo <span id="item-hot-torpedo-count"></span></button>
@@ -318,6 +338,9 @@
                     10,000
                 </div>
             </div>
+            <div>
+                <button class="cancel-modal">Cancel</button>
+            </div>
         </div>
 
         <div id="modal-sell" class="modal" style="display: none">
@@ -332,7 +355,7 @@
                 <div id="sell-1000-tons">
                     <button id="sell-1000">1,000 tons</button> for $2,212<br />
                 </div>
-                <button id="cancel-modal">Cancel</button>
+                <button class="cancel-modal">Cancel</button>
             </div>
         </div>
 
@@ -356,7 +379,7 @@
                 <button id="buy-100">Buy 100</button>
             </div>
             <div>
-                <button id="cancel-modal">Cancel</button>
+                <button class="cancel-modal">Cancel</button>
             </div>
         </div>
     </div>

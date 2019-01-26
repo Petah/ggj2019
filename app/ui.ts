@@ -3,101 +3,142 @@ import Entity from "./entity";
 import Ship from "./ship";
 
 const $ = (selector) => {
-    return document.getElementById(selector);
+    return new Element(<any>document.querySelectorAll(selector));
 };
+
+class Element {
+    constructor(
+        public elements: HTMLElement[]
+    ) {
+    }
+
+    show() {
+        for (const el of this.elements) {
+            el.style.display = '';
+        }
+    }
+
+    hide() {
+        for (const el of this.elements) {
+            el.style.display = 'none';
+        }
+    }
+
+    addEventListener(event: string, callback: (event: any) => void) {
+        for (const el of this.elements) {
+            el.addEventListener(event, callback);
+        }
+    }
+
+    text(text: string) {
+        for (const el of this.elements) {
+            el.innerText = text;
+        }
+    }
+
+    is(element: HTMLElement) {
+        for (const el of this.elements) {
+            if (el == element) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
 
 export default class UI implements Entity {
 
     public static width = 600;
     public static height = 600;
 
-    private modalWrapper: HTMLElement;
+    private modalWrapper: Element;
 
     public ship: Ship = null;
-    private shipEnergy: HTMLElement;
-    private shipCharge: HTMLElement;
-    private shipCargo: HTMLElement;
-    private shipMoney: HTMLElement;
+    private shipEnergy: Element;
+    private shipCharge: Element;
+    private shipCargo: Element;
+    private shipMoney: Element;
 
-    private itemTorpedoCount: HTMLElement;
-    private itemHotTorpedoCount: HTMLElement;
-    private itemMineCount: HTMLElement;
-    private itemNukeCount: HTMLElement;
-    private itemBioCount: HTMLElement;
+    private itemTorpedoCount: Element;
+    private itemHotTorpedoCount: Element;
+    private itemMineCount: Element;
+    private itemNukeCount: Element;
+    private itemBioCount: Element;
 
-    private planetName: HTMLElement;
-    private planetInhabitance: HTMLElement;
-    private planetPopulation: HTMLElement;
-    private planetSickness: HTMLElement;
-    private planetInfrastructure: HTMLElement;
-    private planetResource: HTMLElement;
+    private planetName: Element;
+    private planetInhabitance: Element;
+    private planetPopulation: Element;
+    private planetSickness: Element;
+    private planetInfrastructure: Element;
+    private planetResource: Element;
 
     private currentItem = 0;
 
     constructor(
         private scene: DefaultScene,
     ) {
-        this.modalWrapper = $('modal-wrapper');
+        this.modalWrapper = $('#modal-wrapper');
 
-        this.shipEnergy = $('ship-energy');
-        this.shipCharge = $('ship-charge');
-        this.shipCargo = $('ship-cargo');
-        this.shipMoney = $('ship-money');
+        this.shipEnergy = $('#ship-energy');
+        this.shipCharge = $('#ship-charge');
+        this.shipCargo = $('#ship-cargo');
+        this.shipMoney = $('#ship-money');
 
-        this.itemTorpedoCount = $('item-torpedo-count');
-        this.itemHotTorpedoCount = $('item-hot-torpedo-count');
-        this.itemMineCount = $('item-mine-count');
-        this.itemNukeCount = $('item-nuke-count');
-        this.itemBioCount = $('item-bio-count');
+        this.itemTorpedoCount = $('#item-torpedo-count');
+        this.itemHotTorpedoCount = $('#item-hot-torpedo-count');
+        this.itemMineCount = $('#item-mine-count');
+        this.itemNukeCount = $('#item-nuke-count');
+        this.itemBioCount = $('#item-bio-count');
 
-        this.planetName = $('planet-name');
-        this.planetInhabitance = $('planet-inhabitance');
-        this.planetPopulation = $('planet-population');
+        this.planetName = $('#planet-name');
+        this.planetInhabitance = $('#planet-inhabitance');
+        this.planetPopulation = $('#planet-population');
 
-        this.planetSickness = $('planet-sickness');
-        this.planetInfrastructure = $('planet-infrastructure');
-        this.planetResource = $('planet-resource');
+        this.planetSickness = $('#planet-sickness');
+        this.planetInfrastructure = $('#planet-infrastructure');
+        this.planetResource = $('#planet-resource');
 
-        $('cancel-modal').addEventListener('click', () => {
+        $('.cancel-modal').addEventListener('click', () => {
+            console.log('cancel-modal');
             this.hideModals();
         });
 
-        $('sell-all').addEventListener('click', () => {
+        $('#sell-all').addEventListener('click', () => {
             this.ship.sell();
-            this.hide(this.modalWrapper);
+            this.modalWrapper.hide();
         });
 
-        $('sell-1000').addEventListener('click', () => {
+        $('#sell-1000').addEventListener('click', () => {
             this.ship.sell(1);
-            this.hide(this.modalWrapper);
+            this.modalWrapper.hide();
         });
 
-        $('mine').addEventListener('click', () => {
+        $('#mine').addEventListener('click', () => {
         });
 
-        $('populate').addEventListener('click', () => {
+        $('#populate').addEventListener('click', () => {
         });
 
-        $('modal-wrapper').addEventListener('click', (event) => {
-            if (event.target == this.modalWrapper) {
+        $('#modal-wrapper').addEventListener('click', (event) => {
+            if (this.modalWrapper.is(event.target)) {
                 this.hideModals();
             }
         });
 
-        $('open-invest').addEventListener('click', () => {
+        $('#open-invest').addEventListener('click', () => {
             if (this.ship && this.ship.stoppedOnPlanet && this.ship.stoppedOnPlanet.canInvest) {
                 this.showModal('modal-invest');
             }
         });
 
-        $('open-buy').addEventListener('click', () => {
+        $('#open-buy').addEventListener('click', () => {
             if (this.ship && this.ship.stoppedOnPlanet && this.ship.stoppedOnPlanet.canSell) {
                 this.showItem(this.currentItem);
                 this.showModal('modal-buy');
             }
         });
 
-        $('next-item').addEventListener('click', () => {
+        $('#next-item').addEventListener('click', () => {
             this.currentItem++;
             if (this.currentItem >= this.scene.items.items.length) {
                 this.currentItem = 0;
@@ -105,7 +146,7 @@ export default class UI implements Entity {
             this.showItem(this.currentItem);
         });
 
-        $('prev-item').addEventListener('click', () => {
+        $('#prev-item').addEventListener('click', () => {
             this.currentItem--;
             if (this.currentItem < 0) {
                 this.currentItem = this.scene.items.items.length - 1;
@@ -113,19 +154,19 @@ export default class UI implements Entity {
             this.showItem(this.currentItem);
         });
 
-        $('buy-1').addEventListener('click', () => {
+        $('#buy-1').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
             this.ship.items[item.key].amount += 1;
             // @TODO subtract money
         });
 
-        $('buy-10').addEventListener('click', () => {
+        $('#buy-10').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
             this.ship.items[item.key].amount += 10;
             // @TODO subtract money
         });
 
-        $('buy-100').addEventListener('click', () => {
+        $('#buy-100').addEventListener('click', () => {
             const item = this.scene.items.items[this.currentItem];
             this.ship.items[item.key].amount += 100;
             // @TODO subtract money
@@ -134,19 +175,19 @@ export default class UI implements Entity {
 
     private showItem(itemNumber) {
         const item = this.scene.items.items[itemNumber];
-        $('item-name').innerText = item.name;
-        $('item-description').innerText = item.description;
-        $('item-price').innerText = item.price;
-        $('item-quantity').innerText = '100';
+        $('#item-name').text(item.name);
+        $('#item-description').text(item.description);
+        $('#item-price').text(item.price);
+        $('#item-quantity').text('100');
     }
 
     public showModalSell() {
         if (this.ship.cargo > 1) {
-            this.show($('sell-1000-tons'));
+            $('#sell-1000-tons').show();
         } else {
-            this.hide($('sell-1000-tons'));
+            $('#sell-1000-tons').hide();
         }
-        $('sell-all-tons').innerText = this.numberWithCommas(this.ship.cargo * 1000, 0);
+        $('#sell-all-tons').text(this.numberWithCommas(this.ship.cargo * 1000, 0));
         this.showModal('modal-sell');
     }
 
@@ -158,48 +199,38 @@ export default class UI implements Entity {
 
     public showModal(id) {
         this.hideModals();
-        const el = $(id);
-        this.show(this.modalWrapper);
-        this.show(el);
+        const el = $('#' + id);
+        this.modalWrapper.show();
+        el.show();
     }
 
     private hideModals() {
-        this.hide(this.modalWrapper);
-        this.hide($('modal-sell'));
-        this.hide($('modal-buy'));
-        this.hide($('modal-invest'));
-    }
-
-    private show(el: HTMLElement): HTMLElement {
-        el.style.display = '';
-        return el;
-    }
-
-    private hide(el: HTMLElement): HTMLElement {
-        el.style.display = 'none';
-        return el;
+        this.modalWrapper.hide();
+        $('#modal-sell').hide();
+        $('#modal-buy').hide();
+        $('#modal-invest').hide();
     }
 
     public update() {
         if (this.ship) {
-            this.shipEnergy.innerText = this.numberWithCommas(this.ship.energy, 2);
-            this.shipCharge.innerText = this.numberWithCommas(this.ship.charge, 2);
-            this.shipCargo.innerText = this.numberWithCommas(this.ship.cargo, 2);
-            this.shipMoney.innerText = this.numberWithCommas(this.ship.money, 0);
+            this.shipEnergy.text(this.numberWithCommas(this.ship.energy, 2));
+            this.shipCharge.text(this.numberWithCommas(this.ship.charge, 2));
+            this.shipCargo.text(this.numberWithCommas(this.ship.cargo, 2));
+            this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
 
-            this.itemTorpedoCount.innerText = this.numberWithCommas(this.ship.items['torpedo'].amount, 0);
-            this.itemHotTorpedoCount.innerText = this.numberWithCommas(this.ship.items['hot-torpedo'].amount, 0);
-            this.itemMineCount.innerText = this.numberWithCommas(this.ship.items['mine'].amount, 0);
-            this.itemNukeCount.innerText = this.numberWithCommas(this.ship.items['nuke'].amount, 0);
-            this.itemBioCount.innerText = this.numberWithCommas(this.ship.items['bio'].amount, 0);
+            this.itemTorpedoCount.text(this.numberWithCommas(this.ship.items['torpedo'].amount, 0));
+            this.itemHotTorpedoCount.text(this.numberWithCommas(this.ship.items['hot-torpedo'].amount, 0));
+            this.itemMineCount.text(this.numberWithCommas(this.ship.items['mine'].amount, 0));
+            this.itemNukeCount.text(this.numberWithCommas(this.ship.items['nuke'].amount, 0));
+            this.itemBioCount.text(this.numberWithCommas(this.ship.items['bio'].amount, 0));
 
             if (this.ship.stoppedOnPlanet) {
-                this.planetName.innerText = this.ship.stoppedOnPlanet.name;
-                this.planetInhabitance.innerText = 'Uninhabited';
-                this.planetPopulation.innerText = this.numberWithCommas(this.ship.stoppedOnPlanet.population, 0);
-                this.planetSickness.innerText = '213'; // @todo
-                this.planetInfrastructure.innerText = '213'; // @todo
-                this.planetResource.innerText = this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2);
+                this.planetName.text(this.ship.stoppedOnPlanet.name);
+                this.planetInhabitance.text('Uninhabited');
+                this.planetPopulation.text(this.numberWithCommas(this.ship.stoppedOnPlanet.population, 0));
+                this.planetSickness.text('213'); // @todo
+                this.planetInfrastructure.text('213'); // @todo
+                this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
             }
         }
     }
