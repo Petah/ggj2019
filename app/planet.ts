@@ -96,28 +96,15 @@ export default class Planet implements Entity {
 
         this.createMaxPopulationLimit();
         this.createInfrastructureLimits();
-        
+
         this.populations = populationFactory.generatePopulationForPlanet(this);
     }
 
     update() {
         this.graphics.clear();
 
-        var color = 0xffffff; // unoccupied - white
-        var colorText = "#ffffff";
-
-        if (this.getTotalPopulationConsumed() > 0) {
-            if (false) { // neutral - yellow
-                color = 0xffff00;
-                colorText = "#ffff00";
-            } else if (true) { // ally - green
-                color = 0x00ff00;
-                colorText = "#00ff00";
-            } else if (true) { // enemy - red
-                color = 0xff0000;
-                colorText = "#ff0000";
-            }
-        }
+        const color = this.getPlanetColorHex(this.scene.playerShip.team);
+        const colorText = this.getPlanetColor(this.scene.playerShip.team);
 
         this.framesSinceAttack++;
 
@@ -164,10 +151,40 @@ export default class Planet implements Entity {
         if (shipToShoot && this.team && shipToShoot.team !== this.team
             && this.framesSinceAttack >= this.framesPerAttack) {
             const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
-            const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
+            const bullet = new Bullet(this.scene, this, shipToShoot.x, shipToShoot.y, direction);
             this.scene.addEntity(bullet);
             this.framesSinceAttack = 0;
         }
+    }
+
+    public getPlanetColor(team: Team) {
+        const allegiance = this.getAllegiance(team);
+        let color = '#ddd';
+        if (this.getTotalPopulationConsumed() > 0) {
+            if (allegiance <= 33) {
+                color = '#ff0000';
+            } else if (allegiance <= 66) {
+                color = '#ffff00';
+            } else {
+                color = '#00ff00';
+            }
+        }
+        return color;
+    }
+
+    public getPlanetColorHex(team: Team) {
+        const allegiance = this.getAllegiance(team);
+        let color = 0xdddddd;
+        if (this.getTotalPopulationConsumed() > 0) {
+            if (allegiance <= 33) {
+                color = 0xff0000;
+            } else if (allegiance <= 66) {
+                color = 0xffff00;
+            } else {
+                color = 0x00ff00;
+            }
+        }
+        return color;
     }
 
     private getShieldColor(amount) {
@@ -429,7 +446,7 @@ export default class Planet implements Entity {
         let bail = 100;
         do {
             const tempPlanet = level.planets[Math.floor(Math.random() * level.planets.length)];
-            if (tempPlanet.populations.calculatePopulationConsumption() == 0) {
+            if (!tempPlanet.getTotalPopulationConsumed()) {
                 planet = tempPlanet;
                 break;
             }

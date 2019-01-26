@@ -2,20 +2,25 @@ import GM from "./gm";
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Blast from "./blast";
+import Ship from "./ship";
 
 export default class Bullet implements Entity{
     private image: Phaser.Physics.Arcade.Image;
     private speed: number = 600;
 
+    private startX: number;
+    private startY: number;
+
     constructor(
         private scene: DefaultScene,
-        x: number,
-        y: number,
+        private owner: any,
         private dx: number,
         private dy: number,
         public direction: number,
     ) {
-        this.image = this.scene.physics.add.image(x, y, 'bullet');
+        this.image = this.scene.physics.add.image(owner.x, owner.y, 'bullet');
+        this.startX = owner.x;
+        this.startY = owner.y;
     }
 
     update() {
@@ -25,8 +30,9 @@ export default class Bullet implements Entity{
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
 
-        const distance = GM.pointDistance(this.x, this.y, this.dx, this.dy);
-        if (distance < 10) {
+        const distance = GM.pointDistance(this.owner.x, this.owner.y, this.x, this.y);
+        const maxDistance = GM.pointDistance(this.startX, this.startY, this.dx, this.dy);
+        if (distance >= maxDistance) {
             this.image.destroy();
             this.scene.removeEntity(this);
             const blast = new Blast(this.scene, this.x, this.y, this.direction);

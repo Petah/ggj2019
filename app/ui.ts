@@ -118,8 +118,11 @@ export default class UI implements Entity {
     private minimapShip3: Element;
     private minimapShip4: Element;
 
+    private gauge: Element;
+    private needle: Element;
+
     private currentItem = 0;
-    
+
     private time: Element;
     private timeImage: Element;
     private menuAudio: Phaser.Sound.BaseSound = null;
@@ -156,9 +159,12 @@ export default class UI implements Entity {
         this.minimapShip2 = $('#minimap-ship-2');
         this.minimapShip3 = $('#minimap-ship-3');
         this.minimapShip4 = $('#minimap-ship-4');
-        
+
         this.time = $('#time');
         this.timeImage = $('#time-seg img');
+
+        this.gauge = $('.gauge-center');
+        this.needle = $('.needle');
 
         $('.cancel-modal').addEventListener('click', () => {
             this.playMenuAudio();
@@ -325,6 +331,9 @@ export default class UI implements Entity {
     }
 
     public update() {
+    }
+    
+    public updateUi() {
         if (this.playerShip) {
             this.shipEnergyBar.style({
                 width: this.getBarAmount(this.playerShip.energy, this.playerShip.maxEnergy) + '%',
@@ -364,9 +373,22 @@ export default class UI implements Entity {
                 // this.planetInfrastructure.text('213'); // @todo
                 // this.planetResource.text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.resources, 2));
 
-                $('.gauge-center').attr({
-                    'data-before': this.playerShip.stoppedOnPlanet.getAllegiance(this.playerShip.team),
-                })
+                const allegiance = this.playerShip.stoppedOnPlanet.getAllegiance(this.playerShip.team);
+                if (allegiance === null) {
+                    this.gauge.attr({
+                        'data-before': 'N/A',
+                    })
+                    this.needle.style({
+                        transform: 'rotate(90deg)',
+                    });
+                } else {
+                    this.gauge.attr({
+                        'data-before': allegiance,
+                    })
+                    this.needle.style({
+                        transform: 'rotate(' + (180 * (allegiance / 100)) + 'deg)',
+                    });
+                }
                 // console.log(this.playerShip.stoppedOnPlanet.maxInfrastructureLevel, this.playerShip.stoppedOnPlanet.infrastructureLevel);
             }
 
@@ -401,23 +423,12 @@ export default class UI implements Entity {
         for (const planet of this.scene.level.planets) {
             const xp = planet.x / this.scene.level.width;
             const yp = planet.y / this.scene.level.height;
-            const allegiance = planet.getAllegiance(this.playerShip.team);
-            let color = '#ddd';
-            if (planet.getTotalPopulationConsumed() > 0) {
-                if (allegiance <= 33) {
-                    color = '#ff0000';
-                } else if (allegiance <= 66) {
-                    color = '#ffff00';
-                } else {
-                    color = '#00ff00';
-                }
-            }
             minimap.append(e('div').attr({
                 class: 'minimap-planet',
             }).style({
                 left: (xp * 100) + '%',
                 top: (yp * 100) + '%',
-                backgroundColor: color,
+                backgroundColor: planet.getPlanetColor(this.playerShip.team),
             }));
         }
     }

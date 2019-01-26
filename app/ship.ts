@@ -109,7 +109,7 @@ export default class Ship implements Entity {
                     }
                 }
                 if (pointer.buttons == 2) {
-                    // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
+                    // const bullet = new Bullet(this.scene, this, px, py, direction);
                     // this.scene.addEntity(bullet);
 
                     const fireCost = 0.1; // @todo get charge amount from item
@@ -412,7 +412,7 @@ export default class Ship implements Entity {
             this.cursorOnPlanet = value;
         }
     }
-    
+
     stopMining() {
         this.mining = 0;
         this.miningAudio.stop();

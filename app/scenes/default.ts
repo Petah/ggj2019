@@ -35,7 +35,6 @@ export default class DefaultScene extends Phaser.Scene {
     init(data) {
         console.debug('init', data, this);
         this.ui = new UI(this);
-        this.addEntity(this.ui);
     }
 
     preload() {
@@ -135,12 +134,16 @@ export default class DefaultScene extends Phaser.Scene {
         if (this.numUpdates % 100 === 0) {
             this.gameTime++;
             slowUpdate = true;
+            this.ui.slowUpdate();
         }
         for (const entity of this.entities) {
             entity.update();
             if (slowUpdate) {
                 entity.slowUpdate();
             }
+        }
+        if (this.numUpdates % 3 === 0) {
+            this.ui.updateUi();
         }
     }
 
