@@ -1,5 +1,5 @@
 import Species from "./species";
-import Planet from "../../../planet";
+import Planet from "../../../../planet";
 
 export default class Population {
     private maxHealth = 100;

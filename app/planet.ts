@@ -1,6 +1,7 @@
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import PlanetType from "./game-objects/entity-types/planet-related-objects/planetType";
+import Population from "./game-objects/entity-types/planet-related-objects/populationObjects/population";
 
 export default class Planet implements Entity {
     id: number;
@@ -34,7 +35,7 @@ export default class Planet implements Entity {
         public defence: number,
         public education: number,
 
-        public population: number,
+        public populations: Population[],
         public health: number,
         public money: number,
         public resources: number,
@@ -79,7 +80,7 @@ export default class Planet implements Entity {
 
     draw() {
         this.graphics.clear();
-        if (this.population > 0) {
+        if (this.getTotalPopulationConsumed() > 0) {
             this.graphics.lineStyle(1, 0x00ff00);
         } else {
             this.graphics.lineStyle(1, 0xdddddd);
@@ -132,4 +133,23 @@ export default class Planet implements Entity {
         return "planet-barren";
     }
 
+    public getTotalPopulationConsumed(): number {
+        let populationConsumed: number = 0;
+
+        this.populations.forEach(populationGroup => {
+            populationConsumed += populationGroup.calculatePopulationConsumption(this);
+        });
+
+        return populationConsumed;
+    }
+
+    public getTotalPopulationConsumed(): number {
+        let populationConsumed: number = 0;
+
+        this.populations.forEach(populationGroup => {
+            populationConsumed += populationGroup.calculatePopulationConsumption(this);
+        });
+
+        return populationConsumed;
+    }
 }

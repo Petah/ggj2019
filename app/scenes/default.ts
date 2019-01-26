@@ -6,6 +6,9 @@ import Entity from "../entity";
 import UI from "../ui";
 import Team from "../team";
 import Items from "../items";
+import Population from "../game-objects/entity-types/planet-related-objects/populationObjects/population";
+import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
+
 
 export default class DefaultScene extends Phaser.Scene {
 
@@ -57,7 +60,8 @@ export default class DefaultScene extends Phaser.Scene {
         this.team = new Team(this, teamColor);
 
         const homePlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
-        homePlanet.population = 1000;
+        homePlanet.populations = [new PopulationFactory().generatePopulationForPlanet(homePlanet)];
+
         this.ship = new Ship(this, this.team, homePlanet);
         this.ui.ship = this.ship;
         this.addEntity(this.ship);
