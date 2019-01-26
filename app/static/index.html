@@ -468,6 +468,18 @@
             background-color: #868486;
             border: 4px groove #999;
             flex: 1;
+            display: flex;
+        }
+
+        #planet-inhabitance-image {
+            margin: 10px 0 10px 25px;
+            background-color: #111;
+            border: 4px groove #999;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
         }
 
         #score-wrapper {
@@ -737,6 +749,15 @@
         #item-name {
             font-size: 14px;
         }
+
+        .screws {
+            background: 
+                url("assets/screw.png") left top no-repeat, 
+                url("assets/screw.png") right top no-repeat, 
+                url("assets/screw.png") right bottom no-repeat, 
+                url("assets/screw.png") left bottom no-repeat,
+                #868486; 
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -783,7 +804,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="minimap-wrapper">
+                    <div id="minimap-wrapper" class="screws">
                         <div id="minimap">
                             <div id="minimap-ship-1" class="minimap-ship" style="left: 50%; top: 50%;"></div>
                             <div id="minimap-ship-2" class="minimap-ship minimap-ship-enemy" style="left: 50%; top: 50%;"></div>
@@ -798,14 +819,19 @@
                     <div class="row">
                         <div class="col" style="flex: 2">
                             <div class="row">
-                                <div id="planet-inhabitance-wrapper">
-                                    <span id="planet-inhabitance"></span>: <span id="planet-name"></span><br />
-                                    Population: <span id="planet-population"></span>
+                                <div id="planet-inhabitance-wrapper" class="screws">
+                                    <div id="planet-inhabitance-image" style="flex: 1">
+                                        <img src="assets/planets/planet-barren-sprite.png" />
+                                    </div>
+                                    <div style="flex: 4; padding: 10px 0">
+                                        <span id="planet-inhabitance">Uninhabited</span>: <span id="planet-name">Unknown planet</span><br />
+                                        Population: <span id="planet-population">0</span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col" style="flex: 2">
-                                    <div id="alliance-wrapper">
+                                    <div id="alliance-wrapper" class="screws">
                                         <div id="alliance">
                                             <div class="gauge">
                                                 <div class="slice-colors">
@@ -847,7 +873,7 @@
                         </div>
                         <div class="col">
                             <div class="row">
-                                <div id="score-wrapper">
+                                <div id="score-wrapper" class="screws">
                                     <div id="score">
                                         <div id="score-us">0</div>
                                         <div id="score-them">0</div>
@@ -855,7 +881,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div id="time-seg">
+                                <div id="time-seg" class="screws">
                                     <img src="assets/seg-10.png" />
                                     <div id="time"></div>
                                 </div>
@@ -976,7 +1002,7 @@
                     </div>
                 </div>
             </div>
-            <div class="right">
+            <div class="right screws">
                 <div class="item-buttons" style="margin-top: 4px">
                     <button id="mine"><img src="assets/icon-mine2.png" /><br />Mine <br /><span id="item-mine-count">&nbsp;</span></button>
                     <button id="populate"><img src="assets/icon-populate.png" /><br />Colonise <br /><span class="ship-colonists">&nbsp;</span>

@@ -392,8 +392,7 @@ export default class Planet implements Entity {
         this.populations.increaseAllegianceForPlayer(ship.team, money)
     }
 
-    // private functions
-    private spriteNameFor(planetType: PlanetType) {
+    public spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
             case "Gas Giant":
                 return "planet-gasgiant";
