@@ -21,8 +21,6 @@ export default class Blast implements Entity {
         const scale = 1.0;
         this.life = 64;
 
-        console.log(spriteName);
-
         this.image = this.scene.physics.add
             .staticSprite(x, y, spriteName)
             .setScale(scale, scale);
