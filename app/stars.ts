@@ -6,12 +6,33 @@ export default class Stars implements Entity {
     id: number
     private layers: Layer[] = [];
     private layerCount: number = 3;
+    private graphics: Phaser.GameObjects.Graphics;
 
     constructor(
         private scene: DefaultScene,
     ) {
         for (let i = 0; i < this.layerCount; i++) {
             this.layers.push(new Layer(this.scene, i + 2));
+        }
+
+
+        this.graphics = this.scene.add.graphics({
+            lineStyle: {
+                width: 1,
+                color: 0xffffff,
+                alpha: 0.25,
+            },
+        });
+        this.graphics.depth = 50;
+
+        const gridSize = 600;
+        for (let x = gridSize; x < this.scene.level.width - gridSize; x += gridSize) {
+            const line = new Phaser.Geom.Line(x, 0, x, this.scene.level.height);
+            this.graphics.strokeLineShape(line);
+        }
+        for (let y = gridSize; y < this.scene.level.height - gridSize; y += gridSize) {
+            const line = new Phaser.Geom.Line(0, y, this.scene.level.height, y);
+            this.graphics.strokeLineShape(line);
         }
     }
 
