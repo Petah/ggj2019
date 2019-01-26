@@ -92,6 +92,23 @@ export default class DefaultScene extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.setBounds(0, 0, this.level.width, this.level.height);
         this.cameras.main.startFollow(this.playerShip.image, true, 0.05, 0.05);
+
+
+        // turn on autdio with loop
+        var loopMarker = {
+            name: 'loop',
+            start: 0,
+            duration: 1.0,
+            config: {
+                loop: true
+            }
+        };
+        var music = this.sound.add('bgm');
+        music.addMarker(loopMarker);
+        music.play('loop', {
+            delay: 0
+        });
+
     }
 
     update() {
