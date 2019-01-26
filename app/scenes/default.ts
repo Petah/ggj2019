@@ -103,6 +103,10 @@ export default class DefaultScene extends Phaser.Scene {
         this.entities.push(entity);
     }
 
+    removeEntity(entity: Entity) {
+        this.entities.splice(this.entities.indexOf(entity), 1);
+    }
+
     onLoadComplete(loader, totalComplete, totalFailed) {
         console.log('onLoadComplete');
     }

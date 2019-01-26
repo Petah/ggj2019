@@ -53,6 +53,36 @@ export default class Items {
             description: '@todo',
             price: 100,
         }));
+        this.items.push(new Item({
+            key: 'shield',
+            name: 'Shield',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'cloak',
+            name: 'Cloak',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'disrupter',
+            name: 'Disrupter',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'warp-drive',
+            name: 'Warp Drive',
+            description: '@todo',
+            price: 100,
+        }));
+        this.items.push(new Item({
+            key: 'anti-bio',
+            name: 'Anti Plague Sterilization Beam',
+            description: '@todo',
+            price: 100,
+        }));
     }
 }
 

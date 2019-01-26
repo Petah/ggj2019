@@ -12,16 +12,14 @@ export default class Assets {
         this.scene.load.image('bullet', 'bullet.png');
         this.scene.load.image('ship', 'ship.png');
 
-        
+
         var planetNames = ["barren", "continental", "desert", "forest", "gaia", "gasgiant", "ice", "jungle", "ocean", "tundra", "volcanic"];
         for (var planetName of planetNames) {
             this.scene.load.spritesheet("planet-" + planetName, "planet-" + planetName + "-sprite.png", {
                 frameWidth: 72,
                 frameHeight: 69,
-            });    
+            });
         }
-
-
     }
 
     create() {
@@ -33,7 +31,7 @@ export default class Assets {
                     start: 0,
                     end: 18,
                 }),
-                frameRate: Math.random() * 2,
+                frameRate: Math.random() * 10 + 10,
                 repeat: -1,
             });
         }

@@ -84,7 +84,7 @@ export default class Ship implements Entity {
                 }
             }
             if (pointer.buttons == 2) {
-                const bullet = new Bullet(this.scene, this.x, this.y, direction);
+                const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
                 this.scene.addEntity(bullet);
             }
         });
