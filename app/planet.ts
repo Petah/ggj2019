@@ -6,6 +6,7 @@ import Level from "./level";
 import GM from "./gm";
 import Ship from "./ship";
 import Bullet from "./bullet";
+import Team from "./team";
 
 export default class Planet implements Entity {
     id: number;
@@ -36,8 +37,8 @@ export default class Planet implements Entity {
     public attackRange = 200;
     public attackPower = 200;
 
-    public shield: number = 5;
-    public maxShield: number = 5;
+    public shield: number = 0;
+    public maxShield: number = 0;
 
     constructor(
         private scene: DefaultScene,
@@ -98,16 +99,18 @@ export default class Planet implements Entity {
         var color = 0xffffff; // unoccupied - white
         var colorText = "#ffffff";
 
-        if (false) { // neutral - yellow
-            color = 0xffff00;
-            colorText = "#ffff00";
-        } else if (true) { // ally - green
-            color = 0x00ff00;
-            colorText = "#00ff00";
-        } else if (true) { // enemy - red
-            color = 0xff0000;
-            colorText = "#ff0000";
-        }
+        if (this.getTotalPopulationConsumed() > 0) {
+            if (false) { // neutral - yellow
+                color = 0xffff00;
+                colorText = "#ffff00";
+            } else if (true) { // ally - green
+                color = 0x00ff00;
+                colorText = "#00ff00";
+            } else if (true) { // enemy - red
+                color = 0xff0000;
+                colorText = "#ff0000";
+            }
+        } 
 
         // circle
         this.graphics.lineStyle(1, color);
