@@ -85,6 +85,19 @@ class Element {
         }
         return this;
     }
+
+    setActive(on: boolean) {
+        for (const el of this.elements) {
+            if (on) {
+                el.classList.add("active");
+            }
+            else {
+                el.classList.remove("active");
+            }
+            break;
+        }
+        return this
+    }
 }
 
 export default class UI implements Entity {
@@ -133,6 +146,19 @@ export default class UI implements Entity {
     private populateButton: Element;
     private investButton: Element;
     private buyButton: Element;
+
+    private itemLaserButton: Element;
+    private itemTorpedoButton: Element;
+    private itemMineButton: Element;
+    private itemHotTorpedoButton: Element;
+    private itemNeutronBombButton: Element;
+    private itemPlagueBombButton: Element;
+    private itemShieldButton: Element;
+    private itemCloakButton: Element;
+    private itemDisrupterButton: Element;
+    private itemWarpButton: Element;
+    private itemPlagueCureButton: Element;
+    private itemWeaponButtons: Array<Element>;
 
     private currentItem = 0;
 
@@ -185,6 +211,27 @@ export default class UI implements Entity {
         this.investButton = $('#open-invest');
         this.buyButton = $('#open-buy');
 
+        this.itemLaserButton = $('#item-laser');
+        this.itemTorpedoButton = $('#item-torpedo');
+        this.itemMineButton = $('#item-mine');
+        this.itemHotTorpedoButton = $('#item-hot-torpedo');
+        this.itemNeutronBombButton = $('#item-nuke');
+        this.itemPlagueBombButton = $('#item-bio');
+        this.itemShieldButton = $('#item-shields');
+        this.itemCloakButton = $('#item-cloak');
+        this.itemDisrupterButton = $('#item-sun');
+        this.itemWarpButton = $('#item-warp');
+        this.itemPlagueCureButton = $('#item-anti-bio');
+
+        this.itemWeaponButtons = [
+            this.itemLaserButton, 
+            this.itemTorpedoButton, 
+            this.itemMineButton, 
+            this.itemHotTorpedoButton, 
+            this.itemNeutronBombButton, 
+            this.itemPlagueBombButton
+        ];
+
         $('.cancel-modal').addEventListener('click', () => {
             this.playMenuAudio();
             this.hideModals();
@@ -231,6 +278,50 @@ export default class UI implements Entity {
                 this.showModal('modal-buy');
                 this.toggleBuyButtons();
             }
+        });
+
+        this.itemLaserButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemLaserButton);
+        });
+
+        this.itemTorpedoButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemTorpedoButton);
+        });
+
+        this.itemMineButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemMineButton);
+        });
+
+        this.itemHotTorpedoButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemHotTorpedoButton);
+        });
+
+        this.itemNeutronBombButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemNeutronBombButton);
+        });
+
+        this.itemPlagueBombButton.addEventListener('click', () => {
+            this.selectWeaponButton(this.itemPlagueBombButton);
+        });
+
+        this.itemShieldButton.addEventListener('click', () => {
+            this.playMenuAudio();
+        });
+
+        this.itemCloakButton.addEventListener('click', () => {
+            this.playMenuAudio();
+        });
+
+        this.itemDisrupterButton.addEventListener('click', () => {
+            this.playMenuAudio();
+        });
+
+        this.itemWarpButton.addEventListener('click', () => {
+            this.playMenuAudio();
+        });
+
+        this.itemPlagueCureButton.addEventListener('click', () => {
+            this.playMenuAudio();
         });
 
         $('#next-item').addEventListener('click', () => {
@@ -527,5 +618,12 @@ export default class UI implements Entity {
 
     playMenuAudio() {
         this.scene.soundManager.play("menu_switch");
+    }
+    selectWeaponButton(selectedButton: Element) {
+        this.playMenuAudio();
+        var changed = false;
+        for (const weaponButton of this.itemWeaponButtons) {
+            weaponButton.setActive(weaponButton == selectedButton);
+        }
     }
 }
