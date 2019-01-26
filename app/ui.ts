@@ -1,6 +1,7 @@
 import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Ship from "./ship";
+import SoundManager from "./soundmanager";
 
 const $ = (selector) => {
     return new Element(<any>document.querySelectorAll(selector));
@@ -125,7 +126,7 @@ export default class UI implements Entity {
     private menuAudio: Phaser.Sound.BaseSound = null;
 
     constructor(
-        private scene: DefaultScene,
+        private scene: DefaultScene
     ) {
         this.modalWrapper = $('#modal-wrapper');
 
@@ -423,6 +424,6 @@ export default class UI implements Entity {
     }
 
     playMenuAudio() {
-        this.scene.sound.add('menu_switch').play();
+        this.scene.soundManager.play("menu_switch");
     }
 }

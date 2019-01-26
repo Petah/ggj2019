@@ -3,6 +3,7 @@ import Assets from "../assets";
 import Level from "../level";
 import Stars from "../stars";
 import Entity from "../entity";
+import SoundManager from "../soundmanager";
 import UI from "../ui";
 import Team from "../team";
 import Items from "../items";
@@ -27,6 +28,7 @@ export default class DefaultScene extends Phaser.Scene {
     public items: Items;
     private numUpdates: number = 0;
     public gameTime: number = 0;
+    public soundManager: SoundManager;
 
     constructor() {
         super('default');
@@ -34,6 +36,7 @@ export default class DefaultScene extends Phaser.Scene {
 
     init(data) {
         console.debug('init', data, this);
+        this.soundManager = new SoundManager(this);
         this.ui = new UI(this);
         this.addEntity(this.ui);
     }
@@ -112,20 +115,8 @@ export default class DefaultScene extends Phaser.Scene {
 
 
         // turn on autdio with loop
-        var loopMarker = {
-            name: 'loop',
-            start: 0,
-            duration: 120.0,
-            config: {
-                loop: true
-            }
-        };
-        var music = this.sound.add('bgm');
-        music.addMarker(loopMarker);
-        music.play('loop', {
-            delay: 0,
-            volume: 0.1
-        });
+        this.soundManager.playLoop("bgm", 120.0, 0.1);
+
 
     }
 
