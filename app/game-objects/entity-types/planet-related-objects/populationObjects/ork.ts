@@ -6,7 +6,7 @@ export default class Ork implements Species {
     speciesNamePlural = "Orks";
     speciesNameAdjective = "Orkish";
     imageLocation = "https://en.wikipedia.org/wiki/Winston_Peters#/media/File:Winston_Peters,_2018.jpg";
-    populationGrowthRate = 1.5;
+    populationGrowthRate = 0.15;
     populationConsumption = 0.8;
     foodConsumption = 1.3;
 

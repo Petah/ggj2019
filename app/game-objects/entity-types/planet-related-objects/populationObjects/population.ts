@@ -42,7 +42,6 @@ export default class Population {
             populationChange = maxPopulation - this.quantity;
         }
         
-        console.log("Population change: " + populationChange);
         this.quantity += populationChange
     }
 

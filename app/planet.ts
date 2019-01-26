@@ -197,8 +197,8 @@ export default class Planet implements Entity {
     }
 
     private createMaxPopulationLimit() {
-        var temp = 60000000000; // 60 billion
-        this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
+        var temp = 10000000;
+        this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetSize;
     }
 
     get infrastructureLevel(): number {
