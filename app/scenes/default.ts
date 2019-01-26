@@ -23,6 +23,7 @@ export default class DefaultScene extends Phaser.Scene {
     public teams: Team[] = [];
     public team: Team;
     public items: Items;
+    private numUpdates: number = 0;
 
     constructor() {
         super('default');
@@ -89,8 +90,12 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     update() {
+        this.numUpdates++;
         for (const entity of this.entities) {
             entity.update();
+            if(entity instanceof Planet && this.numUpdates % 1000 === 0) {
+              (entity as Planet).slowUpdate();
+            }
         }
     }
 

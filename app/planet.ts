@@ -93,6 +93,11 @@ export default class Planet implements Entity {
 
     }
 
+    slowUpdate() {
+        this.draw();
+        this.populations[0].calculatePopulationChange(this.maxPopulation);
+    }
+
     private createMaxPopulationLimit() {
         // 0.3 large planet size
         // 0.1 small planet size
