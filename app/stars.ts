@@ -36,6 +36,7 @@ class Layer {
             image.depth = offset;
             const scale = offset * 0.3 + 0.2;
             image.setScale(scale, scale);
+            image.setAlpha(1 / (offset / Math.random()) * 2);
             const star = new Star(x, y, image);
             this.stars.push(star);
         }

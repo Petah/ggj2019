@@ -33,7 +33,7 @@ export default class Assets {
                     start: 0,
                     end: 18,
                 }),
-                frameRate: 10,
+                frameRate: Math.random() * 2,
                 repeat: -1,
             });
         }

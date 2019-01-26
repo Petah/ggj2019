@@ -54,7 +54,7 @@ export default class Planet implements Entity {
             }
         });
         this.circle = new Phaser.Geom.Circle(this.x, this.y, planetSize * 0.5 + 4);
-
+        this.draw();
         this.createMaxPopulationLimit();
     }
 
@@ -67,7 +67,6 @@ export default class Planet implements Entity {
 
         var temp = 60000000000; // 60 billion
         this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
-        console.log("Max Population for: " + this.name + " is " + this.maxPopulation);
     }
 
     get infrastructure(): number {
