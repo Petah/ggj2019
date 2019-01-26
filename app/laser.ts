@@ -48,7 +48,7 @@ export default class Laser implements Entity{
         if (distance < 10) {
             this.graphics.destroy();
             this.scene.removeEntity(this);
-            const blast = new Blast(this.scene, this.x, this.y);
+            const blast = new Blast(this.scene, this.x, this.y, this.direction);
             this.scene.addEntity(blast);
         }
     }
