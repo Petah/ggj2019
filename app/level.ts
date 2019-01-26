@@ -3,12 +3,13 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import PlanetTypeFactory from "./game-objects/entity-types/planet-related-objects/planetTypeFactory";
 import PlanetNameGenerator from "./game-objects/entity-types/planet-related-objects/planetNameGenerator";
+import PopulationFactory from "./game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 
 export default class Level implements Entity {
     id: number
-    public width: number = 4000;
-    public height: number = 4000;
-    private planetCount = 100;
+    public width: number = 1000;
+    public height: number = 1000;
+    private planetCount = 20;
     public planets: Planet[] = [];
     private line: Phaser.Geom.Line;
 
@@ -17,6 +18,7 @@ export default class Level implements Entity {
     ) {
         this.line = new Phaser.Geom.Line(0, 0, this.width, this.height);
         let planetNameGenerator = new PlanetNameGenerator();
+        let populationFactory = new PopulationFactory();
 
         for (let i = 0; i < this.planetCount; i++) {
             const x = Math.random() * this.width;
@@ -36,7 +38,7 @@ export default class Level implements Entity {
                 1, // defence
                 1, // education
 
-                0, // population
+                null, // population
                 0, // health
                 1, // money
                 Math.random() * 100, // resources
@@ -44,6 +46,8 @@ export default class Level implements Entity {
                 Math.random() * 5 + 20, // planet size
                 type,
             );
+
+            planet.populations = [populationFactory.generatePopulationForPlanet(planet)];
             this.planets.push(planet);
             this.scene.addEntity(planet);
         }

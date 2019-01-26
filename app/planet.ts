@@ -138,6 +138,9 @@ export default class Planet implements Entity {
 
         if (this.populations != null && this.populations.length > 0) {
             for (const populationGroup of this.populations) {
+                if(populationGroup == undefined || populationGroup == null) {
+                    break;
+                }
                 populationConsumed += populationGroup.calculatePopulationConsumption(this);
             }
         }
