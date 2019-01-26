@@ -22,6 +22,10 @@ export default class Blast implements Entity {
             .setScale(0.5, 0.5);
         this.image.depth = 300;
         this.image.play("explosion-animation");
+
+
+
+        this.scene.sound.add('explosion').play();
     }
 
     update() {
