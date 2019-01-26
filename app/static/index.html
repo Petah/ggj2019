@@ -18,6 +18,7 @@
             background: #111;
             overflow: hidden;
             user-select: none;
+            font-family: monospace;
         }
 
         .main {
@@ -170,6 +171,149 @@
         .item-desc {
             height: 100px;
         }
+
+        .bar-wrapper {
+            display: flex;
+            flex: 1;
+            padding: 15px;
+        }
+
+        .bar-wrapper-cargo .bar-inner,
+        .bar-wrapper-cargo .pods-1 .pod-1,
+
+        .bar-wrapper-cargo .pods-2 .pod-1,
+        .bar-wrapper-cargo .pods-2 .pod-2,
+
+        .bar-wrapper-cargo .pods-3 .pod-1,
+        .bar-wrapper-cargo .pods-3 .pod-2,
+        .bar-wrapper-cargo .pods-3 .pod-3,
+
+        .bar-wrapper-cargo .pods-4 .pod-1,
+        .bar-wrapper-cargo .pods-4 .pod-2,
+        .bar-wrapper-cargo .pods-4 .pod-3,
+        .bar-wrapper-cargo .pods-4 .pod-4,
+
+        .bar-wrapper-cargo .pods-5 .pod-1,
+        .bar-wrapper-cargo .pods-5 .pod-2,
+        .bar-wrapper-cargo .pods-5 .pod-3,
+        .bar-wrapper-cargo .pods-5 .pod-4,
+        .bar-wrapper-cargo .pods-5 .pod-5 {
+            background-color: #FFF000;
+        }
+
+        .bar-wrapper-charge .bar-inner,
+        .bar-wrapper-charge .pods-1 .pod-1,
+
+        .bar-wrapper-charge .pods-2 .pod-1,
+        .bar-wrapper-charge .pods-2 .pod-2,
+
+        .bar-wrapper-charge .pods-3 .pod-1,
+        .bar-wrapper-charge .pods-3 .pod-2,
+        .bar-wrapper-charge .pods-3 .pod-3,
+
+        .bar-wrapper-charge .pods-4 .pod-1,
+        .bar-wrapper-charge .pods-4 .pod-2,
+        .bar-wrapper-charge .pods-4 .pod-3,
+        .bar-wrapper-charge .pods-4 .pod-4,
+
+        .bar-wrapper-charge .pods-5 .pod-1,
+        .bar-wrapper-charge .pods-5 .pod-2,
+        .bar-wrapper-charge .pods-5 .pod-3,
+        .bar-wrapper-charge .pods-5 .pod-4,
+        .bar-wrapper-charge .pods-5 .pod-5 {
+            background-color: #FF00FF;
+        }
+
+        .bar-wrapper-energy .bar-inner,
+        .bar-wrapper-energy .pods-1 .pod-1,
+
+        .bar-wrapper-energy .pods-2 .pod-1,
+        .bar-wrapper-energy .pods-2 .pod-2,
+
+        .bar-wrapper-energy .pods-3 .pod-1,
+        .bar-wrapper-energy .pods-3 .pod-2,
+        .bar-wrapper-energy .pods-3 .pod-3,
+
+        .bar-wrapper-energy .pods-4 .pod-1,
+        .bar-wrapper-energy .pods-4 .pod-2,
+        .bar-wrapper-energy .pods-4 .pod-3,
+        .bar-wrapper-energy .pods-4 .pod-4,
+
+        .bar-wrapper-energy .pods-5 .pod-1,
+        .bar-wrapper-energy .pods-5 .pod-2,
+        .bar-wrapper-energy .pods-5 .pod-3,
+        .bar-wrapper-energy .pods-5 .pod-4,
+        .bar-wrapper-energy .pods-5 .pod-5 {
+            background-color: #0000FF;
+        }
+
+        .bar {
+            background-color: #111;
+            border: 4px groove #999;
+            flex: 1;
+        }
+
+        .bar-inner {
+            width: 0%;
+            height: 100%;
+        }
+
+        .pod-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pods {
+            display: flex;
+        }
+
+        .pod {
+            background-color: #111;
+            width: 10px;
+            height: 10px;
+            border: 4px groove #999;
+            margin-left: 5px;
+            margin-bottom: 5px;
+        }
+
+        .pod-1,
+        .pod-2,
+        .pod-3,
+        .pod-4,
+        .pod-5 {
+            background-color: #999;
+            opacity: 0.5;
+        }
+
+        .pods-max-1 .pod-1,
+
+        .pods-max-2 .pod-1,
+        .pods-max-2 .pod-2,
+
+        .pods-max-3 .pod-1,
+        .pods-max-3 .pod-2,
+        .pods-max-3 .pod-3,
+
+        .pods-max-4 .pod-1,
+        .pods-max-4 .pod-2,
+        .pods-max-4 .pod-3,
+        .pods-max-4 .pod-4,
+
+        .pods-max-5 .pod-1,
+        .pods-max-5 .pod-2,
+        .pods-max-5 .pod-3,
+        .pods-max-5 .pod-4,
+        .pods-max-5 .pod-5 {
+            background-color: #111;
+            opacity: 1;
+        }
+
+        .pod-text {
+            margin-left: 5px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -267,24 +411,60 @@
                         </div>
                         <div class="ship-levels col">
                             <div class="row">
-                                <div>
-                                    Energy
-                                    <div id="ship-energy"></div>
-                                    <div id="ship-energy-max"></div>
+                                <div class="bar-wrapper bar-wrapper-energy">
+                                    <div class="bar">
+                                        <div class="bar-inner" id="energy-bar"></div>
+                                    </div>
+                                    <div class="pod-wrapper">
+                                        <div class="pods" id="energy-pods">
+                                            <div class="pod pod-1"></div>
+                                            <div class="pod pod-2"></div>
+                                            <div class="pod pod-3"></div>
+                                            <div class="pod pod-4"></div>
+                                            <div class="pod pod-5"></div>
+                                        </div>
+                                        <div class="pod-text">
+                                            Energy
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div>
-                                    Charge
-                                    <div id="ship-charge"></div>
-                                    <div id="ship-charge-max"></div>
+                                <div class="bar-wrapper bar-wrapper-charge">
+                                    <div class="bar">
+                                        <div class="bar-inner" id="charge-bar"></div>
+                                    </div>
+                                    <div class="pod-wrapper">
+                                        <div class="pods" id="charge-pods">
+                                            <div class="pod pod-1"></div>
+                                            <div class="pod pod-2"></div>
+                                            <div class="pod pod-3"></div>
+                                            <div class="pod pod-4"></div>
+                                            <div class="pod pod-5"></div>
+                                        </div>
+                                        <div class="pod-text">
+                                            Charge
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div>
-                                    Cargo
-                                    <div id="ship-cargo"></div>
-                                    <div id="ship-cargo-max"></div>
+                                <div class="bar-wrapper bar-wrapper-cargo">
+                                    <div class="bar">
+                                        <div class="bar-inner" id="cargo-bar"></div>
+                                    </div>
+                                    <div class="pod-wrapper">
+                                        <div class="pods" id="cargo-pods">
+                                            <div class="pod pod-1"></div>
+                                            <div class="pod pod-2"></div>
+                                            <div class="pod pod-3"></div>
+                                            <div class="pod pod-4"></div>
+                                            <div class="pod pod-5"></div>
+                                        </div>
+                                        <div class="pod-text">
+                                            Cargo
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">

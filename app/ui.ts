@@ -88,12 +88,12 @@ export default class UI implements Entity {
     private modalWrapper: Element;
 
     public ship: Ship = null;
-    private shipEnergy: Element;
-    private shipEnergyMax: Element;
-    private shipCharge: Element;
-    private shipChargeMax: Element;
-    private shipCargo: Element;
-    private shipCargoMax: Element;
+    private shipEnergyBar: Element;
+    private shipEnergyPods: Element;
+    private shipChargeBar: Element;
+    private shipChargePods: Element;
+    private shipCargoBar: Element;
+    private shipCargoPods: Element;
     private shipMoney: Element;
 
     private itemTorpedoCount: Element;
@@ -116,12 +116,12 @@ export default class UI implements Entity {
     ) {
         this.modalWrapper = $('#modal-wrapper');
 
-        this.shipEnergy = $('#ship-energy');
-        this.shipEnergyMax = $('#ship-energy-max');
-        this.shipCharge = $('#ship-charge');
-        this.shipChargeMax = $('#ship-charge-max');
-        this.shipCargo = $('#ship-cargo');
-        this.shipCargoMax = $('#ship-cargo-max');
+        this.shipEnergyBar = $('#energy-bar');
+        this.shipEnergyPods = $('#energy-pods');
+        this.shipChargeBar = $('#charge-bar');
+        this.shipChargePods = $('#charge-pods');
+        this.shipCargoBar = $('#cargo-bar');
+        this.shipCargoPods = $('#cargo-pods');
         this.shipMoney = $('#ship-money');
 
         this.itemTorpedoCount = $('#item-torpedo-count');
@@ -251,14 +251,50 @@ export default class UI implements Entity {
         $('#modal-invest').hide();
     }
 
+    private getBarAmount(amount, max) {
+        if (amount == max) {
+            return 100;
+        }
+        return ((amount % 1) * 100).toFixed(2);
+    }
+
+    private getPodCount(amount, max) {
+        if (amount >= 5 && amount < max) {
+            return 5;
+        } else if (amount >= 4 && amount < max) {
+            return 4;
+        } else if (amount >= 3 && amount < max) {
+            return 3;
+        } else if (amount >= 2 && amount < max) {
+            return 2;
+        } else if (amount >= 1 && amount < max) {
+            return 1;
+        }
+        return 0;
+    }
+
     public update() {
         if (this.ship) {
-            this.shipEnergy.text(this.numberWithCommas(this.ship.energy, 2));
-            this.shipEnergyMax.text(this.numberWithCommas(this.ship.maxEnergy, 2));
-            this.shipCharge.text(this.numberWithCommas(this.ship.charge, 2));
-            this.shipChargeMax.text(this.numberWithCommas(this.ship.maxCharge, 2));
-            this.shipCargo.text(this.numberWithCommas(this.ship.cargo, 2));
-            this.shipCargoMax.text(this.numberWithCommas(this.ship.maxCargo, 2));
+            this.shipEnergyBar.style({
+                width: this.getBarAmount(this.ship.energy, this.ship.maxEnergy) + '%',
+            });
+            this.shipEnergyPods.attr({
+                class: 'pods pods-' + this.getPodCount(this.ship.energy, this.ship.maxEnergy) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxEnergy - 1)),
+            });
+            
+            this.shipChargeBar.style({
+                width: this.getBarAmount(this.ship.charge, this.ship.maxCharge) + '%',
+            });
+            this.shipChargePods.attr({
+                class: 'pods pods-' + this.getPodCount(this.ship.charge, this.ship.maxCharge) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCharge - 1)),
+            });
+
+            this.shipCargoBar.style({
+                width: this.getBarAmount(this.ship.cargo, this.ship.maxCargo) + '%',
+            });
+            this.shipCargoPods.attr({
+                class: 'pods pods-' + this.getPodCount(this.ship.cargo, this.ship.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.ship.maxCargo - 1)),
+            });
 
             this.shipMoney.text(this.numberWithCommas(this.ship.money, 0));
 

@@ -136,7 +136,7 @@ export default class Planet implements Entity {
 
     get canMine(): boolean {
         // @todo check alliance
-        return this.getTotalPopulationConsumed() > 0;
+        return this.getTotalPopulationConsumed() <= 0;
     }
 
     get canInvest(): boolean {

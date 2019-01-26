@@ -70,7 +70,7 @@ export default class Ship implements Entity {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
         });
         this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-
+        
         this.scene.input.on('pointerdown', (pointer) => {
             if (this.dead > 0) {
                 return;
@@ -156,7 +156,7 @@ export default class Ship implements Entity {
 
         if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
             if (this.mining <= 0) {
-                this.mining = 1;
+                this.mining = 0.50 + (0.45 * Math.random());
             }
         }
         if (this.mining > 0) {
