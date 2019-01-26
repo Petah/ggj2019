@@ -178,6 +178,10 @@
             padding: 15px;
         }
 
+        .bar-wrapper-speed .bar {
+            background-color: #888;
+        }
+
         .bar-wrapper-cargo .bar-inner,
         .bar-wrapper-cargo .pods-1 .pod-1,
 
@@ -314,6 +318,27 @@
             margin-bottom: 5px;
             text-transform: uppercase;
         }
+
+        .stat-box {
+            background-color: #868486;
+            border: 4px groove #999;
+            color: #111;
+            margin: 10px;
+            flex: 1;
+            padding: 10px;
+            vertical-align: middle;
+        }
+
+        .stat-box img {
+            max-width: 20px;
+            vertical-align: middle;
+        }
+
+        .stat-text {
+            color: #FFF000;
+            font-size: 16px;
+            vertical-align: middle;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -393,20 +418,32 @@
                     <div class="row">
                         <div class="col">
                             <div class="row">
-                                Shields
-                                <div id="ship-shields"></div>
+                                <div class="stat-box">
+                                    <img src="assets/shield.png" />
+                                    x
+                                    <span id="ship-shields" class="stat-text"></span>
+                                </div>
                             </div>
                             <div class="row">
-                                Colonists
-                                <div id="ship-colonists"></div>
+                                <div class="stat-box">
+                                    <img src="assets/people.png" />
+                                    x
+                                    <span id="ship-colonists" class="stat-text"></span>
+                                </div>
                             </div>
                             <div class="row">
-                                Planets
-                                <div id="ship-planets"></div>
+                                <div class="stat-box">
+                                    <img src="assets/planet.png" />
+                                    x
+                                    <span id="ship-planets" class="stat-text"></span>
+                                </div>
                             </div>
                             <div class="row">
-                                Money
-                                <div id="ship-money"></div>
+                                <div class="stat-box">
+                                    <img src="assets/money.png" />
+                                    x
+                                    <span id="ship-money" class="stat-text"></span>
+                                </div>
                             </div>
                         </div>
                         <div class="ship-levels col">
@@ -468,8 +505,16 @@
                                 </div>
                             </div>
                             <div class="row">
-                                Speed
-                                <div id="ship-speed"></div>
+                                <div class="bar-wrapper bar-wrapper-speed">
+                                    <div class="bar">
+                                        <div class="bar-inner" id="speed-bar"></div>
+                                    </div>
+                                    <div class="pod-wrapper">
+                                        <div class="pod-text">
+                                            Speed
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

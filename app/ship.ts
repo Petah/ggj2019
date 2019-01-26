@@ -47,6 +47,8 @@ export default class Ship implements Entity {
     public maxEnergy: number = 1;
     public charge: number = 1;
     public maxCharge: number = 1;
+    public shield: number = 0;
+    public maxShield: number = 0;
 
     public dead: number = 0;
 
@@ -71,7 +73,7 @@ export default class Ship implements Entity {
             space: Phaser.Input.Keyboard.KeyCodes.SPACE,
         });
         this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
-        
+
         this.scene.input.on('pointerdown', (pointer) => {
             if (this.dead > 0) {
                 return;
@@ -247,6 +249,11 @@ export default class Ship implements Entity {
         } else if (item.key == 'charge-pod') {
             if (this.maxCharge < 6) {
                 this.maxCharge += 1;
+                this.money -= item.price;
+            }
+        } else if (item.key == 'shield') {
+            if (this.maxShield < 6) {
+                this.maxShield += 1;
                 this.money -= item.price;
             }
         } else {
