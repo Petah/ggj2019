@@ -30,8 +30,7 @@ export default class Ship implements Entity {
 
     public speed: number = 0;
     public direction: number = 0;
-    private acceleration: number = 50;
-    public maxSpeed: number = 300;
+    public maxSpeed: number = 100;
 
     private stopOnPlanet: Planet = null;
     public stoppedOnPlanet: Planet = null;
@@ -51,9 +50,9 @@ export default class Ship implements Entity {
     public maxEnergy: number = 1;
     public charge: number = 1;
     public maxCharge: number = 1;
-    public rechargeRate: number = 0.0025;
-    public shield: number = 0;
-    public maxShield: number = 0;
+    public rechargeRate: number = 0.0015;
+    public shield: number = 1;
+    public maxShield: number = 1;
 
     public dead: number = 0;
 
@@ -175,6 +174,8 @@ export default class Ship implements Entity {
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
 
+        this.energy -= this.speed * 0.0000025;
+
         const planet = this.planetAtPoint(this.x, this.y, 3.5);
         if (planet && planet === this.stopOnPlanet) {
             this.speed = 0;
@@ -268,7 +269,7 @@ export default class Ship implements Entity {
     }
 
     protected recharge() {
-        this.charge += this.rechargeRate;
+        this.charge += this.rechargeRate + (0.0025 * this.maxCharge / 5);
         if (this.charge > this.maxCharge) {
             this.charge = this.maxCharge;
         }
@@ -336,11 +337,14 @@ export default class Ship implements Entity {
             }
         } else if (item.key == 'energy-pod') {
             if (this.maxEnergy < 6) {
+                this.energy += 0.999;
                 this.maxEnergy += 1;
                 this.money -= item.price;
+                this.maxSpeed = 100 + (200 * this.maxEnergy / 5);
             }
         } else if (item.key == 'charge-pod') {
             if (this.maxCharge < 6) {
+                this.charge += 0.999;
                 this.maxCharge += 1;
                 this.money -= item.price;
             }
@@ -392,6 +396,8 @@ export default class Ship implements Entity {
             this.stoppedOnPlanet = value;
             if (value != null) {
                 value.isShipStopped = true;
+
+                this.energy = this.maxEnergy;
 
                 if (this.stoppedOnPlanet.takeColonistsTimer <= 0) {
                     let takeColonistsAmount = Math.floor(this.stoppedOnPlanet.getTotalPopulationConsumed() / 10);
@@ -465,7 +471,7 @@ export default class Ship implements Entity {
     playerMine() {
         if (this.canMine()) {
             this.miningAudio.play();
-            this.mining = 0.50 + (0.45 * Math.random());
+            this.mining = 1.01;
         }
     }
 
@@ -480,7 +486,7 @@ export default class Ship implements Entity {
         if (!this.stoppedOnPlanet.populations.species) {
             this.stoppedOnPlanet.populations.species = this.species;
         }
-        this.stoppedOnPlanet.populations.quantity += this.colonists;
+        this.stoppedOnPlanet.populations.quantity += populateAmount;
         this.colonists -= populateAmount;
         if (!this.stoppedOnPlanet.getAllegiance(this.team)) {
             this.stoppedOnPlanet.populations.setAllegianceForTeam(this.team, 100);

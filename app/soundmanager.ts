@@ -17,9 +17,9 @@ export default class SoundManager {
             var distance = GM.pointDistance(this.scene.playerShip.x, x, this.scene.playerShip.y, y);
             var maxDistance = 100.0;
             var volume = (distance < maxDistance) ? (maxDistance - distance) / maxDistance : 0.0;
-            console.log("player: (x:" + this.scene.playerShip.x + ", y: " + this.scene.playerShip.y + ")");
-            console.log("blast: (x:" + x + ", y: " + y + ")");
-            console.log("distance: " + distance + ", volume: " + volume);
+            // console.log("player: (x:" + this.scene.playerShip.x + ", y: " + this.scene.playerShip.y + ")");
+            // console.log("blast: (x:" + x + ", y: " + y + ")");
+            // console.log("distance: " + distance + ", volume: " + volume);
             this.play(name, volume);
         }
     }

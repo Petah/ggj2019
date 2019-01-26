@@ -340,18 +340,7 @@ export default class UI implements Entity {
     }
 
     private getPodCount(amount, max) {
-        if (amount >= 5) {
-            return 5;
-        } else if (amount >= 4 && amount < max) {
-            return 4;
-        } else if (amount >= 3 && amount < max) {
-            return 3;
-        } else if (amount >= 2 && amount < max) {
-            return 2;
-        } else if (amount >= 1 && amount < max) {
-            return 1;
-        }
-        return 0;
+        return Math.floor(amount - 0.001);
     }
 
     public update() {

@@ -234,7 +234,7 @@ export default class Enemy extends Ship {
                 this.stoppedOnPlanet.resources -= miningAmount;
                 this.mining -= miningAmount;
                 this.cargo += miningAmount;
-                console.log('Mining...');
+                // console.log('Mining...');
                 return true;
             } else {
                 this.mining = 0;

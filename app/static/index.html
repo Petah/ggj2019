@@ -899,19 +899,21 @@
                 </div>
                 <div id="phaser-game"></div>
                 <div class="item-buttons">
-                    <button id="item-laser" class="active"><img src="assets/icon-laser.png" /><br/>Laser <span id="item-laser-count"></span></button>
-                    <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br/>Torpedo <span id="item-torpedo-count"></span></button>
-                    <button id="item-mine"><img src="assets/icon-mine.png" /><br/>Proximity Mine <span id="item-mine-count"></span></button>
-                    <button id="item-hot-torpedo"><img src="assets/icon-hot-torpedo.png" /><br/>Hot Torpedo <span id="item-hot-torpedo-count"></span></button>
-                    <button id="item-nuke"><img src="assets/icon-nuclear.png" /><br/>Nuke <span id="item-nuke-count"></span></button>
-                    <button id="item-bio"><img src="assets/icon-bio.png" /><br/>Bio <span id="item-bio-count"></span></button>
+                    <button id="item-laser" class="active"><img src="assets/icon-laser.png" /><br />Laser <br /><span
+                            id="item-laser-count">-</span></button>
+                    <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br />Torpedo <br /><span id="item-torpedo-count">0</span></button>
+                    <button id="item-mine"><img src="assets/icon-mine.png" /><br />Proximity Mine <br /><span id="item-mine-count">0</span></button>
+                    <button id="item-hot-torpedo"><img src="assets/icon-hot-torpedo.png" /><br />Hot Torpedo <br /><span
+                            id="item-hot-torpedo-count">0</span></button>
+                    <button id="item-nuke"><img src="assets/icon-nuclear.png" /><br />Neutron Bomb <br /><span id="item-nuke-count">0</span></button>
+                    <button id="item-bio"><img src="assets/icon-bio.png" /><br />Plague Bomb <br /><span id="item-bio-count">0</span></button>
                 </div>
                 <div class="item-buttons">
-                    <button id="item-shields"><img src="assets/shield.png" /><br/>Shields <span id="item-shields-count"></span></button>
-                    <button id="item-cloak"><img src="assets/icon-cloak.png" /><br/>Cloak <span id="item-cloak-count"></span></button>
-                    <button id="item-sun"><img src="assets/icon-sun.png" /><br/>Sun <span id="item-sun-count"></span></button>
-                    <button id="item-warp"><img src="assets/icon-warp.png" /><br/>Warp <span id="item-warp-count"></span></button>
-                    <button id="item-anti-bio"><img src="assets/icon-anti-bio.png" /><br/>Anti-bio <span id="item-anti-bio-count"></span></button>
+                    <button id="item-shields" class="active"><img src="assets/shield.png" /><br />Shields <span id="item-shields-count"></span></button>
+                    <button id="item-cloak"><img src="assets/icon-cloak.png" /><br />Cloak <span id="item-cloak-count"></span></button>
+                    <button id="item-sun"><img src="assets/icon-sun.png" /><br />Disrupter <span id="item-sun-count"></span></button>
+                    <button id="item-warp"><img src="assets/icon-warp.png" /><br />Warp <span id="item-warp-count"></span></button>
+                    <button id="item-anti-bio"><img src="assets/icon-anti-bio.png" /><br />Plague Cure <span id="item-anti-bio-count"></span></button>
                 </div>
             </div>
         </div>
@@ -989,18 +991,22 @@
         </div>
 
         <div id="modal-sell" class="modal" style="display: none">
-            <div>Sell Cargo</div>
-            <div>Gnarf planet: Nirhis</div>
-            <div>
-                Planet offers $24.23 credits per ton<br />
-                and will pay $73,329 for 3,431 tons.
-            </div>
-            <div>
-                <button id="sell-all"><span id="sell-all-tons"></span> tons</button> for $73,329<br />
-                <div id="sell-1000-tons">
-                    <button id="sell-1000">1,000 tons</button> for $2,212<br />
+            <div class="modal-header">Sell Cargo</div>
+            <div class="modal-body">
+                <p>Gnarf planet: Nirhis</p>
+                <p>
+                    Planet offers $24.23 credits per ton<br />
+                    and will pay $73,329 for 3,431 tons.
+                </p>
+                <div>
+                    <button id="sell-all" style="min-width: 100px"><span id="sell-all-tons">0</span> tons</button> for $73,329
                 </div>
-                <button class="cancel-modal">Cancel</button>
+                <div id="sell-1000-tons">
+                    <button id="sell-1000" style="min-width: 100px">1,000 tons</button> for $2,212
+                </div>
+                <div style="text-align: right">
+                    <button class="cancel-modal">Cancel</button>
+                </div>
             </div>
         </div>
 
