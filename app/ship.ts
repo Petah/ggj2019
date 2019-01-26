@@ -239,7 +239,6 @@ export default class Ship implements Entity {
     }
 
     drawShield() {
-        console.log(this.maxShield);
         for (let i = this.ellipses.length - 1; i >= 0; i--) {
             if (i >= this.maxShield) {
                 continue;
@@ -403,7 +402,6 @@ export default class Ship implements Entity {
     }
 
     damage(amount: number, blastDirection: number) {
-        console.log('damage', amount, this.shield, this.energy);
         if (this.shield > 0) {
             this.shield -= amount;
             this.maxShield = Math.ceil(this.shield);

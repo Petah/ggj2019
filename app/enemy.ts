@@ -198,7 +198,7 @@ export default class Enemy extends Ship {
         if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange
             && this.framesSinceAttack >= this.framePerAttack) {
             const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
-            const bullet = new Bullet(this.scene, this, target.x, target.y, direction);
+            const bullet = new Bullet(this.scene, this, target.x, target.y, direction, this.scene.items.items[0].damage);
             this.scene.addEntity(bullet);
             this.framesSinceAttack = 0;
         }
