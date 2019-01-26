@@ -65,6 +65,7 @@ export default class Planet implements Entity {
         public size: number,
         public type: PlanetType,
         private populationFactory: PopulationFactory,
+        public sectorNumber: number,
     ) {
         this.planetSize = size;
         this.planetScale = size / 74.0;
@@ -104,7 +105,7 @@ export default class Planet implements Entity {
 
     update() {
         this.takeColonistsTimer -= 1;
-        
+
         this.graphics.clear();
 
         const color = this.getPlanetColorHex(this.scene.playerShip.team);
@@ -282,8 +283,13 @@ export default class Planet implements Entity {
     }
 
     get canMine(): boolean {
-        // @todo check alliance
-        return this.getTotalPopulationConsumed() <= 0;
+        if (this.getTotalPopulationConsumed() > 0) {
+            return false;
+        }
+        if (this.resources <= 0) {
+            return false;
+        }
+        return true;
     }
 
     public canInvest(team: Team): boolean {
@@ -445,12 +451,12 @@ export default class Planet implements Entity {
         return this.populations.calculatePopulationConsumption();
     }
 
-    static getHabitablePlanetFromLevel(level: Level): Planet {
+    static getHabitablePlanetFromLevel(level: Level, sectorNumber: number): Planet {
         let planet: Planet = null;
         let bail = 100;
         do {
             const tempPlanet = level.planets[Math.floor(Math.random() * level.planets.length)];
-            if (!tempPlanet.getTotalPopulationConsumed()) {
+            if (tempPlanet.sectorNumber == sectorNumber && !tempPlanet.getTotalPopulationConsumed()) {
                 planet = tempPlanet;
                 break;
             }

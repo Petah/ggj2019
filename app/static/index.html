@@ -124,11 +124,11 @@
 
         .minimap-planet {
             background-color: #ddd;
-            width: 5px;
-            height: 5px;
-            margin-left: -2.5px;
-            margin-top: -2.5px;
-            border-radius: 5px;
+            width: 4px;
+            height: 4px;
+            margin-left: -2px;
+            margin-top: -2px;
+            border-radius: 4px;
             position: absolute;
         }
 
@@ -214,6 +214,12 @@
             border-color: transparent;
             background: #D0D0D0;
             outline: 1px solid #808080;
+        }
+
+        button:disabled img,
+        button.disabled img {
+            opacity: 0.5;
+            filter: drop-shadow(0 0 0 #111);
         }
 
         .item-desc {
@@ -629,6 +635,24 @@
             position: absolute;
         }
 
+        .resources-bar-inner {
+            width: 100%;
+            bottom: 0;
+            position: absolute;
+        }
+
+        #planet-resource {
+            background-color: #aaaa00;
+        }
+
+        #planet-sickness {
+            background-color: #00dd00;
+        }
+
+        #planet-infrastructure {
+            background-color: #dd0000;
+        }
+
         .team {
             background-color: #333;
             border: 4px groove #999;
@@ -685,6 +709,10 @@
 
         .buy-item-image img {
             filter: drop-shadow(1px 1px 0 #111);
+        }
+
+        #item-name {
+            font-size: 14px;
         }
     </style>
     <script defer src='vendor.js'></script>
@@ -774,15 +802,21 @@
                                     <div class="resources-wrapper">
                                         <div class="resources">
                                             <div class="resources-text">Illness</div>
-                                            <div class="resources-bar" id="planet-sickness"></div>
+                                            <div class="resources-bar">
+                                                <div class="resources-bar-inner" id="planet-sickness" style="height: 50%;"></div>
+                                            </div>
                                         </div>
                                         <div class="resources">
                                             <div class="resources-text">Infrastructure</div>
-                                            <div class="resources-bar" id="planet-infrastructure"></div>
+                                            <div class="resources-bar">
+                                                <div class="resources-bar-inner" id="planet-infrastructure" style="height: 50%;"></div>
+                                            </div>
                                         </div>
                                         <div class="resources">
                                             <div class="resources-text">Resources</div>
-                                            <div class="resources-bar" id="planet-resource"></div>
+                                            <div class="resources-bar">
+                                                <div class="resources-bar-inner" id="planet-resource" style="height: 0%;"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -792,8 +826,8 @@
                             <div class="row">
                                 <div id="score-wrapper">
                                     <div id="score">
-                                        <div id="score-us">123,456</div>
-                                        <div id="score-them">123,456</div>
+                                        <div id="score-us">0</div>
+                                        <div id="score-them">0</div>
                                     </div>
                                 </div>
                             </div>
@@ -913,14 +947,15 @@
                 </div>
             </div>
             <div class="right">
-                <div class="item-buttons">
-                    <button id="mine"><img src="assets/icon-mine2.png" /><br/>Mine <br /><span id="item-mine-count">&nbsp;</span></button>
-                    <button id="populate"><img src="assets/icon-populate.png" /><br/>Colonise <br /><span class="ship-colonists">&nbsp;</span> </button>
-                    <button id="open-invest"><img src="assets/icon-invest.png" /><br/>Invest <br /><span id="item-open-invest-count">&nbsp;</span></button>
-                    <button id="open-buy"><img src="assets/icon-buy.png" /><br/>Buy <br /><span id="item-open-buy-count">&nbsp;</span></button>
+                <div class="item-buttons" style="margin-top: 4px">
+                    <button id="mine"><img src="assets/icon-mine2.png" /><br />Mine <br /><span id="item-mine-count">&nbsp;</span></button>
+                    <button id="populate"><img src="assets/icon-populate.png" /><br />Colonise <br /><span class="ship-colonists">&nbsp;</span>
+                    </button>
+                    <button id="open-invest"><img src="assets/icon-invest.png" /><br />Invest <br /><span id="item-open-invest-count">&nbsp;</span></button>
+                    <button id="open-buy"><img src="assets/icon-buy.png" /><br />Buy <br /><span id="item-open-buy-count">&nbsp;</span></button>
                 </div>
                 <div id="phaser-game"></div>
-                <div class="item-buttons">
+                <div class="item-buttons" style="margin-top: 4px">
                     <button id="item-laser" class="active"><img src="assets/icon-laser.png" /><br />Laser <br /><span
                             id="item-laser-count">-</span></button>
                     <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br />Torpedo <br /><span id="item-torpedo-count">0</span></button>
@@ -996,7 +1031,7 @@
                     <div class="col">
                         <p>
                             Cash on hand:<br />
-                            <span class="ship-money">123,456</span>
+                            <span class="ship-money">0</span>
                         </p>
                     </div>
                     <div class="col">
@@ -1022,10 +1057,11 @@
                 </p>
                 <div>
                     <button id="sell-all" style="min-width: 100px"><span id="sell-all-tons">0</span> tons</button> for
-                    $73,329
+                    $<span id="sell-all-tons-amount">0</span>
                 </div>
                 <div id="sell-1000-tons">
-                    <button id="sell-1000" style="min-width: 100px">1,000 tons</button> for $2,212
+                    <button id="sell-1000" style="min-width: 100px">1,000 tons</button> for
+                    $<span id="sell-1000-tons-amount">0</span>
                 </div>
                 <div style="text-align: right">
                     <button class="cancel-modal">Cancel</button>
@@ -1044,7 +1080,7 @@
                     </div>
                     <div class="col" style="flex: 10">
                         <div style="margin-bottom: 10px;">
-                            Item: <span id="item-name"></span>
+                            <span id="item-name"></span>
                         </div>
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col">
@@ -1060,7 +1096,6 @@
                 </div>
                 <div class="row">
                     <div class="item-desc">
-                        <div>Description</div>
                         <div id="item-description"></div>
                     </div>
                 </div>

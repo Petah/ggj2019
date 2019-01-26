@@ -10,34 +10,45 @@ export default class Level implements Entity {
     id: number
     public width: number = 6000;
     public height: number = 6000;
-    private planetCount = 20;
+    private planetCount = 13;
     public planets: Planet[] = [];
+
+    private planetNameGenerator: PlanetNameGenerator;
+    private populationFactory: PopulationFactory;
 
     constructor(
         private scene: DefaultScene,
     ) {
-        const planetNameGenerator = new PlanetNameGenerator();
-        const populationFactory = new PopulationFactory();
 
+        this.planetNameGenerator = new PlanetNameGenerator();
+        this.populationFactory = new PopulationFactory();
+
+        this.spawnBetween(0, 0, this.width / 2, this.height / 2, 1);
+        this.spawnBetween(this.width / 2, 0, this.width / 2, this.height / 2, 3);
+        this.spawnBetween(0, this.height / 2, this.width / 2, this.height / 2, 4);
+        this.spawnBetween(this.width / 2, this.height / 2, this.width / 2, this.height / 2, 2);
+    }
+
+    spawnBetween(minX, minY, width, height, sectorNumber) {
         for (let i = 0; i < this.planetCount; i++) {
             let x;
             let y;
-            let bail = 100;
+            let bail = 30;
             do {
-                x = Math.random() * this.width;
-                y = Math.random() * this.height;
+                x = minX + Math.random() * width;
+                y = minY + Math.random() * height;
                 if (bail-- <= 0) {
                     break;
                 }
-            } while (!this.planetSpaceFree(x, y));
+            } while (!this.planetSpaceFree(x, y, minX, minY, width, height));
 
             const type = new PlanetTypeFactory().random();
             const planet = new Planet(
                 this.scene,
-                planetNameGenerator.generateName(type),
+                this.planetNameGenerator.generateName(type),
                 x,
                 y,
-                
+
                 1, // mining
                 1, // spacePort
                 1, // industry
@@ -48,11 +59,12 @@ export default class Level implements Entity {
                 null, // population
                 0, // health
                 1, // money
-                Math.random() * 100, // resources
+                Math.random() * 80 + 10, // resources
                 1, // food
                 Math.random() * 5 + 20, // planet size
                 type,
-                populationFactory,
+                this.populationFactory,
+                sectorNumber,
             );
             // planet.populations.setAllegianceForTeam(te)
             this.planets.push(planet);
@@ -60,16 +72,17 @@ export default class Level implements Entity {
         }
     }
 
-    planetSpaceFree(x: number, y: number): boolean {
-        if (x < 100 || x > this.width - 100) {
+    planetSpaceFree(x: number, y: number, minX, minY, width, height): boolean {
+        const gap = 300;
+        if (x < minX + gap || x > minX + width - gap) {
             return false;
         }
-        if (y < 100 || y > this.height - 100) {
+        if (y < minY + gap || y > minY + height - gap) {
             return false;
         }
         for (const planet of this.planets) {
             const distance = GM.pointDistance(planet.x, planet.y, x, y);
-            if (distance < 100) {
+            if (distance < gap) {
                 return false;
             }
         }
@@ -78,7 +91,7 @@ export default class Level implements Entity {
 
     update() {
     }
-    
+
     slowUpdate() {
 
     }

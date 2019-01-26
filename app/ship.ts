@@ -326,10 +326,22 @@ export default class Ship implements Entity {
         if (!amount || amount > this.cargo) {
             amount = this.cargo;
         }
+        this.money += this.getSellAmount(amount);
         this.cargo -= amount;
         this.stoppedOnPlanet.resources += amount;
-        // @todo make planet adjust price based on demand
-        this.money += amount * 1000;
+        if (this.stoppedOnPlanet.resources > 100) {
+            this.stoppedOnPlanet.resources = 100;
+        }
+    }
+
+    getSellAmount(amount: number = null): number {
+        if (!this.stoppedOnPlanet || this.cargo <= 0) {
+            return;
+        }
+        if (!amount || amount > this.cargo) {
+            amount = this.cargo;
+        }
+        return this.stoppedOnPlanet.resources * amount * 1000;
     }
 
     buyItem(item: Item, amount: number) {
@@ -470,7 +482,6 @@ export default class Ship implements Entity {
         return true;
     }
 
-
     playerMine() {
         if (this.canMine()) {
             this.miningAudio.play();
@@ -494,5 +505,6 @@ export default class Ship implements Entity {
         if (!this.stoppedOnPlanet.getAllegiance(this.team)) {
             this.stoppedOnPlanet.populations.setAllegianceForTeam(this.team, 100);
         }
+        this.scene.ui.drawMiniMap();
     }
 };
