@@ -1,16 +1,16 @@
 import PlanetType from "./planetType";
 
 export default class PlanetNameGenerator {
-    private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut", "Kachoria", "Gretchin"];
-    private volcanicNames: string[] = ["Vulkan", "Waluigi", "Nintenduu 64", "Excalbia"];
+    private gasGiantNames: string[] = ["Saturn", "Space Fart", "Fomalhaut", "Kachoria", "Gretchin", "Youranus", "Dandledoom"];
+    private volcanicNames: string[] = ["Vulkan", "Waluigi", "Nintenduu 64", "Excalbia", "Menjin"];
     private continentalNames: string[] = ["Earth", "Alpha Centauri", "Eden Prime", "Kerbol", "Olimar", "Holy Terra"];
-    private jungleNames: string[] = ["Bungle", "Kipling", "Omicron Persei 8", "Fortuna", "Ixalan"];
-    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad"]
+    private jungleNames: string[] = ["Bungle", "Kipling", "Omicron Persei 8", "Fortuna", "Ixalan", "Pendis"];
+    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad", "Klap"]
     private desertNames: string[] = ["Arrakis", "Tatooine", "Not Tatooine (Jakku)", "Athas", "Kharak", "Korriban", "Hocotate", "Ocampa", "Toroth", "Vulcan"] 
-    private barrenNames: string[] = ["New Mars", "Belgium", "Dovid", "Giedi", "Spheron I", "127.0.0.1"] 
+    private barrenNames: string[] = ["New Mars", "Belgium", "Dovid", "Giedi", "Spheron I", "127.0.0.1", "Slurt"] 
     private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon", "Thalassa", "Russalka", "Muur", "4546B"] 
-    private iceNames: string[] = ["Hoth", "Yump", "Neutral Planet", "Gethen", "Fichina"] 
-    private tundraNames: string[] = ["Gulag", "Melpomenia", "Atlas", "Gimp", "Ganthiya"] 
+    private iceNames: string[] = ["Hoth", "Yump", "Neutral Planet", "Gethen", "Fichina", "Bicth"] 
+    private tundraNames: string[] = ["Gulag", "Melpomenia", "Atlas", "Gimp", "Ganthiya", "Factfur"] 
     private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia Rising"] 
 
     public generateName(planet: PlanetType) {
