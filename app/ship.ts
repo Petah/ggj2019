@@ -55,7 +55,11 @@ export default class Ship implements Entity {
     public items: ItemMap = {};
     public isGathering: boolean;
 
+    private ellipses: Array<Phaser.Geom.Ellipse>;
     private graphics: Phaser.GameObjects.Graphics;
+
+    public shipWidth: number = 50.0;
+    public shipHeight: number = 43.0;
 
     constructor(
         private scene: DefaultScene,
@@ -124,6 +128,16 @@ export default class Ship implements Entity {
                 color: 0xdddddd,
             }
         });
+        
+        this.ellipses = Array<Phaser.Geom.Ellipse>();
+        for (var i = 0; i < 3; i++) {
+            this.ellipses.push(new Phaser.Geom.Ellipse(
+                this.x, 
+                this.y, 
+                this.shipWidth * 0.5, 
+                this.shipHeight * 0.5));
+        }
+
         this.isGathering = true; // tmp...
     }
 
@@ -205,6 +219,23 @@ export default class Ship implements Entity {
                 }
             }
         }
+
+        // shield
+        if (true) {
+            this.graphics.lineStyle(1, 0x00ff00); // green
+            for (var i = 0; i < this.ellipses.length; i++) {
+                var ellipse = this.ellipses[i];
+                var h_padding = 33.0;
+                var v_padding = 30.0;
+                var randomRange = 3.0;
+                ellipse.setTo(this.x + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.y + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.shipWidth * 0.5 + h_padding + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.shipHeight * 0.5 + v_padding + (Math.random() * randomRange * 2.0 - randomRange));
+                this.graphics.strokeEllipseShape(ellipse);
+            }
+        }
+        
     }
 
     private planetAtPoint(x: number, y: number, size: number = 1) {
