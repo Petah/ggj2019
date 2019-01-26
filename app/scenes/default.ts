@@ -8,6 +8,7 @@ import Team from "../team";
 import Items from "../items";
 import Population from "../game-objects/entity-types/planet-related-objects/populationObjects/population";
 import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
+import Planet from "../planet";
 
 
 export default class DefaultScene extends Phaser.Scene {
@@ -59,7 +60,16 @@ export default class DefaultScene extends Phaser.Scene {
         const teamColor = 0x00FF00;
         this.team = new Team(this, teamColor);
 
-        const homePlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
+        let homePlanet: Planet;
+        while(homePlanet === undefined) {
+          const tempPlanet = this.level.planets[Math.floor(Math.random() * this.level.planets.length)];
+          if(tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations[0].calculatePopulationConsumption(tempPlanet) == 0) {
+              homePlanet = tempPlanet;
+              break;
+          }
+        }
+
+
         homePlanet.populations = [new PopulationFactory().generatePopulationForPlanet(homePlanet)];
 
         this.ship = new Ship(this, this.team, homePlanet);
