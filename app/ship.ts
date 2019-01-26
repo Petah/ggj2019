@@ -42,10 +42,12 @@ export default class Ship implements Entity {
     public maxColonists: number = 1999;
     public cargo: number = 0;
     public maxCargo: number = 1;
-    public energy: number = 0;
+    public energy: number = 1;
     public maxEnergy: number = 1;
-    public charge: number = 0;
+    public charge: number = 1;
     public maxCharge: number = 1;
+
+    public dead: number = 0;
 
     public items: ItemMap = {};
 
@@ -67,6 +69,10 @@ export default class Ship implements Entity {
         this.keyMine = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
         this.scene.input.on('pointerdown', (pointer) => {
+            if (this.dead > 0) {
+                return;
+            }
+            
             const px = this.scene.cameras.main.worldView.x + pointer.x;
             const py = this.scene.cameras.main.worldView.y + pointer.y;
             const direction = GM.pointDirection(this.x, this.y, this.scene.cameras.main.worldView.x + pointer.x, this.scene.cameras.main.worldView.y + pointer.y);
@@ -87,9 +93,13 @@ export default class Ship implements Entity {
             if (pointer.buttons == 2) {
                 // const bullet = new Bullet(this.scene, this.x, this.y, px, py, direction);
                 // this.scene.addEntity(bullet);
-                
-                const laser = new Laser(this.scene, this, px, py, direction);
-                this.scene.addEntity(laser);
+
+                const fireCost = 0.1; // @todo get charge amount from item
+                if (this.charge > fireCost) {
+                    this.charge -= fireCost;
+                    const laser = new Laser(this.scene, this, px, py, direction);
+                    this.scene.addEntity(laser);
+                }
             }
         });
 
@@ -99,6 +109,19 @@ export default class Ship implements Entity {
     }
 
     update() {
+        if (this.dead > 0) {
+            this.dead--;
+            if (this.dead <= 0) {
+                this.image.alpha = 1;
+                // @todo respawn as owned planet
+            }
+            return;
+        }
+
+        this.charge += 0.001;
+        if (this.charge > this.maxCharge) {
+            this.charge = this.maxCharge;
+        }
         if (this.speed > this.maxSpeed) {
             this.speed = this.maxSpeed;
         }
@@ -197,6 +220,14 @@ export default class Ship implements Entity {
             }
             this.items[item.key].amount += amount;
             this.money -= item.price * amount;
+        }
+    }
+
+    damage(amount: number) {
+        this.energy -= amount;
+        if (this.energy <= 0) {
+            this.dead = 100;
+            this.image.alpha = 0;
         }
     }
 
