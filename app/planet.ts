@@ -128,6 +128,22 @@ export default class Planet implements Entity {
             this.nameText.setText("");
         }
 
+        // shield - blue square
+        if (true) {
+            this.graphics.lineStyle(1, 0x0000ff, 0.7); // blue
+            for (var i = 0; i < this.rectangles.length; i++) {
+                var rectangle = this.rectangles[i];
+                var padding = 6.0;
+                var randomRange = 3.0;
+                rectangle.setTo(this.x - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.y - this.planetSize * 0.5 - padding + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange),
+                    this.planetSize + padding * 2.0 + (Math.random() * randomRange * 2.0 - randomRange));
+                this.graphics.strokeRectShape(rectangle);
+            }
+        }
+
+
         const shipToShoot = this.findShipToShootAt();
         if (shipToShoot && this.team && shipToShoot.team !== this.team) {
             const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);

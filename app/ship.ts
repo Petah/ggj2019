@@ -227,7 +227,7 @@ export default class Ship implements Entity {
 
         // shield
         if (true) {
-            this.graphics.lineStyle(1, 0x00ff00); // green
+            this.graphics.lineStyle(1, 0x00ff00, 0.5); // green
             for (var i = 0; i < this.ellipses.length; i++) {
                 var ellipse = this.ellipses[i];
                 var h_padding = 33.0;
