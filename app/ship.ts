@@ -5,9 +5,9 @@ import Entity from "./entity";
 import Planet from "./planet";
 import UI from "./ui";
 import Team from "./team";
-import { Item } from "./items";
+import {Item} from "./items";
 import Laser from "./laser";
-import { shadeBlendConvert } from "./color";
+import {shadeBlendConvert} from "./color";
 
 class ShipItem {
     public amount: number = 0;
@@ -18,7 +18,9 @@ class ShipItem {
     }
 }
 
-interface ItemMap { [key: string]: ShipItem; };
+interface ItemMap {
+    [key: string]: ShipItem;
+}
 
 export default class Ship implements Entity {
     id: number;
@@ -28,16 +30,16 @@ export default class Ship implements Entity {
     public speed: number = 0;
     public direction: number = 0;
     private acceleration: number = 50;
-    private maxSpeed: number = 300;
+    public maxSpeed: number = 300;
 
     private stopOnPlanet: Planet = null;
     public stoppedOnPlanet: Planet = null;
     public cursorOnPlanet: Planet = null;
-    private mining: number = 0;
-    private miningSpeed: number = 0.02;
+    public mining: number = 0;
+    public miningSpeed: number = 0.02;
 
     protected cursors: Phaser.Input.Keyboard.CursorKeys;
-    private keyMine: Phaser.Input.Keyboard.Key;
+    protected keyMine: Phaser.Input.Keyboard.Key;
 
     public money: number = 500;
     public colonists: number = 0;
@@ -65,7 +67,7 @@ export default class Ship implements Entity {
     public shildColor: number = 0x00ff00;
 
     constructor(
-        private scene: DefaultScene,
+        protected scene: DefaultScene,
         public team: Team,
         startPlanet: Planet,
     ) {
@@ -143,31 +145,16 @@ export default class Ship implements Entity {
                 this.x,
                 this.y,
                 this.shipWidth * 0.5,
-                this.shipHeight * 0.5,
-            ));
+                this.shipHeight * 0.5));
         }
     }
 
     update() {
-        if (this.dead > 0) {
-            this.dead--;
-            if (this.dead <= 0) {
-                this.image.alpha = 1;
-                // @todo respawn as owned planet
-            }
-            return;
-        }
+        if (this.checkDeath()) return;
 
-        this.charge += this.rechargeRate;
-        if (this.charge > this.maxCharge) {
-            this.charge = this.maxCharge;
-        }
-        if (this.speed > this.maxSpeed) {
-            this.speed = this.maxSpeed;
-        }
-        if (this.speed < 0) {
-            this.speed = 0;
-        }
+        this.recharge();
+        this.lockSpeed();
+
         let vx = GM.lengthDirX(this.speed, this.direction);
         let vy = GM.lengthDirY(this.speed, this.direction);
         this.image.setVelocityX(vx);
@@ -183,13 +170,12 @@ export default class Ship implements Entity {
             }
         }
 
-        if (this.team.isPlayerTeam) {
-            if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
-                if (this.mining <= 0) {
-                    this.mining = 0.50 + (0.45 * Math.random());
-                }
+        if (this.keyMine.isDown && this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
+            if (this.mining <= 0) {
+                this.mining = 0.50 + (0.45 * Math.random());
             }
         }
+
         if (this.mining > 0) {
             if (this.cargo < this.maxCargo) {
                 let miningAmount = 0;
@@ -254,14 +240,47 @@ export default class Ship implements Entity {
 
     }
 
+    protected checkDeath(): Boolean {
+        if (this.dead > 0) {
+            this.dead--;
+            if (this.dead <= 0) {
+                this.image.alpha = 1;
+                // @todo respawn as owned planet
+            }
+            return true;
+        }
+        return false;
+    }
+
+    protected recharge() {
+        this.charge += this.rechargeRate;
+        if (this.charge > this.maxCharge) {
+            this.charge = this.maxCharge;
+        }
+    }
+
+    protected lockSpeed() {
+        if (this.speed > this.maxSpeed) {
+            this.speed = this.maxSpeed;
+        }
+        if (this.speed < 0) {
+            this.speed = 0;
+        }
+    }
+
     private getShieldColor(amount) {
         amount = Math.ceil(amount * 5);
         switch (amount) {
-            case 1: return 0xFF0000;
-            case 2: return 0xFF7700;
-            case 3: return 0xFFFF00;
-            case 4: return 0x77FF00;
-            case 5: return 0x00FF00;
+            case 1:
+                return 0xFF0000;
+            case 2:
+                return 0xFF7700;
+            case 3:
+                return 0xFFFF00;
+            case 4:
+                return 0x77FF00;
+            case 5:
+                return 0x00FF00;
         }
         return 0x00FF00;
     }
@@ -325,7 +344,7 @@ export default class Ship implements Entity {
         }
     }
 
-    damage(amount: number) {
+    damage(amount: number, blastDirection: number) {
         if (this.shield > 0) {
             this.shield -= amount;
             this.maxShield = Math.ceil(this.shield);
@@ -361,6 +380,7 @@ export default class Ship implements Entity {
             this.stoppedOnPlanet = value;
         }
     }
+
     setCursorOnPlanet(value: Planet) {
         if (value != this.cursorOnPlanet) {
             if (this.cursorOnPlanet != null) {

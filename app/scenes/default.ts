@@ -66,10 +66,11 @@ export default class DefaultScene extends Phaser.Scene {
         playerHomePlanet.populations = populationFactory.generatePopulationForPlanet();
         playerHomePlanet.team = this.playerTeam;
         this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
-        this.ui.ship = this.playerShip;
+        this.ui.playerShip = this.playerShip;
         this.addEntity(this.playerShip);
         playerHomePlanet.draw();
 
+        //@TODO set back to 3
         const maxEnemyTeams = 3;
         for (let i = 0; i < maxEnemyTeams; i++) {
             let color = Team.randomColor();
@@ -82,6 +83,7 @@ export default class DefaultScene extends Phaser.Scene {
 
             let enemyShip = new Enemy(this, team, homePlanet);
             this.enemyShips.push(enemyShip);
+            this.ui["enemyShip"+i] = enemyShip;
             this.addEntity(enemyShip);
             homePlanet.draw();
         }

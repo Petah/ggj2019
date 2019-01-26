@@ -11,6 +11,7 @@ export default class Blast implements Entity {
         private scene: DefaultScene,
         x: number,
         y: number,
+        public blastDirection: number
     ) {
         this.image = this.scene.add.image(x, y, 'red-circle');
         this.image.depth = 300;
@@ -23,7 +24,7 @@ export default class Blast implements Entity {
                 if (entity instanceof Ship) {
                     const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
                     if (distance < 10) {
-                        entity.damage(0.1);
+                        entity.damage(0.1, this.blastDirection);
                     }
                 }
             }
