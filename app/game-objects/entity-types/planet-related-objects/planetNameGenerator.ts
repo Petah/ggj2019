@@ -16,17 +16,17 @@ export default class PlanetNameGenerator {
     public generateName(planet: PlanetType) {
         var name: string;
         switch (planet.typeName) {
-            case "Gas Giant": name = this.generatePlanetName(this.gasGiantNames);
-            case "Volcanic": name = this.generatePlanetName(this.volcanicNames);
-            case "Continental": name = this.generatePlanetName(this.continentalNames);
-            case "Jungle": name = this.generatePlanetName(this.jungleNames);
-            case "Forest": name = this.generatePlanetName(this.forestNames);
-            case "Desert": name = this.generatePlanetName(this.desertNames);
-            case "Barren": name = this.generatePlanetName(this.barrenNames);
-            case "Ocean": name = this.generatePlanetName(this.oceanNames);
-            case "Ice": name = this.generatePlanetName(this.iceNames);
-            case "Tundra": name = this.generatePlanetName(this.tundraNames);
-            case "Gaia": name = this.generatePlanetName(this.gaianNames);
+            case "Gas Giant": name = this.generatePlanetName(this.gasGiantNames); break;
+            case "Volcanic": name = this.generatePlanetName(this.volcanicNames); break;
+            case "Continental": name = this.generatePlanetName(this.continentalNames); break;
+            case "Jungle": name = this.generatePlanetName(this.jungleNames); break;
+            case "Forest": name = this.generatePlanetName(this.forestNames); break;
+            case "Desert": name = this.generatePlanetName(this.desertNames); break;
+            case "Barren": name = this.generatePlanetName(this.barrenNames); break;
+            case "Ocean": name = this.generatePlanetName(this.oceanNames); break;
+            case "Ice": name = this.generatePlanetName(this.iceNames); break;
+            case "Tundra": name = this.generatePlanetName(this.tundraNames); break;
+            case "Gaia": name = this.generatePlanetName(this.gaianNames); break;
         }
 
         return name;
@@ -34,6 +34,7 @@ export default class PlanetNameGenerator {
 
     private generatePlanetName(nameList: string[]): string {
         if (nameList.length == 0) {
+        console.log("no names" + nameList.toString())
             return "Planet " + (Math.random() * 1000);
         }
 

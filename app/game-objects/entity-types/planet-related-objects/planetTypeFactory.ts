@@ -5,6 +5,7 @@ export default class PlanetTypeFactory {
     random(): PlanetType {
         var random = Math.floor(Math.random() * 4) + 1;
         var planetType: PlanetType;
+
         switch(random) {
             case 1: planetType = this.gasGiant(); break;
             case 2: planetType = this.volcanic(); break;
@@ -104,30 +105,156 @@ export default class PlanetTypeFactory {
     }
 
     forest(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Forest",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     desert(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Desert",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     barren(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Barren",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     ocean(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Ocean",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     ice(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Ice",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     tundra(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Tundra",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 
     gaia(): PlanetType {
-        return null;
+        return new PlanetType(
+            "Gaia",
+            1.0, // miningModifier
+            1.0, // maxMiningModifier
+            1.0, // spacePortModifier
+            1.0, // maxSpacePortModifier
+            1.0, // industryModifier
+            1.0, // maxIndustryModifier
+            1.0, // agricultureModifier
+            1.0, // maxAgricultureModifier
+            1.0, // defenceModifier
+            1.0, // maxDefenceModifier
+            1.0, // educationModifier
+            1.0, // maxEducationModifier
+            1.0, // healthModifier
+            1.0, // maxHealthModifier
+            1.0, // populationGrowthModifier
+            1.0 // maxPopulationModifier
+        );
     }
 }
