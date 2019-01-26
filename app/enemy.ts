@@ -149,11 +149,11 @@ export default class Enemy extends Ship {
     }
 
     private shoot(target: any) {
-        if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange) {
-            const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
-            const bullet = new Bullet(this.scene, this.x, this.y, target.x, target.y, direction);
-            this.scene.addEntity(bullet);
-        }
+        // if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange) {
+        //     const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
+        //     const bullet = new Bullet(this.scene, this.x, this.y, target.x, target.y, direction);
+        //     this.scene.addEntity(bullet);
+        // }
     }
 
     private evade(attackDirection: number) {

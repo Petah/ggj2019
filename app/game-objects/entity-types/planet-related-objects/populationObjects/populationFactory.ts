@@ -8,10 +8,11 @@ export default class PopulationFactory {
     private species: Species[] = [new Ork, new Human]
 
     public generatePopulationForPlanet(): Population {
-        let population = new Population(this.generateSpeciesForPlanet(),
+        return new Population(
+            null,
+            0,
             100,
-            100);
-        return population;
+        );
     }
 
     public generateSpeciesForPlanet(): Species {

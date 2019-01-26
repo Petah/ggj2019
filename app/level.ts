@@ -16,8 +16,8 @@ export default class Level implements Entity {
     constructor(
         private scene: DefaultScene,
     ) {
-        let planetNameGenerator = new PlanetNameGenerator();
-        let populationFactory = new PopulationFactory();
+        const planetNameGenerator = new PlanetNameGenerator();
+        const populationFactory = new PopulationFactory();
 
         for (let i = 0; i < this.planetCount; i++) {
             let x;
@@ -32,7 +32,6 @@ export default class Level implements Entity {
             } while (!this.planetSpaceFree(x, y));
 
             const type = new PlanetTypeFactory().random();
-
             const planet = new Planet(
                 this.scene,
                 planetNameGenerator.generateName(type),
@@ -53,9 +52,9 @@ export default class Level implements Entity {
                 1, // food
                 Math.random() * 5 + 20, // planet size
                 type,
+                populationFactory,
             );
-
-            planet.populations = populationFactory.generatePopulationForPlanet();
+            // planet.populations.setAllegianceForTeam(te)
             this.planets.push(planet);
             this.scene.addEntity(planet);
         }

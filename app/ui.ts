@@ -81,9 +81,6 @@ class Element {
 }
 
 export default class UI implements Entity {
-    slowUpdate() {
-    }
-
     public static width = 600;
     public static height = 600;
 
@@ -122,6 +119,9 @@ export default class UI implements Entity {
     private minimapShip4: Element;
 
     private currentItem = 0;
+    
+    private time: Element;
+    private timeImage: Element;
 
     constructor(
         private scene: DefaultScene,
@@ -155,6 +155,9 @@ export default class UI implements Entity {
         this.minimapShip2 = $('#minimap-ship-2');
         this.minimapShip3 = $('#minimap-ship-3');
         this.minimapShip4 = $('#minimap-ship-4');
+        
+        this.time = $('#time');
+        this.timeImage = $('#time-seg img');
 
         $('.cancel-modal').addEventListener('click', () => {
             this.hideModals();
@@ -347,7 +350,7 @@ export default class UI implements Entity {
                 // this.planetResource.text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.resources, 2));
 
                 $('.gauge-center').attr({
-                    'data-before': this.playerShip.stoppedOnPlanet.populations.getAllegianceForPlayer(this.playerShip.team),
+                    'data-before': this.playerShip.stoppedOnPlanet.getAllegiance(this.playerShip.team),
                 })
                 // console.log(this.playerShip.stoppedOnPlanet.maxInfrastructureLevel, this.playerShip.stoppedOnPlanet.infrastructureLevel);
             }
@@ -369,6 +372,13 @@ export default class UI implements Entity {
                 top: (this.enemyShip2.y / this.scene.level.height * 100) + '%',
             });
         }
+    }
+
+    slowUpdate() {
+        this.time.text('Year: ' + this.numberWithCommas(this.scene.gameTime / 10, 1));
+        this.timeImage.attr({
+            src: 'assets/seg-' + Math.round(10 - ((this.scene.gameTime / 10) % 1) * 10) + '.png',
+        });
     }
 
     public drawMiniMap() {

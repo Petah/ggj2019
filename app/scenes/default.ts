@@ -9,6 +9,8 @@ import Items from "../items";
 import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 import Planet from "../planet";
 import Enemy from "../enemy";
+import Human from "../game-objects/entity-types/planet-related-objects/populationObjects/human";
+import Ork from "../game-objects/entity-types/planet-related-objects/populationObjects/ork";
 
 export default class DefaultScene extends Phaser.Scene {
 
@@ -58,12 +60,12 @@ export default class DefaultScene extends Phaser.Scene {
         this.stars = new Stars(this);
         this.addEntity(this.stars);
 
-        this.playerTeam = new Team(this, 0x00FF00, true);
-
-        const populationFactory = new PopulationFactory();
+        this.playerTeam = new Team(this, 0x00FF00, true, 1);
 
         let playerHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
-        playerHomePlanet.populations = populationFactory.generatePopulationForPlanet();
+        playerHomePlanet.populations.quantity = 1000;
+        playerHomePlanet.populations.species = new Human();
+        playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
         playerHomePlanet.team = this.playerTeam;
         this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
         this.ui.playerShip = this.playerShip;
@@ -74,12 +76,14 @@ export default class DefaultScene extends Phaser.Scene {
         const maxEnemyTeams = 3;
         for (let i = 0; i < maxEnemyTeams; i++) {
             let color = Team.randomColor();
-            let team = new Team(this, color, false);
+            let team = new Team(this, color, false, i + 2);
             this.enemyTeams.push(team);
 
             let homePlanet = Planet.getHabitablePlanetFromLevel(this.level);
             homePlanet.team = team;
-            homePlanet.populations = populationFactory.generatePopulationForPlanet();
+            playerHomePlanet.populations.quantity = 1000;
+            playerHomePlanet.populations.species = new Ork();
+            playerHomePlanet.populations.setAllegianceForTeam(team, 100);
 
             let enemyShip = new Enemy(this, team, homePlanet);
             this.enemyShips.push(enemyShip);

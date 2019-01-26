@@ -107,7 +107,11 @@
             margin-top: -4px;
             border-left: 4px solid transparent;
             border-right: 4px solid transparent;
-            border-bottom: 8px solid #33ff;
+            border-bottom: 8px solid #0033ff;
+        }
+
+        .minimap-ship-enemy {
+            border-bottom: 8px solid #ff0000;
         }
 
         .minimap-planet {
@@ -616,9 +620,9 @@
                     <div id="minimap-wrapper">
                         <div id="minimap">
                             <div id="minimap-ship-1" class="minimap-ship"></div>
-                            <div id="minimap-ship-2" class="minimap-ship"></div>
-                            <div id="minimap-ship-3" class="minimap-ship"></div>
-                            <div id="minimap-ship-4" class="minimap-ship"></div>
+                            <div id="minimap-ship-2" class="minimap-ship minimap-ship-enemy"></div>
+                            <div id="minimap-ship-3" class="minimap-ship minimap-ship-enemy"></div>
+                            <div id="minimap-ship-4" class="minimap-ship minimap-ship-enemy"></div>
                         </div>
                     </div>
                 </div>

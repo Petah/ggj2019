@@ -2,8 +2,8 @@ import Species from "./species";
 import Planet from "../../../../planet";
 import Team from "../../../../team";
 
-interface AllegianceMap { 
-    [key: number]: number; 
+interface AllegianceMap {
+    [key: number]: number;
 };
 
 export default class Population {
@@ -26,7 +26,7 @@ export default class Population {
     public calculateHealthChangeDueToFood(foodAvailable: number) {
         let healthChange = foodAvailable / this.quantity;
 
-        if (this.health + healthChange > this.maxHealth ) {
+        if (this.health + healthChange > this.maxHealth) {
             healthChange = this.maxHealth - this.health;
         } else if (this.health + healthChange < this.minHealth) {
             healthChange = this.minHealth - this.health;
@@ -36,59 +36,60 @@ export default class Population {
     }
 
     public calculatePopulationChange(maxPopulation: number) {
-        if(this.species === undefined || this.species === null) {
+        if (this.species === undefined || this.species === null) {
             return;
         }
 
-        let populationChange = Math.pow(this.quantity * this.species.populationGrowthRate * (this.health/100), 0.9)
-        
+        let populationChange = Math.pow(this.quantity * this.species.populationGrowthRate * (this.health / 100), 0.9)
+
         if (this.quantity + populationChange > maxPopulation) {
             populationChange = maxPopulation - this.quantity;
         }
-        
+
         this.quantity += populationChange
     }
 
     public calculatePopulationConsumption(): number {
-        if(this.species == null || this.quantity == 0) {
+        if (this.species == null || this.quantity == 0) {
             return 0;
         }
 
-        let populationConsumption = this.quantity * this.species.populationConsumption;
-
-        return populationConsumption;
+        return this.quantity * this.species.populationConsumption;
     }
 
     public getAllegianceForPlayer(team: Team): number {
-        if(this.calculatePopulationConsumption() <= 0 ) {
+        if (this.calculatePopulationConsumption() <= 0) {
             return 0;
         }
 
-        if(!this.allegiances[team.id]) {
-            this.allegiances[team.id] = 50;
+        if (!this.allegiances[team.teamNumber]) {
+            this.allegiances[team.teamNumber] = 50;
         }
 
-        return this.allegiances[team.id];
+        return this.allegiances[team.teamNumber];
     }
 
     public increaseAllegianceForPlayer(team: Team, money: number) {
-        let numPlayersEncountered = 0;
-        if(this.allegiances[team.id] === undefined || this.allegiances[team.id] === null) {
-            this.allegiances[team.id] = 50
+        if (!this.allegiances[team.teamNumber]) {
+            this.allegiances[team.teamNumber] = 50
         }
 
-        numPlayersEncountered = Object.keys(this.allegiances).length;
-        numPlayersEncountered--;
-
         let returnOnInvestment = money / 1000;
-        returnOnInvestment /= numPlayersEncountered;
+        returnOnInvestment /= Object.keys(this.allegiances).length - 1;
 
-        this.allegiances[team.id] += returnOnInvestment;
+        this.allegiances[team.teamNumber] += returnOnInvestment;
 
-        for(const key of Object.keys(this.allegiances)) {
-            if(key !== team.id.toString()) {
+        for (const key in this.allegiances) {
+            if (key != team.teamNumber.toString()) {
                 this.allegiances[key] -= returnOnInvestment;
             }
         }
+    }
+
+    public setAllegianceForTeam(team: Team, amount: number) {
+        if (amount < 0 || amount > 100) {
+            throw new Error('Invalid amount');
+        }
+        this.allegiances[team.teamNumber] = amount;
     }
 }

@@ -7,6 +7,7 @@ import GM from "./gm";
 import Ship from "./ship";
 import Bullet from "./bullet";
 import Team from "./team";
+import PopulationFactory from "./game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 
 export default class Planet implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
@@ -57,7 +58,8 @@ export default class Planet implements Entity {
         public resources: number,
         public food: number,
         public size: number,
-        public type: PlanetType
+        public type: PlanetType,
+        private populationFactory: PopulationFactory,
     ) {
         this.planetSize = size;
         this.planetScale = size / 74.0;
@@ -91,6 +93,8 @@ export default class Planet implements Entity {
 
         this.createMaxPopulationLimit();
         this.createInfrastructureLimits();
+        
+        this.populations = populationFactory.generatePopulationForPlanet();
     }
 
     update() {
@@ -152,12 +156,12 @@ export default class Planet implements Entity {
             this.graphics.strokeRectShape(rectangle);
         }
 
-        const shipToShoot = this.findShipToShootAt();
-        if (shipToShoot && this.team && shipToShoot.team !== this.team) {
-            const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
-            const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
-            this.scene.addEntity(bullet);
-        }
+        // const shipToShoot = this.findShipToShootAt();
+        // if (shipToShoot && this.team && shipToShoot.team !== this.team) {
+        //     const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
+        //     const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
+        //     this.scene.addEntity(bullet);
+        // }
     }
 
     private getShieldColor(amount) {
@@ -404,13 +408,7 @@ export default class Planet implements Entity {
     }
 
     public getTotalPopulationConsumed(): number {
-        let populationConsumed: number = 0;
-
-        if (this.populations !== undefined || this.populations != null) {
-            populationConsumed += this.populations.calculatePopulationConsumption();
-        }
-
-        return populationConsumed;
+        return this.populations.calculatePopulationConsumption();
     }
 
     static getHabitablePlanetFromLevel(level: Level): Planet {
@@ -428,5 +426,12 @@ export default class Planet implements Entity {
         } while (planet === null);
 
         return planet;
+    }
+
+    public getAllegiance(team: Team) {
+        if (!this.getTotalPopulationConsumed()) {
+            return null;
+        }
+        return this.populations.getAllegianceForPlayer(team);
     }
 }
