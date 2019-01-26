@@ -439,7 +439,7 @@ export default class Ship implements Entity {
             populateAmount = this.colonists;
         }
         if (!this.stoppedOnPlanet.populations.species) {
-            this.stoppedOnPlanet.populations.species = this.
+            this.stoppedOnPlanet.populations.species = this.species;
         }
         this.stoppedOnPlanet.populations.quantity += this.colonists;
         this.colonists -= populateAmount;
