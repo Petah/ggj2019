@@ -5,6 +5,7 @@ import Planet from "./planet";
 import GM from "./gm";
 import Bullet from "./bullet";
 import ship from "./ship";
+import Map = Phaser.Structs.Map;
 
 export enum EnemyState {
     ATTACK_ENEMY,
@@ -15,7 +16,7 @@ export enum EnemyState {
 
 export default class Enemy extends Ship {
 
-    public shildColor: number = 0xff0000;
+    public sheildColor: number = 0xff0000;
 
     private states: EnemyState[] = [
         EnemyState.ATTACK_ENEMY,
@@ -28,10 +29,14 @@ export default class Enemy extends Ship {
     private framesToStateChange: number;
 
     private minFramesToStateChange = 200;
-    private maxFramesToStateChange = 800;
+    private maxFramesToStateChange = 700;
 
-    private attackRange = 300;
+    private framePerAttack = 60;
+    private framesSinceAttack = 60;
+
+    private attackRange = 200;
     private damageDirection: number;
+    private reenteringBounds: Boolean = false;
 
     constructor(scene: DefaultScene,
                 team: Team,
@@ -43,9 +48,11 @@ export default class Enemy extends Ship {
 
     update() {
         if (this.checkDeath()) return;
+        if (this.bounceIfAtEdgeOfMap()) return;
 
         this.recharge();
         this.lockSpeed();
+        this.framesSinceAttack++;
 
         if (this.framesInstate++ >= this.framesToStateChange) {
             this.changeState();
@@ -64,6 +71,39 @@ export default class Enemy extends Ship {
                 this.evade(this.damageDirection);
                 break;
         }
+    }
+
+    private bounceIfAtEdgeOfMap() {
+        let insetDistance = 50;
+
+        if (!this.reenteringBounds
+            && this.x <= insetDistance
+            || this.x >= this.scene.level.width - insetDistance
+            || this.y <= insetDistance
+            || this.y >= this.scene.level.height - insetDistance) {
+
+            let centreVariance = 20 + (Math.random() * 50);
+
+            this.direction = GM.pointDirection(
+                this.x,
+                this.y,
+                (this.scene.level.width / 2) + (centreVariance * GM.randomSign()),
+                (this.scene.level.height / 2) + (centreVariance * GM.randomSign()));
+
+            this.reenteringBounds = true;
+            console.log('Outside bounds');
+            this.move();
+        }
+
+        if (this.reenteringBounds
+            && this.x >= insetDistance
+            || this.x <= this.scene.level.width - insetDistance
+            || this.y >= insetDistance
+            || this.y <= this.scene.level.height - insetDistance) {
+            this.reenteringBounds = false;
+        }
+
+        return this.reenteringBounds;
     }
 
     private changeState() {
@@ -149,19 +189,22 @@ export default class Enemy extends Ship {
     }
 
     private shoot(target: any) {
-        // if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange) {
-        //     const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
-        //     const bullet = new Bullet(this.scene, this.x, this.y, target.x, target.y, direction);
-        //     this.scene.addEntity(bullet);
-        // }
+        if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange
+        && this.framesSinceAttack >= this.framePerAttack) {
+            const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
+            const bullet = new Bullet(this.scene, this.x, this.y, target.x, target.y, direction);
+            this.scene.addEntity(bullet);
+            this.framesSinceAttack = 0;
+        }
     }
 
     private evade(attackDirection: number) {
-        if (this.framesInstate % 50 === 0) {
+        if (this.framesInstate % 10 === 0) {
             this.direction = attackDirection + (Math.PI * Math.random());
             this.speed = this.maxSpeed;
         }
         this.move();
+        console.log('Evading...');
     }
 
     private mine(): Boolean {
