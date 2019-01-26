@@ -3,7 +3,6 @@ import Entity from "./entity";
 import PlanetType from "./game-objects/entity-types/planet-related-objects/planetType";
 import Population from "./game-objects/entity-types/planet-related-objects/populationObjects/population";
 import Level from "./level";
-import Team from "./team";
 import GM from "./gm";
 import Ship from "./ship";
 import Bullet from "./bullet";
@@ -178,9 +177,6 @@ export default class Planet implements Entity {
     }
 
     private createMaxPopulationLimit() {
-        // 0.3 large planet size
-        // 0.1 small planet size
-
         var temp = 60000000000; // 60 billion
         this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
     }
@@ -307,7 +303,7 @@ export default class Planet implements Entity {
         let bail = 100;
         do {
             const tempPlanet = level.planets[Math.floor(Math.random() * level.planets.length)];
-            if (tempPlanet.planetType.typeName === "Continental" && tempPlanet.populations.calculatePopulationConsumption() == 0) {
+            if (tempPlanet.populations.calculatePopulationConsumption() == 0) {
                 planet = tempPlanet;
                 break;
             }

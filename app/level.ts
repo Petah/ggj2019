@@ -57,7 +57,7 @@ export default class Level implements Entity {
                 type,
             );
 
-            planet.populations = populationFactory.generatePopulationForPlanet(planet);
+            planet.populations = populationFactory.generatePopulationForPlanet();
             this.planets.push(planet);
             this.scene.addEntity(planet);
         }
