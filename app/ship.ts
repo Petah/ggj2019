@@ -443,5 +443,8 @@ export default class Ship implements Entity {
         }
         this.stoppedOnPlanet.populations.quantity += this.colonists;
         this.colonists -= populateAmount;
+        if (!this.stoppedOnPlanet.getAllegiance(this.team)) {
+            this.stoppedOnPlanet.populations.setAllegianceForTeam(this.team, 100);
+        }
     }
 };
