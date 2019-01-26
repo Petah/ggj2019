@@ -40,6 +40,9 @@ export default class Planet implements Entity {
     public shield: number = 0;
     public maxShield: number = 0;
 
+    private framesPerAttack = 60;
+    private framesSinceAttack = 60;
+
     constructor(
         private scene: DefaultScene,
         public name: string,
@@ -116,6 +119,8 @@ export default class Planet implements Entity {
             }
         }
 
+        this.framesSinceAttack++;
+
         // circle
         this.graphics.lineStyle(1, color);
         this.graphics.strokeCircleShape(this.circle);
@@ -129,8 +134,7 @@ export default class Planet implements Entity {
                 this.y + 15));
             this.nameText.setText(this.name);
             this.nameText.setColor(colorText)
-        }
-        else {
+        } else {
             this.nameText.setText("");
         }
 
@@ -156,22 +160,29 @@ export default class Planet implements Entity {
             this.graphics.strokeRectShape(rectangle);
         }
 
-        // const shipToShoot = this.findShipToShootAt();
-        // if (shipToShoot && this.team && shipToShoot.team !== this.team) {
-        //     const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
-        //     const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
-        //     this.scene.addEntity(bullet);
-        // }
+        const shipToShoot = this.findShipToShootAt();
+        if (shipToShoot && this.team && shipToShoot.team !== this.team
+            && this.framesSinceAttack >= this.framesPerAttack) {
+            const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
+            const bullet = new Bullet(this.scene, this.x, this.y, shipToShoot.x, shipToShoot.y, direction);
+            this.scene.addEntity(bullet);
+            this.framesSinceAttack = 0;
+        }
     }
 
     private getShieldColor(amount) {
         amount = Math.ceil(amount * 5);
         switch (amount) {
-            case 1: return 0xFF0000;
-            case 2: return 0xFF0077;
-            case 3: return 0xFF00FF;
-            case 4: return 0x7700FF;
-            case 5: return 0x0000FF;
+            case 1:
+                return 0xFF0000;
+            case 2:
+                return 0xFF0077;
+            case 3:
+                return 0xFF00FF;
+            case 4:
+                return 0x7700FF;
+            case 5:
+                return 0x0000FF;
         }
         return 0x0000FF;
     }
@@ -267,7 +278,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInAgriculture(): number {
-        if(this.agriculture < this.maxAgriculture) {
+        if (this.agriculture < this.maxAgriculture) {
             return (this.maxAgriculture - this.agriculture) * 1000;
         }
 
@@ -275,7 +286,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInEducation(): number {
-        if(this.education < this.maxEducation) {
+        if (this.education < this.maxEducation) {
             return (this.maxEducation - this.education) * 1000;
         }
 
@@ -283,7 +294,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInDefence(): number {
-        if(this.defence < this.maxDefence) {
+        if (this.defence < this.maxDefence) {
             return (this.maxDefence - this.defence) * 1000;
         }
 
@@ -291,7 +302,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInIndustry(): number {
-        if(this.industry < this.maxIndustry) {
+        if (this.industry < this.maxIndustry) {
             return (this.maxIndustry - this.industry) * 1000;
         }
 
@@ -299,7 +310,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInSpaceport(): number {
-        if(this.spacePort < this.maxSpacePort) {
+        if (this.spacePort < this.maxSpacePort) {
             return (this.maxSpacePort - this.spacePort) * 1000;
         }
 
@@ -307,7 +318,7 @@ export default class Planet implements Entity {
     }
 
     public remainingInvestmentInMining(): number {
-        if(this.mining < this.maxMining) {
+        if (this.mining < this.maxMining) {
             return (this.maxMining - this.mining) * 1000;
         }
 
@@ -349,7 +360,7 @@ export default class Planet implements Entity {
         ship.money -= money;
         this.populations.increaseAllegianceForPlayer(ship.team, money)
     }
-    
+
     // private functions
     private spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
