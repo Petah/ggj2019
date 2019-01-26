@@ -9,7 +9,7 @@ interface AllegianceMap {
 export default class Population {
     private maxHealth = 100;
     private minHealth = -100;
-    private allegiances: AllegianceMap;
+    private allegiances: AllegianceMap = {};
 
     constructor(
         public species: Species,

@@ -321,9 +321,11 @@ export default class UI implements Entity {
                 this.planetName.text(this.ship.stoppedOnPlanet.name);
                 this.planetInhabitance.text('Uninhabited');
                 this.planetPopulation.text(this.numberWithCommas(this.ship.stoppedOnPlanet.getTotalPopulationConsumed(), 0));
-                this.planetSickness.text('213'); // @todo
-                this.planetInfrastructure.text('213'); // @todo
-                this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
+                // this.planetSickness.text('213'); // @todo
+                // this.planetInfrastructure.text('213'); // @todo
+                // this.planetResource.text(this.numberWithCommas(this.ship.stoppedOnPlanet.resources, 2));
+
+                // console.log(this.ship.stoppedOnPlanet.populations.getAllegianceForPlayer(this.ship.team));
             }
 
             this.minimapShip.style({

@@ -349,6 +349,7 @@
         .stat-box img {
             max-width: 20px;
             vertical-align: middle;
+            filter: drop-shadow(1px 1px 0 #111);
         }
 
         .stat-text {
@@ -377,6 +378,7 @@
         #time-seg img {
             max-width: 100%;
             max-height: 100%;
+            filter: drop-shadow(1px 1px 0 #111);
         }
 
         #planet-inhabitance-wrapper {
@@ -430,7 +432,8 @@
 
         .gauge {
             background: #e7e7e7;
-            box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.09), 0 0 35px 5px rgba(255, 255, 255, 0.29);
+            /* box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.09), 0 0 35px 5px rgba(255, 255, 255, 0.29); */
+            box-shadow: 1px 1px 0 #111;
             width: 200px;
             height: 100px;
             border-radius: 100px 100px 0 0;
@@ -542,6 +545,35 @@
             transform-origin: right;
             right: 52px;
         }
+
+        .resources-wrapper {
+            display: flex;
+            flex: 1;
+        }
+
+        .resources {
+            width: 33%;
+            position: relative;
+        }
+
+        .resources-text {
+            text-shadow: -1px 1px 0 #000;
+            transform: rotate(-90deg);
+            width: 50%;
+            bottom: 8px;
+            left: -3px;
+            position: absolute;
+            text-transform: uppercase;
+        }
+
+        .resources-bar {
+            background-color: #111;
+            border: 4px groove #999;
+            width: 50%;
+            height: calc(100% - 10px);
+            right: 0;
+            position: absolute;
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -615,10 +647,20 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    Resources
-                                    Sickness: <div id="planet-sickness"></div>
-                                    Infrastructure: <div id="planet-infrastructure"></div>
-                                    Resources: <div id="planet-resource"></div>
+                                    <div class="resources-wrapper">
+                                        <div class="resources">
+                                            <div class="resources-text">Illness</div>
+                                            <div class="resources-bar" id="planet-sickness"></div>
+                                        </div>
+                                        <div class="resources">
+                                            <div class="resources-text">Infrastructure</div>
+                                            <div class="resources-bar" id="planet-infrastructure"></div>
+                                        </div>
+                                        <div class="resources">
+                                            <div class="resources-text">Resources</div>
+                                            <div class="resources-bar" id="planet-resource"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -782,29 +824,29 @@
 
             <div>
                 <div class="row">
-                    <div id="modal-invest-mining" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 1
                     </div>
-                    <div id="modal-invest-spaceport" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 2
                     </div>
-                    <div id="modal-invest-industry" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 3
                     </div>
                 </div>
                 <div class="row">
-                    <div id="modal-invest-agriculture" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 4
                     </div>
-                    <div id="modal-invest-defence" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 5
                     </div>
-                    <div id="modal-invest-education" class="col">
+                    <div class="col">
                         <img src="https://via.placeholder.com/100x100" /><br />
                         Resource 6
                     </div>
