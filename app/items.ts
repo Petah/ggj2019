@@ -11,6 +11,8 @@ export default class Items {
             icon: 'assets/icon-torpedo.png',
             description: 'Only the finest plasma by-products are used in the creation of this industry standard product. Licence by KillTronics Inc.',
             price: 110,
+            damage: 0.24,
+            fireCost: 0.05,
         }));
         this.items.push(new Item({
             key: 'mine',
@@ -18,6 +20,8 @@ export default class Items {
             icon: 'assets/icon-mine.png',
             description: 'Emits a large energy pulse when approached by hull of passing vessel. Once armed, is lethal to friend and foe.',
             price: 230,
+            damage: 0.33,
+            fireCost: 0.08,
         }));
         this.items.push(new Item({
             key: 'hot-torpedo',
@@ -25,6 +29,8 @@ export default class Items {
             icon: 'assets/icon-hot-torpedo.png',
             description: 'This is a variation of the standard torpedo, but packs four times the punch. Fits all standard weapons racks.',
             price: 1000,
+            damage: 0.42,
+            fireCost: 0.12,
         }));
         this.items.push(new Item({
             key: 'nuke',
@@ -32,6 +38,8 @@ export default class Items {
             icon: 'assets/icon-nuclear.png',
             description: 'This convenient multi-teraton package is guaranteed to destroy a great deal of living matter on a planet. It is also an effective plague sterilization technique.',
             price: 100000,
+            damage: 0.95,
+            fireCost: 0.65,
         }));
         this.items.push(new Item({
             key: 'bio',
@@ -106,6 +114,8 @@ export class Item {
     public icon: string;
     public description: string;
     public price: number;
+    public damage: number;
+    public fireCost: number;
     constructor(
         props: object,
     ) {

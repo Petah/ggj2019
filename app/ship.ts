@@ -11,7 +11,7 @@ import { shadeBlendConvert } from "./color";
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 
 class ShipItem {
-    public amount: number = 0;
+    public amount: number = 100;
 
     constructor(
         public item: Item,
@@ -41,7 +41,7 @@ export default class Ship implements Entity {
     protected cursors: Phaser.Input.Keyboard.CursorKeys;
     protected keyMine: Phaser.Input.Keyboard.Key;
 
-    public money: number = 500;
+    public money: number = 500000;
     public colonists: number = 0;
     public maxColonists: number = 1999;
     public cargo: number = 0;
@@ -112,14 +112,14 @@ export default class Ship implements Entity {
                 }
                 if (pointer.buttons == 2) {
                     if (this.weapon) {
-                        const fireCost = 0.1; // @todo get charge amount from item
-                        if (this.charge > fireCost) {
-                            this.charge -= fireCost;
-                            const bullet = new Bullet(this.scene, this, px, py, direction);
+                        if (this.charge > this.items[this.weapon].item.fireCost && this.items[this.weapon].amount > 1) {
+                            this.charge -= this.items[this.weapon].item.fireCost;
+                            this.items[this.weapon].amount -= 1;
+                            const bullet = new Bullet(this.scene, this, px, py, direction, this.items[this.weapon].item.damage);
                             this.scene.addEntity(bullet);
                         }
                     } else {
-                        const fireCost = 0.1; // @todo get charge amount from item
+                        const fireCost = 0.19;
                         if (this.charge > fireCost) {
                             this.charge -= fireCost;
                             const laser = new Laser(this.scene, this, px, py, direction);
@@ -239,6 +239,7 @@ export default class Ship implements Entity {
     }
 
     drawShield() {
+        console.log(this.maxShield);
         for (let i = this.ellipses.length - 1; i >= 0; i--) {
             if (i >= this.maxShield) {
                 continue;
@@ -271,7 +272,23 @@ export default class Ship implements Entity {
             this.dead--;
             if (this.dead <= 0) {
                 this.image.alpha = 1;
-                // @todo respawn as owned planet
+                this.energy = 1;
+                this.maxEnergy = 1;
+                this.charge = 1;
+                this.maxCharge = 1;
+                this.shield = 1;
+                this.maxShield = 1;
+                for (const key in this.items) {
+                    this.items[key].amount = 0;
+                }
+                for (const entity of this.scene.entities) {
+                    if (entity instanceof Planet) {
+                        if (entity.getAllegiance(this.team) > 0.5) {
+                            this.image.x = entity.x;
+                            this.image.y = entity.y - 10;
+                        }
+                    }
+                }
             }
             return true;
         }
@@ -371,7 +388,7 @@ export default class Ship implements Entity {
                 this.money -= item.price;
             }
         } else if (item.key == 'shield') {
-            if (this.maxShield < 5) {
+            if (this.maxShield < 6) {
                 this.shield += 1;
                 this.maxShield += 1;
                 this.money -= item.price;
@@ -386,6 +403,7 @@ export default class Ship implements Entity {
     }
 
     damage(amount: number, blastDirection: number) {
+        console.log('damage', amount, this.shield, this.energy);
         if (this.shield > 0) {
             this.shield -= amount;
             this.maxShield = Math.ceil(this.shield);
@@ -398,7 +416,10 @@ export default class Ship implements Entity {
         }
         if (this.energy <= 0) {
             this.dead = 100;
+            this.speed = 0;
             this.image.alpha = 0;
+            this.image.setVelocityX(0);
+            this.image.setVelocityY(0);
         }
     }
 
@@ -486,6 +507,9 @@ export default class Ship implements Entity {
         if (this.stoppedOnPlanet.getAllegiance(this.team) <= 33) {
             return false;
         }
+        if (this.money < 10000) {
+            return false;
+        }
         return true;
     }
 
@@ -513,5 +537,21 @@ export default class Ship implements Entity {
             this.stoppedOnPlanet.populations.setAllegianceForTeam(this.team, 100);
         }
         this.scene.ui.drawMiniMap();
+    }
+
+    invest(tech) {
+        if (!this.canInvest()) {
+            return;
+        }
+        let amount = 0.1;
+        this.stoppedOnPlanet[tech] += amount;
+        if (this.stoppedOnPlanet[tech] > 1) {
+            this.stoppedOnPlanet[tech] = 1;
+        }
+        this.money -= 10000;
+        if (tech == 'defence') {
+            this.stoppedOnPlanet.maxShield = Math.round(5 * this.stoppedOnPlanet.defence);
+            this.stoppedOnPlanet.shield = this.stoppedOnPlanet.maxShield;
+        }
     }
 };

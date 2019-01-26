@@ -49,12 +49,12 @@ export default class Level implements Entity {
                 x,
                 y,
 
-                1, // mining
-                1, // spacePort
-                1, // industry
-                1, // agriculture
-                1, // defence
-                1, // education
+                0, // mining
+                0, // spacePort
+                0, // industry
+                0, // agriculture
+                0, // defence
+                0, // education
 
                 null, // population
                 0, // health

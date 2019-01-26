@@ -117,6 +117,8 @@ export default class UI implements Entity {
     private shipChargePods: Element;
     private shipCargoBar: Element;
     private shipCargoPods: Element;
+    private shipShieldBar: Element;
+    private shipShieldPods: Element;
     private shipShields: Element;
     private shipMoney: Element;
     private shipColonists: Element;
@@ -177,12 +179,15 @@ export default class UI implements Entity {
         this.shipChargePods = $('#charge-pods');
         this.shipCargoBar = $('#cargo-bar');
         this.shipCargoPods = $('#cargo-pods');
+        this.shipShieldBar = $('#shield-bar');
+        this.shipShieldPods = $('#shield-pods');
         this.shipShields = $('#ship-shields');
         this.shipMoney = $('.ship-money');
         this.shipColonists = $('.ship-colonists');
         this.totalPlanets = $('#total-planets');
 
         this.itemTorpedoCount = $('#item-torpedo-count');
+        this.itemMineCount = $('#item-mine-count');
         this.itemHotTorpedoCount = $('#item-hot-torpedo-count');
         this.itemMineCount = $('#item-mine-count');
         this.itemNukeCount = $('#item-nuke-count');
@@ -224,11 +229,11 @@ export default class UI implements Entity {
         this.itemPlagueCureButton = $('#item-anti-bio');
 
         this.itemWeaponButtons = [
-            this.itemLaserButton, 
-            this.itemTorpedoButton, 
-            this.itemMineButton, 
-            this.itemHotTorpedoButton, 
-            this.itemNeutronBombButton, 
+            this.itemLaserButton,
+            this.itemTorpedoButton,
+            this.itemMineButton,
+            this.itemHotTorpedoButton,
+            this.itemNeutronBombButton,
             this.itemPlagueBombButton
         ];
 
@@ -269,6 +274,7 @@ export default class UI implements Entity {
         this.investButton.addEventListener('click', () => {
             if (this.playerShip && this.playerShip.stoppedOnPlanet && this.playerShip.stoppedOnPlanet.canInvest) {
                 this.showModal('modal-invest');
+                this.updateInvestValues();
             }
         });
 
@@ -379,44 +385,48 @@ export default class UI implements Entity {
             this.toggleBuyButtons();
         });
 
-        // $('#item-laser').addEventListener('click', () => {
-        //     this.playerShip.weapon = null;
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-shield-button').addEventListener('click', () => {
+            this.playerShip.invest('defence');
+            this.updateInvestValues();
+        });
 
-        // $('#item-torpedo').addEventListener('click', () => {
-        //     this.playerShip.weapon = 'torpedo';
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-education-button').addEventListener('click', () => {
+            this.playerShip.invest('education');
+            this.updateInvestValues();
+        });
 
-        // $('#item-hot-torpedo').addEventListener('click', () => {
-        //     this.playerShip.weapon = 'hot-torpedo';
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-industry-button').addEventListener('click', () => {
+            this.playerShip.invest('industry');
+            this.updateInvestValues();
+        });
 
-        // $('#item-nuke').addEventListener('click', () => {
-        //     this.playerShip.weapon = 'nuke';
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-mining-button').addEventListener('click', () => {
+            this.playerShip.invest('mining');
+            this.updateInvestValues();
+        });
 
-        // $('#item-bio').addEventListener('click', () => {
-        //     this.playerShip.weapon = 'bio';
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-spaceport-button').addEventListener('click', () => {
+            this.playerShip.invest('spacePort');
+            this.updateInvestValues();
+        });
 
-        // $('#item-mine').addEventListener('click', () => {
-        //     this.playerShip.weapon = 'mine';
-        //     this.toggleWeaponButton();
-        // });
+        $('#invest-agriculture-button').addEventListener('click', () => {
+            this.playerShip.invest('agriculture');
+            this.updateInvestValues();
+        });
     }
 
-    // private toggleWeaponButton() {
-
-    // }
+    private updateInvestValues() {
+        $('#invest-agriculture').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.agriculture * 100, 0));
+        $('#invest-shield').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.defence * 100, 0));
+        $('#invest-education').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.education * 100, 0));
+        $('#invest-industry').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.industry * 100, 0));
+        $('#invest-mining').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.mining * 100, 0));
+        $('#invest-spaceport').text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.spacePort * 100, 0));
+    }
 
     private toggleBuyButtons() {
         const item = this.scene.items.items[this.currentItem];
-        console.log(this.playerShip.money, item.price);
         if (this.playerShip.money >= item.price) {
             $('#buy-1').removeAttr('disabled');
         } else {
@@ -487,6 +497,9 @@ export default class UI implements Entity {
     }
 
     private getBarAmount(amount, max) {
+        if (amount <= 0) {
+            return 0;
+        }
         if (amount == max) {
             return 100;
         }
@@ -523,13 +536,20 @@ export default class UI implements Entity {
                 class: 'pods pods-' + this.getPodCount(this.playerShip.cargo, this.playerShip.maxCargo) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxCargo - 1)),
             });
 
+            this.shipShieldBar.style({
+                width: this.getBarAmount(this.playerShip.shield, this.playerShip.maxShield) + '%',
+            });
+            this.shipShieldPods.attr({
+                class: 'pods pods-' + this.getPodCount(this.playerShip.shield, this.playerShip.maxShield) + ' pods-max-' + Math.max(0, Math.floor(this.playerShip.maxShield - 1)),
+            });
+
             this.shipShields.text(this.numberWithCommas(this.playerShip.maxShield, 0));
             this.shipMoney.text(this.numberWithCommas(this.playerShip.money, 0));
             this.shipColonists.text(this.numberWithCommas(this.playerShip.colonists, 0));
 
             this.itemTorpedoCount.text(this.numberWithCommas(this.playerShip.items['torpedo'].amount, 0));
-            this.itemHotTorpedoCount.text(this.numberWithCommas(this.playerShip.items['hot-torpedo'].amount, 0));
             this.itemMineCount.text(this.numberWithCommas(this.playerShip.items['mine'].amount, 0));
+            this.itemHotTorpedoCount.text(this.numberWithCommas(this.playerShip.items['hot-torpedo'].amount, 0));
             this.itemNukeCount.text(this.numberWithCommas(this.playerShip.items['nuke'].amount, 0));
             this.itemBioCount.text(this.numberWithCommas(this.playerShip.items['bio'].amount, 0));
 
@@ -569,8 +589,12 @@ export default class UI implements Entity {
                 this.planetName.text(this.playerShip.stoppedOnPlanet.name);
                 this.planetInhabitance.text('Uninhabited');
                 this.planetPopulation.text(this.numberWithCommas(this.playerShip.stoppedOnPlanet.getTotalPopulationConsumed(), 0));
-                // this.planetSickness.text('213'); // @todo
-                // this.planetInfrastructure.text('213'); // @todo
+                this.planetSickness.style({
+                    height: this.numberWithCommas(this.playerShip.stoppedOnPlanet.sickness, 2) + '%',
+                });
+                this.planetInfrastructure.style({
+                    height: this.numberWithCommas(this.playerShip.stoppedOnPlanet.infrastructureLevel / 6 * 100, 2) + '%',
+                });
                 this.planetResource.style({
                     height: this.numberWithCommas(this.playerShip.stoppedOnPlanet.resources, 2) + '%',
                 });

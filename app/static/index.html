@@ -282,6 +282,29 @@
             background-color: #FFF000;
         }
 
+        .bar-wrapper-shield .bar-inner,
+        .bar-wrapper-shield .pods-1 .pod-1,
+
+        .bar-wrapper-shield .pods-2 .pod-1,
+        .bar-wrapper-shield .pods-2 .pod-2,
+
+        .bar-wrapper-shield .pods-3 .pod-1,
+        .bar-wrapper-shield .pods-3 .pod-2,
+        .bar-wrapper-shield .pods-3 .pod-3,
+
+        .bar-wrapper-shield .pods-4 .pod-1,
+        .bar-wrapper-shield .pods-4 .pod-2,
+        .bar-wrapper-shield .pods-4 .pod-3,
+        .bar-wrapper-shield .pods-4 .pod-4,
+
+        .bar-wrapper-shield .pods-5 .pod-1,
+        .bar-wrapper-shield .pods-5 .pod-2,
+        .bar-wrapper-shield .pods-5 .pod-3,
+        .bar-wrapper-shield .pods-5 .pod-4,
+        .bar-wrapper-shield .pods-5 .pod-5 {
+            background-color: #00FF00;
+        }
+
         .bar-wrapper-charge .bar-inner,
         .bar-wrapper-charge .pods-1 .pod-1,
 
@@ -738,7 +761,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="team">
-                                    <div class="team-name">Gnarf</div>
+                                    <div class="team-name" style="color: #00ff00">Gnarf</div>
                                     <img src="assets/ladypig.gif" />
                                 </div>
                             </div>
@@ -754,7 +777,7 @@
                             </div>
                             <div class="col">
                                 <div class="team">
-                                    <div class="team-name">Depton</div>
+                                    <div class="team-name" style="color: #ff0000">Depton</div>
                                     <img src="assets/fripo.gif" />
                                 </div>
                             </div>
@@ -931,13 +954,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="bar-wrapper bar-wrapper-speed">
+                                <div class="bar-wrapper bar-wrapper-shield">
                                     <div class="bar">
-                                        <div class="bar-inner" id="speed-bar"></div>
+                                        <div class="bar-inner" id="shield-bar"></div>
                                     </div>
                                     <div class="pod-wrapper">
+                                        <div class="pods" id="shield-pods">
+                                            <div class="pod pod-1"></div>
+                                            <div class="pod pod-2"></div>
+                                            <div class="pod pod-3"></div>
+                                            <div class="pod pod-4"></div>
+                                            <div class="pod pod-5"></div>
+                                        </div>
                                         <div class="pod-text">
-                                            Speed
+                                            Shield
                                         </div>
                                     </div>
                                 </div>
@@ -987,41 +1017,41 @@
                 <div>
                     <div class="row">
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-agriculture-button">
                                 <img src="assets/farming.png" /><br />
-                                Agriculture <br /><span>40%</span>
+                                Agriculture <br /><span id="invest-agriculture"></span>%
                             </button>
                         </div>
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-shield-button">
                                 <img src="assets/shield.png" /><br />
-                                Defence <br /><span>40%</span>
+                                Defence <br /><span id="invest-shield"></span>%
                             </button>
                         </div>
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-education-button">
                                 <img src="assets/education.png" /><br />
-                                Education <br /><span>40%</span>
+                                Education <br /><span id="invest-education"></span>%
                             </button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-industry-button">
                                 <img src="assets/industry.png" /><br />
-                                Industry <br /><span>40%</span>
+                                Industry <br /><span id="invest-industry"></span>%
                             </button>
                         </div>
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-mining-button">
                                 <img src="assets/mining.png" /><br />
-                                Mining <br /><span>40%</span>
+                                Mining <br /><span id="invest-mining"></span>%
                             </button>
                         </div>
                         <div class="col">
-                            <button class="invest-button">
+                            <button class="invest-button" id="invest-spaceport-button">
                                 <img src="assets/spaceport.png" /><br />
-                                Space Port <br /><span>40%</span>
+                                Space Port <br /><span id="invest-spaceport"></span>%
                             </button>
                         </div>
                     </div>

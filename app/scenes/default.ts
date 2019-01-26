@@ -79,6 +79,14 @@ export default class DefaultScene extends Phaser.Scene {
         playerHomePlanet.populations.quantity = 1000;
         playerHomePlanet.populations.species = human;
         playerHomePlanet.team = this.playerTeam;
+        playerHomePlanet.education = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.spacePort = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.mining = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.agriculture = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.industry = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.defence = 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.maxShield = Math.round(5 * playerHomePlanet.defence);
+        playerHomePlanet.shield = playerHomePlanet.maxShield;
         playerHomePlanet.populations.setAllegianceForTeam(this.playerTeam, 100);
 
         const enemyHomePlanets = [];
@@ -88,6 +96,14 @@ export default class DefaultScene extends Phaser.Scene {
             enemyHomePlanet.team = enemyTeam;
             enemyHomePlanet.populations.quantity = 1000;
             enemyHomePlanet.populations.species = ork;
+            enemyHomePlanet.education = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.spacePort = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.mining = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.agriculture = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.industry = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.defence = 0.5 + (Math.random() * 0.5);
+            enemyHomePlanet.maxShield = Math.round(5 * enemyHomePlanet.defence);
+            enemyHomePlanet.shield = enemyHomePlanet.maxShield;
             enemyHomePlanet.populations.setAllegianceForTeam(enemyTeam, 100);
             enemyHomePlanets.push(enemyHomePlanet);
         }

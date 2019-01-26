@@ -34,6 +34,8 @@ export default class Planet implements Entity {
     private planetSize: number;
     private nameText: Phaser.GameObjects.Text;
 
+    public sickness: number = 0;
+
     public attackRange = 200;
     public attackPower = 200;
 
