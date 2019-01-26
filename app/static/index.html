@@ -99,10 +99,15 @@
 
         #minimap {
             border: 4px groove #999;
-            background-color: #111;
             position: relative;
             width: 200px;
             height: 200px;
+
+            background-color: #111;
+            background-image: linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px);
+            background-size: 20px 20px, 20px 20px;
+            background-position: -1px -1px, -1px -1px;
         }
 
         .minimap-ship {
@@ -483,8 +488,7 @@
             margin-right: 10px;
         }
 
-        #planet-inhabitance-image img {
-        }
+        #planet-inhabitance-image img {}
 
         #score-wrapper {
             background-color: #868486;
@@ -755,12 +759,50 @@
         }
 
         .screws {
-            background: 
-                url("assets/screw.png") left top no-repeat, 
-                url("assets/screw.png") right top no-repeat, 
-                url("assets/screw.png") right bottom no-repeat, 
+            background:
+                url("assets/screw.png") left top no-repeat,
+                url("assets/screw.png") right top no-repeat,
+                url("assets/screw.png") right bottom no-repeat,
                 url("assets/screw.png") left bottom no-repeat,
-                #868486; 
+                #868486;
+        }
+
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #fff;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('assets/bg.png');
+        }
+
+        .splash-panel {
+            background-color: #777;
+            border: 4px groove #999;
+            padding: 20px;
+        }
+
+        .splash-panel a {
+            color: white;
+        }
+
+        .grid-bg-h {
+            background-color: #111;
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, .1) 1px, transparent 1px);
+            background-size: 10px 10px;
+            background-position: -1px -1px;
+        }
+
+        .grid-bg-v {
+            background-color: #111;
+            background-image: linear-gradient(rgba(255, 255, 255, .1) 1px, transparent 1px);
+            background-size: 10px 10px;
+            background-position: -1px -1px;
         }
     </style>
     <script defer src='vendor.js'></script>
@@ -828,7 +870,8 @@
                                         <img src="assets/planets/planet-barren-sprite.png" />
                                     </div>
                                     <div style="flex: 4; padding: 10px 0">
-                                        <span id="planet-inhabitance">Uninhabited</span>: <span id="planet-name">Unknown planet</span><br />
+                                        <span id="planet-inhabitance">Uninhabited</span>: <span id="planet-name">Unknown
+                                            planet</span><br />
                                         Population: <span id="planet-population">0</span>
                                     </div>
                                 </div>
@@ -855,19 +898,19 @@
                                     <div class="resources-wrapper">
                                         <div class="resources">
                                             <div class="resources-text">Illness</div>
-                                            <div class="resources-bar">
+                                            <div class="resources-bar grid-bg-v">
                                                 <div class="resources-bar-inner" id="planet-sickness" style="height: 50%;"></div>
                                             </div>
                                         </div>
                                         <div class="resources">
                                             <div class="resources-text">Infrastructure</div>
-                                            <div class="resources-bar">
+                                            <div class="resources-bar grid-bg-v">
                                                 <div class="resources-bar-inner" id="planet-infrastructure" style="height: 50%;"></div>
                                             </div>
                                         </div>
                                         <div class="resources">
                                             <div class="resources-text">Resources</div>
-                                            <div class="resources-bar">
+                                            <div class="resources-bar grid-bg-v">
                                                 <div class="resources-bar-inner" id="planet-resource" style="height: 0%;"></div>
                                             </div>
                                         </div>
@@ -928,7 +971,7 @@
                         <div class="ship-levels col">
                             <div class="row">
                                 <div class="bar-wrapper bar-wrapper-energy">
-                                    <div class="bar">
+                                    <div class="bar grid-bg-h">
                                         <div class="bar-inner" id="energy-bar"></div>
                                     </div>
                                     <div class="pod-wrapper">
@@ -947,7 +990,7 @@
                             </div>
                             <div class="row">
                                 <div class="bar-wrapper bar-wrapper-charge">
-                                    <div class="bar">
+                                    <div class="bar grid-bg-h">
                                         <div class="bar-inner" id="charge-bar"></div>
                                     </div>
                                     <div class="pod-wrapper">
@@ -966,7 +1009,7 @@
                             </div>
                             <div class="row">
                                 <div class="bar-wrapper bar-wrapper-cargo">
-                                    <div class="bar">
+                                    <div class="bar grid-bg-h">
                                         <div class="bar-inner" id="cargo-bar"></div>
                                     </div>
                                     <div class="pod-wrapper">
@@ -985,7 +1028,7 @@
                             </div>
                             <div class="row">
                                 <div class="bar-wrapper bar-wrapper-shield">
-                                    <div class="bar">
+                                    <div class="bar grid-bg-h">
                                         <div class="bar-inner" id="shield-bar"></div>
                                     </div>
                                     <div class="pod-wrapper">
@@ -1172,6 +1215,18 @@
                     <button class="cancel-modal" style="margin: 0;">Cancel</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="splash" id="splash-lose" style="display: none">
+        <div style="text-align: center" class="splash-panel screws">
+            <h1>You have failed to spread our home across the galaxy.</h1>
+            <a href="">Try again</a>
+        </div>
+    </div>
+    <div class="splash" id="splash-win" style="display: none">
+        <div style="text-align: center" class="splash-panel screws">
+            <h1>You have failed to spread our home across the galaxy.</h1>
+            <a href="">Try again</a>
         </div>
     </div>
 </body>

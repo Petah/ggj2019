@@ -645,6 +645,17 @@ export default class UI implements Entity {
         this.timeImage.attr({
             src: 'assets/seg-' + Math.round(10 - ((this.scene.gameTime / 10) % 1) * 10) + '.png',
         });
+        const {
+            totalHuman,
+            totalHumanPlanet,
+            totalOrk,
+        } = this.getTotalScores();
+        $('#score-us').text(this.numberWithCommas(totalHuman, 0));
+        $('#score-them').text(this.numberWithCommas(totalOrk, 0));
+        $('#total-planets').text(this.numberWithCommas(totalHumanPlanet, 0));
+    }
+
+    public getTotalScores() {
         let totalHuman = 0;
         let totalHumanPlanet = 0;
         let totalOrk = 0;
@@ -657,9 +668,22 @@ export default class UI implements Entity {
                 totalOrk += planet.getTotalPopulationConsumed();
             }
         }
-        $('#score-us').text(this.numberWithCommas(totalHuman, 0));
-        $('#score-them').text(this.numberWithCommas(totalOrk, 0));
-        $('#total-planets').text(this.numberWithCommas(totalHumanPlanet, 0));
+        return {
+            totalHuman,
+            totalHumanPlanet,
+            totalOrk,
+        }
+    }
+
+    public lose() {
+        $('#splash-lose').show();
+        this.scene.soundManager.play('nooo');
+        this.scene.game.scene.stop('default');
+    }
+
+    public win() {
+        $('#splash-win').show();
+        this.scene.game.scene.stop('default');
     }
 
     public drawMiniMap() {
@@ -680,6 +704,7 @@ export default class UI implements Entity {
     playMenuAudio() {
         this.scene.soundManager.play("menu_switch");
     }
+
     selectWeaponButton(selectedButton: Element, weapon: string) {
         this.playMenuAudio();
         var changed = false;

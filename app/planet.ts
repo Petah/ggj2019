@@ -475,4 +475,31 @@ export default class Planet implements Entity {
         }
         return this.populations.getAllegianceForPlayer(team);
     }
+    damage(amount: number, blastDirection: number) {
+        const killPop = 500;
+        if (this.shield > 0) {
+            this.shield -= amount;
+            this.maxShield = Math.ceil(this.shield);
+            if (this.shield < 0) {
+                this.populations.quantity += killPop * this.shield;
+                this.shield = 0;
+            }
+        } else {
+            this.populations.quantity -= killPop * amount;
+        }
+        if (this.populations.quantity <= 0) {
+            this.populations.quantity = 0;
+            this.populations.species = null;
+            const {
+                totalHuman,
+                totalHumanPlanet,
+                totalOrk,
+            } = this.scene.ui.getTotalScores();
+            if (totalOrk <= 0) {
+                this.scene.ui.win();
+            } else if (totalHuman <= 0) {
+                this.scene.ui.lose();
+            }
+        }
+    }
 }

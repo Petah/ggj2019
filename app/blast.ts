@@ -3,6 +3,7 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Ship from "./ship";
 import SoundManager from "./soundmanager";
+import Planet from "./planet";
 
 export default class Blast implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
@@ -33,6 +34,14 @@ export default class Blast implements Entity {
                 const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
                 if (distance < 25) {
                     entity.damage(this.damage, this.blastDirection);
+                    return;
+                }
+            }
+            if (entity instanceof Planet) {
+                const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
+                if (distance < 25) {
+                    entity.damage(this.damage, this.blastDirection);
+                    return;
                 }
             }
         }

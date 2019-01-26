@@ -98,7 +98,7 @@ export default class Enemy extends Ship {
                 (this.scene.level.height / 2) + (centreVariance * GM.randomSign()));
 
             this.reenteringBounds = true;
-            console.log('Outside bounds');
+            // console.log('Outside bounds');
             this.move();
         }
 
@@ -132,7 +132,7 @@ export default class Enemy extends Ship {
                 stateString = "Evading";
                 break;
         }
-        console.log("State changed to: " + stateString);
+        // console.log("State changed to: " + stateString);
     }
 
     private resetFramesInState() {
@@ -241,11 +241,11 @@ export default class Enemy extends Ship {
                 return true;
             } else {
                 this.mining = 0;
-                console.log('Mining reached max cargo');
+                // console.log('Mining reached max cargo');
                 return false;
             }
         }
-        console.log('Mining finished');
+        // console.log('Mining finished');
         return false;
     }
 
