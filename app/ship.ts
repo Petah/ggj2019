@@ -59,7 +59,7 @@ export default class Ship implements Entity {
     public items: ItemMap = {};
 
     private ellipses: Array<Phaser.Geom.Ellipse>;
-    private graphics: Phaser.GameObjects.Graphics;
+    public graphics: Phaser.GameObjects.Graphics;
 
     public shipWidth: number = 50.0;
     public shipHeight: number = 43.0;
@@ -228,7 +228,10 @@ export default class Ship implements Entity {
             }
         }
 
-        // shield
+        this.drawShield();
+    }
+
+    drawShield() {
         for (let i = this.ellipses.length - 1; i >= 0; i--) {
             if (i >= this.maxShield) {
                 continue;

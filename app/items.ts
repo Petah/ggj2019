@@ -8,35 +8,35 @@ export default class Items {
         this.items.push(new Item({
             key: 'torpedo',
             name: 'Phased Matter Interaction Torpedo',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-torpedo.png',
             description: 'Only the finest plasma by-products are used in the creation of this industry standard product. Licence by KillTronics Inc.',
             price: 50,
         }));
         this.items.push(new Item({
             key: 'mine',
             name: 'Proximity Fused Plasma Mine',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-mine.png',
             description: '@todo',
             price: 1000,
         }));
         this.items.push(new Item({
             key: 'hot-torpedo',
             name: 'Hot Plasma Missile',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-hot-torpedo.png',
             description: 'This is a variation of the standard torpedo, but packs four times the punch. Fits all standard weapons racks.',
             price: 1000,
         }));
         this.items.push(new Item({
             key: 'nuke',
             name: 'Neutron Bomb',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-nuclear.png',
             description: '@todo',
             price: 10000,
         }));
         this.items.push(new Item({
             key: 'bio',
             name: 'Plague Bomb',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-bio.png',
             description: '@todo',
             price: 10000,
         }));
@@ -64,35 +64,35 @@ export default class Items {
         this.items.push(new Item({
             key: 'shield',
             name: 'Shield',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/shield.png',
             description: '@todo',
             price: 100,
         }));
         this.items.push(new Item({
             key: 'cloak',
             name: 'Cloak',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-cloak.png',
             description: '@todo',
             price: 100,
         }));
         this.items.push(new Item({
             key: 'disrupter',
             name: 'Disrupter',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-sun.png',
             description: '@todo',
             price: 100,
         }));
         this.items.push(new Item({
             key: 'warp-drive',
             name: 'Warp Drive',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-warp.png',
             description: '@todo',
             price: 100,
         }));
         this.items.push(new Item({
             key: 'anti-bio',
             name: 'Anti Plague Sterilization Beam',
-            icon: 'https://via.placeholder.com/100x100',
+            icon: 'assets/icon-anti-bio.png',
             description: '@todo',
             price: 100,
         }));

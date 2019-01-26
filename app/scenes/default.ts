@@ -7,7 +7,6 @@ import SoundManager from "../soundmanager";
 import UI from "../ui";
 import Team from "../team";
 import Items from "../items";
-import PopulationFactory from "../game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
 import Planet from "../planet";
 import Enemy from "../enemy";
 import Human from "../game-objects/entity-types/planet-related-objects/populationObjects/human";

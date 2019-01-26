@@ -664,6 +664,28 @@
             height: 40px;
             filter: drop-shadow(1px 1px 0 #111);
         }
+
+        .buy-item-image {
+            font-family: "MS Sans Serif";
+            font-size: 11px;
+            background: #C0C0C0;
+            border-width: 2px;
+            border-style: solid;
+            border-color: #FFFFFF #808080 #808080 #FFFFFF;
+            margin: 3px;
+            margin-left: 0;
+            margin-top: 0;
+            margin-bottom: 5px;
+
+            width: 60px;
+            text-align: center;
+            padding: 10px;
+            margin-right: 10px;
+        }
+
+        .buy-item-image img {
+            filter: drop-shadow(1px 1px 0 #111);
+        }
     </style>
     <script defer src='vendor.js'></script>
     <script defer src='app.js'></script>
@@ -999,7 +1021,8 @@
                     and will pay $73,329 for 3,431 tons.
                 </p>
                 <div>
-                    <button id="sell-all" style="min-width: 100px"><span id="sell-all-tons">0</span> tons</button> for $73,329
+                    <button id="sell-all" style="min-width: 100px"><span id="sell-all-tons">0</span> tons</button> for
+                    $73,329
                 </div>
                 <div id="sell-1000-tons">
                     <button id="sell-1000" style="min-width: 100px">1,000 tons</button> for $2,212
@@ -1015,7 +1038,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <div style="padding: 10px">
+                        <div class="buy-item-image">
                             <img id="item-icon" src="assets/cargo.png" style="height: 50px" />
                         </div>
                     </div>
