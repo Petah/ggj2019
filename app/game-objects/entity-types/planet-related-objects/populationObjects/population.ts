@@ -1,9 +1,11 @@
 import Species from "./species";
 import Planet from "../../../../planet";
+import Team from "../../../../team";
 
 export default class Population {
     private maxHealth = 100;
     private minHealth = -100;
+    private allegiances: number[];
 
     constructor(
         public species: Species,
@@ -52,5 +54,13 @@ export default class Population {
         let populationConsumption = this.quantity * this.species.populationConsumption;
 
         return populationConsumption;
+    }
+
+    public getAllegianceForPlayer(team: Team) {
+        return this.allegiances[team.id];
+    }
+
+    public increaseAllegianceForPlayer(team: Team) {
+        
     }
 }

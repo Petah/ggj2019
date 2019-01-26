@@ -5,13 +5,13 @@ export default class PlanetNameGenerator {
     private volcanicNames: string[] = ["Vulkan", "Waluigi", "Nintenduu 64", "Excalbia", "Menjin", "Krypton"];
     private continentalNames: string[] = ["Earth", "Alpha Centauri", "Eden Prime", "Kerbol", "Olimar", "Holy Terra"];
     private jungleNames: string[] = ["Bungle", "Kipling", "Omicron Persei 8", "Fortuna", "Ixalan", "Pendis"];
-    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad", "Klap"]
+    private forestNames: string[] = ["Endor", "Solaria", "Brain Slug Planet", "Innistrad", "Klap", "Resting place of the Blorg"]
     private desertNames: string[] = ["Arrakis", "Tatooine", "Not Tatooine (Jakku)", "Athas", "Kharak", "Korriban", "Hocotate", "Ocampa", "Toroth", "Vulcan"] 
     private barrenNames: string[] = ["New Mars", "Belgium", "Dovid", "Giedi", "Spheron I", "127.0.0.1", "Slurt"] 
     private oceanNames: string[] = ["Caladan", "R'lyeh", "Dagon", "Thalassa", "Russalka", "Muur", "4546B", "GQ"] 
     private iceNames: string[] = ["Hoth", "Yump", "Neutral Planet", "Gethen", "Fichina", "Bicth", "Ryan Renolds the planet"] 
     private tundraNames: string[] = ["Gulag", "Melpomenia", "Atlas", "Gimp", "Ganthiya", "Factfur", "MEA"]
-    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia Rising", "ɐıʃɐɹʇsn∀"] 
+    private gaianNames: string[] = ["New Dawn", "cKnoor", "Ulm", "Walled Garden", "Beautopia Rising", "ɐıʃɐɹʇsn∀", "Ego"] 
 
     public generateName(planet: PlanetType) {
         var name: string;

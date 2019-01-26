@@ -185,12 +185,22 @@ export default class Planet implements Entity {
         this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetScale
     }
 
-    get infrastructure(): number {
+    get infrastructureLevel(): number {
         return this.agriculture
+            + this.industry
             + this.defence
             + this.mining
             + this.spacePort
             + this.education;
+    }
+
+    get maxInfrastructureLevel(): number {
+        return this.maxAgriculture
+            + this.maxIndustry
+            + this.maxDefence
+            + this.maxMining
+            + this.spacePort
+            + this.maxEducation
     }
 
     draw() {
@@ -213,11 +223,18 @@ export default class Planet implements Entity {
         return this.getTotalPopulationConsumed() <= 0;
     }
 
-    get canInvest(): boolean {
-        // @todo check alliance
-        return this.getTotalPopulationConsumed() > 0;
-    }
+    public canInvest(team: Team): boolean {
+        let canInvest = true;
+        
+        if(this.getTotalPopulationConsumed() <= 0
+            || this.infrastructureLevel >= this.maxInfrastructureLevel
+            || this.populations.getAllegianceForPlayer(team) <= 0) {
+            canInvest = false;
+        }
 
+        return canInvest
+    }
+    
     // private functions
     private spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
