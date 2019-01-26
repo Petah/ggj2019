@@ -133,14 +133,7 @@ export default class Ship implements Entity {
 
             this.scene.input.keyboard.on('keydown_C', (event) => {
                 if (this.team.isPlayerTeam) {
-                    if (this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
-                        if (this.cargo < this.maxCargo) {
-                            if (this.mining <= 0) {
-                                this.miningAudio.play();
-                                this.mining = 0.50 + (0.45 * Math.random());
-                            }
-                        }
-                    }
+                    this.playerMine();
                 }
             });
             this.scene.input.keyboard.on('keyup_C', (event) => {
@@ -430,8 +423,54 @@ export default class Ship implements Entity {
         this.miningAudio.stop();
     }
 
-    populatePlanet() {
+    canMine() {
+        if (this.stoppedOnPlanet && this.stoppedOnPlanet.canMine) {
+            if (this.cargo < this.maxCargo) {
+                if (this.mining <= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    canPopulate() {
         if (!this.stoppedOnPlanet) {
+            return false;
+        }
+        return true;
+    }
+
+    canBuy() {
+        if (!this.stoppedOnPlanet) {
+            return false;
+        }
+        if (this.stoppedOnPlanet.getAllegiance(this.team) <= 33) {
+            return false;
+        }
+        return true;
+    }
+
+    canInvest() {
+        if (!this.stoppedOnPlanet) {
+            return false;
+        }
+        if (this.stoppedOnPlanet.getAllegiance(this.team) <= 33) {
+            return false;
+        }
+        return true;
+    }
+
+
+    playerMine() {
+        if (this.canMine()) {
+            this.miningAudio.play();
+            this.mining = 0.50 + (0.45 * Math.random());
+        }
+    }
+
+    populatePlanet() {
+        if (!this.canPopulate()) {
             return;
         }
         let populateAmount = 100;

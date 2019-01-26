@@ -209,6 +209,13 @@
             background: #D0D0D0;
         }
 
+        button:disabled,
+        button.disabled {
+            border-color: transparent;
+            background: #D0D0D0;
+            outline: 1px solid #808080;
+        }
+
         .item-desc {
             height: 100px;
             background-color: #333;
@@ -886,14 +893,14 @@
             <div class="right">
                 <div>
                     <button id="mine">Mine</button>
-                    <button id="populate">Populate <br/><span class="ship-colonists"></span></button>
+                    <button id="populate">Colonise <br /><span class="ship-colonists"></span></button>
                     <button id="open-invest">Invest</button>
                     <button id="open-buy">Buy</button>
                 </div>
                 <div id="phaser-game"></div>
                 <div class="item-buttons">
                     <button id="item-laser" class="active">Laser</button>
-                    <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br/>Torpedo <span id="item-torpedo-count"></span></button>
+                    <button id="item-torpedo"><img src="assets/icon-torpedo.png" /><br />Torpedo <span id="item-torpedo-count"></span></button>
                     <button id="item-mine">Proximity Mine <span id="item-mine-count"></span></button>
                     <button id="item-hot-torpedo">Hot Torpedo <span id="item-hot-torpedo-count"></span></button>
                     <button id="item-nuke">Nuke <span id="item-nuke-count"></span></button>

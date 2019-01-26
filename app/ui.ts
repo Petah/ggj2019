@@ -63,6 +63,12 @@ class Element {
         return this;
     }
 
+    removeAttr(name) {
+        for (const el of this.elements) {
+            el.removeAttribute(name);
+        }
+    }
+
     style(styles) {
         for (const el of this.elements) {
             for (const key in styles) {
@@ -123,6 +129,10 @@ export default class UI implements Entity {
 
     private gauge: Element;
     private needle: Element;
+    private mineButton: Element;
+    private populateButton: Element;
+    private investButton: Element;
+    private buyButton: Element;
 
     private currentItem = 0;
 
@@ -170,6 +180,10 @@ export default class UI implements Entity {
 
         this.gauge = $('.gauge-center');
         this.needle = $('.needle');
+        this.mineButton = $('#mine');
+        this.populateButton = $('#populate');
+        this.investButton = $('#open-invest');
+        this.buyButton = $('#open-buy');
 
         $('.cancel-modal').addEventListener('click', () => {
             this.playMenuAudio();
@@ -188,11 +202,12 @@ export default class UI implements Entity {
             this.modalWrapper.hide();
         });
 
-        $('#mine').addEventListener('click', () => {
+        this.mineButton.addEventListener('click', () => {
             this.playMenuAudio();
+            this.playerShip.playerMine();
         });
 
-        $('#populate').addEventListener('click', () => {
+        this.populateButton.addEventListener('click', () => {
             this.playMenuAudio();
             this.playerShip.populatePlanet();
         });
@@ -204,13 +219,13 @@ export default class UI implements Entity {
             }
         });
 
-        $('#open-invest').addEventListener('click', () => {
+        this.investButton.addEventListener('click', () => {
             if (this.playerShip && this.playerShip.stoppedOnPlanet && this.playerShip.stoppedOnPlanet.canInvest) {
                 this.showModal('modal-invest');
             }
         });
 
-        $('#open-buy').addEventListener('click', () => {
+        this.buyButton.addEventListener('click', () => {
             if (this.playerShip && this.playerShip.stoppedOnPlanet && this.playerShip.stoppedOnPlanet.canSell) {
                 this.showItem(this.currentItem);
                 this.showModal('modal-buy');
@@ -374,6 +389,38 @@ export default class UI implements Entity {
             this.itemMineCount.text(this.numberWithCommas(this.playerShip.items['mine'].amount, 0));
             this.itemNukeCount.text(this.numberWithCommas(this.playerShip.items['nuke'].amount, 0));
             this.itemBioCount.text(this.numberWithCommas(this.playerShip.items['bio'].amount, 0));
+
+            if (this.playerShip.canMine()) {
+                this.mineButton.removeAttr('disabled');
+            } else {
+                this.mineButton.attr({
+                    disabled: 'disabled',
+                });
+            }
+
+            if (this.playerShip.canPopulate()) {
+                this.populateButton.removeAttr('disabled');
+            } else {
+                this.populateButton.attr({
+                    disabled: 'disabled',
+                });
+            }
+
+            if (this.playerShip.canBuy()) {
+                this.buyButton.removeAttr('disabled');
+            } else {
+                this.buyButton.attr({
+                    disabled: 'disabled',
+                });
+            }
+
+            if (this.playerShip.canInvest()) {
+                this.investButton.removeAttr('disabled');
+            } else {
+                this.investButton.attr({
+                    disabled: 'disabled',
+                });
+            }
 
             if (this.playerShip.stoppedOnPlanet) {
                 this.planetName.text(this.playerShip.stoppedOnPlanet.name);
