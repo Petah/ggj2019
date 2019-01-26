@@ -64,7 +64,7 @@ export default class DefaultScene extends Phaser.Scene {
         const populationFactory = new PopulationFactory();
 
         let playerHomePlanet = Planet.getHabitablePlanetFromLevel(this.level);
-        playerHomePlanet.populations = populationFactory.generatePopulationForPlanet(playerHomePlanet);
+        playerHomePlanet.populations = populationFactory.generatePopulationForPlanet();
         playerHomePlanet.team = this.playerTeam;
         this.playerShip = new Ship(this, this.playerTeam, playerHomePlanet);
         this.ui.ship = this.playerShip;
@@ -79,7 +79,7 @@ export default class DefaultScene extends Phaser.Scene {
 
             let homePlanet = Planet.getHabitablePlanetFromLevel(this.level);
             homePlanet.team = team;
-            homePlanet.populations = populationFactory.generatePopulationForPlanet(homePlanet);
+            homePlanet.populations = populationFactory.generatePopulationForPlanet();
 
             let enemyShip = new Enemy(this, team, homePlanet);
             this.enemyShips.push(enemyShip);
