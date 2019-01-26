@@ -8,8 +8,8 @@ import GM from "./gm";
 
 export default class Level implements Entity {
     id: number
-    public width: number = 1000;
-    public height: number = 1000;
+    public width: number = 5000;
+    public height: number = 5000;
     private planetCount = 20;
     public planets: Planet[] = [];
     private line: Phaser.Geom.Line;
