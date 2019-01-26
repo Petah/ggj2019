@@ -2,10 +2,14 @@ import Species from "./species";
 import Planet from "../../../../planet";
 import Team from "../../../../team";
 
+interface AllegianceMap { 
+    [key: number]: number; 
+};
+
 export default class Population {
     private maxHealth = 100;
     private minHealth = -100;
-    private allegiances: number[];
+    private allegiances: AllegianceMap;
 
     constructor(
         public species: Species,
@@ -59,7 +63,24 @@ export default class Population {
         return this.allegiances[team.id];
     }
 
-    public increaseAllegianceForPlayer(team: Team) {
-        
+    public increaseAllegianceForPlayer(team: Team, money: number) {
+        let numPlayersEncountered = 0;
+        if(this.allegiances[team.id] === undefined || this.allegiances[team.id] === null) {
+            this.allegiances[team.id] = 50
+        }
+
+        numPlayersEncountered = Object.keys(this.allegiances).length;
+        numPlayersEncountered--;
+
+        let returnOnInvestment = money / 1000;
+        returnOnInvestment /= numPlayersEncountered;
+
+        this.allegiances[team.id] += returnOnInvestment;
+
+        for(const key of Object.keys(this.allegiances)) {
+            if(key !== team.id.toString()) {
+                this.allegiances[key] -= returnOnInvestment;
+            }
+        }
     }
 }

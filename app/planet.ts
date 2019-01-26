@@ -90,6 +90,7 @@ export default class Planet implements Entity {
         }
 
         this.createMaxPopulationLimit();
+        this.createInfrastructureLimits();
     }
 
     update() {
@@ -201,6 +202,16 @@ export default class Planet implements Entity {
         this.maxPopulation = temp * this.planetType.maxPopulationModifier * this.planetSize;
     }
 
+    private createInfrastructureLimits() {
+        var temp = 1000000000;
+        this.maxAgriculture = temp * this.planetType.maxAgricultureModifier * this.planetSize
+        this.maxDefence = temp * this.planetType.maxDefenceModifier * this.planetSize
+        this.maxEducation = temp * this.planetType.maxEducationModifier * this.planetSize
+        this.maxIndustry = temp * this.planetType.maxIndustryModifier * this.planetSize
+        this.maxMining = temp * this.planetType.maxMiningModifier * this.planetSize
+        this.maxSpacePort = temp * this.planetType.maxSpacePortModifier * this.planetSize
+    }
+
     get infrastructureLevel(): number {
         return this.agriculture
             + this.industry
@@ -251,6 +262,90 @@ export default class Planet implements Entity {
         return canInvest
     }
 
+    public remainingInvestmentInAgriculture(): number {
+        if(this.agriculture < this.maxAgriculture) {
+            return (this.maxAgriculture - this.agriculture) * 1000;
+        }
+
+        return -1;
+    }
+
+    public remainingInvestmentInEducation(): number {
+        if(this.education < this.maxEducation) {
+            return (this.maxEducation - this.education) * 1000;
+        }
+
+        return -1;
+    }
+
+    public remainingInvestmentInDefence(): number {
+        if(this.defence < this.maxDefence) {
+            return (this.maxDefence - this.defence) * 1000;
+        }
+
+        return -1;
+    }
+
+    public remainingInvestmentInIndustry(): number {
+        if(this.industry < this.maxIndustry) {
+            return (this.maxIndustry - this.industry) * 1000;
+        }
+
+        return -1;
+    }
+
+    public remainingInvestmentInSpaceport(): number {
+        if(this.spacePort < this.maxSpacePort) {
+            return (this.maxSpacePort - this.spacePort) * 1000;
+        }
+
+        return -1;
+    }
+
+    public remainingInvestmentInMining(): number {
+        if(this.mining < this.maxMining) {
+            return (this.maxMining - this.mining) * 1000;
+        }
+
+        return -1;
+    }
+
+    public investInMining(ship: Ship, money: number) {
+        this.mining += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+
+    public investInAgriculture(ship: Ship, money: number) {
+        this.agriculture += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+
+    public investInDefence(ship: Ship, money: number) {
+        this.defence += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+
+    public investInIndustry(ship: Ship, money: number) {
+        this.industry += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+
+    public investInEducation(ship: Ship, money: number) {
+        this.education += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+
+    public investInSpacePort(ship: Ship, money: number) {
+        this.spacePort += money;
+        ship.money -= money;
+        this.populations.increaseAllegianceForPlayer(ship.team, money)
+    }
+    
     // private functions
     private spriteNameFor(planetType: PlanetType) {
         switch (planetType.typeName) {
