@@ -155,10 +155,10 @@ export default class Planet implements Entity {
         }
 
         const shipToShoot = this.findShipToShootAt();
-        if (shipToShoot && this.team && shipToShoot.team !== this.team
+        if (shipToShoot && this.populations.species && shipToShoot.species !== this.populations.species
             && this.framesSinceAttack >= this.framesPerAttack) {
             const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
-            const bullet = new Bullet(this.scene, this, shipToShoot.x, shipToShoot.y, direction);
+            const bullet = new Bullet(this.scene, this, shipToShoot.x, shipToShoot.y, direction, this.scene.items.items[0].damage);
             this.scene.addEntity(bullet);
             this.framesSinceAttack = 0;
         }
@@ -218,10 +218,12 @@ export default class Planet implements Entity {
         };
         for (const ship of this.scene.entities) {
             if (ship instanceof Ship) {
-                const distance = GM.pointDistance(this.x, this.y, ship.x, ship.y);
-                if (!closest.ship || closest.distance > distance) {
-                    closest.ship = ship;
-                    closest.distance = distance;
+                if (ship.species != this.populations.species && ship.dead <= 0) {
+                    const distance = GM.pointDistance(this.x, this.y, ship.x, ship.y);
+                    if (!closest.ship || closest.distance > distance) {
+                        closest.ship = ship;
+                        closest.distance = distance;
+                    }
                 }
             }
         }

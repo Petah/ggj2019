@@ -12,7 +12,8 @@ export enum EnemyState {
     ATTACK_ENEMY,
     ATTACK_PLANET,
     MINE_PLANET,
-    EVADING
+    EVADING,
+    COLONISE,
 }
 
 export default class Enemy extends Ship {
@@ -22,7 +23,9 @@ export default class Enemy extends Ship {
     private states: EnemyState[] = [
         EnemyState.ATTACK_ENEMY,
         EnemyState.ATTACK_PLANET,
-        EnemyState.MINE_PLANET
+        EnemyState.MINE_PLANET,
+        EnemyState.EVADING,
+        EnemyState.COLONISE,
     ];
 
     private state: EnemyState;
@@ -38,6 +41,7 @@ export default class Enemy extends Ship {
     private attackRange = 200;
     private damageDirection: number;
     private reenteringBounds: Boolean = false;
+    private idealPlanetCount: number;
 
     constructor(
         scene: DefaultScene,
@@ -47,6 +51,7 @@ export default class Enemy extends Ship {
         shipSprite: string,
     ) {
         super(scene, team, startPlanet, species, shipSprite);
+        this.idealPlanetCount = 4 + Math.ceil(Math.random() * 6);
 
         this.changeState();
     }
@@ -75,9 +80,22 @@ export default class Enemy extends Ship {
             case EnemyState.EVADING:
                 this.evade(this.damageDirection);
                 break;
+            case EnemyState.COLONISE:
+                this.colonise();
+                break;
         }
         this.graphics.clear();
         this.drawShield();
+    }
+
+    private getOurPlanetCount() {
+        const {
+            totalHuman,
+            totalHumanPlanet,
+            totalOrk,
+            totalOrkPlanet,
+        } = this.scene.ui.getTotalScores();
+        return totalOrkPlanet;
     }
 
     private bounceIfAtEdgeOfMap() {
@@ -114,25 +132,42 @@ export default class Enemy extends Ship {
     }
 
     private changeState() {
-        this.state = this.states[Math.floor(Math.random() * this.states.length)];
-        this.resetFramesInState();
-
+        const planetCount = this.getOurPlanetCount();
+        let valid = false;
         let stateString = "";
-        switch (this.state) {
-            case EnemyState.ATTACK_ENEMY:
-                stateString = "Attack enemy";
-                break;
-            case EnemyState.ATTACK_PLANET:
-                stateString = "Attack planet";
-                break;
-            case EnemyState.MINE_PLANET:
-                stateString = "Mine planet";
-                break;
-            case EnemyState.EVADING:
-                stateString = "Evading";
-                break;
+        while (!valid) {
+            this.state = this.states[Math.floor(Math.random() * this.states.length)];
+            // this.state = this.states[4];
+            this.resetFramesInState();
+
+            switch (this.state) {
+                case EnemyState.ATTACK_ENEMY:
+                    if (planetCount >= this.idealPlanetCount) {
+                        valid = true;
+                    }
+                    stateString = "Attack enemy " + planetCount + " " + this.idealPlanetCount;
+                    break;
+                case EnemyState.ATTACK_PLANET:
+                    if (planetCount >= this.idealPlanetCount) {
+                        valid = true;
+                    }
+                    stateString = "Attack planet " + planetCount + " " + this.idealPlanetCount;
+                    break;
+                case EnemyState.MINE_PLANET:
+                    valid = true;
+                    stateString = "Mine planet";
+                    break;
+                case EnemyState.EVADING:
+                    valid = true;
+                    stateString = "Evading";
+                    break;
+                case EnemyState.COLONISE:
+                    valid = true;
+                    stateString = "Colonise";
+                    break;
+            }
         }
-        // console.log("State changed to: " + stateString);
+        console.log(this.team.teamNumber, this.x.toFixed(0), this.y.toFixed(0), "State changed to: " + stateString);
     }
 
     private resetFramesInState() {
@@ -157,9 +192,32 @@ export default class Enemy extends Ship {
         if (planetInRange) {
             this.shoot(planetInRange);
             this.approach(planetInRange)
-
         } else {
-            this.changeState();
+            if (this.framesInstate % 10 === 0) {
+                let closest = {
+                    distance: null,
+                    direction: null,
+                    planet: null,
+                };
+                for (const planet of this.scene.level.planets) {
+                    if (planet.getTotalPopulationConsumed() > 0 && planet.populations.species != this.species) {
+                        const distance = GM.pointDistance(this.x, this.y, planet.x, planet.y);
+                        const direction = GM.pointDirection(this.x, this.y, planet.x, planet.y);
+                        if (!closest.planet || closest.distance > distance) {
+                            closest.planet = planet;
+                            closest.distance = distance;
+                            closest.direction = direction;
+                        }
+                    }
+                }
+                if (closest) {
+                    this.direction = closest.direction + (Math.random() * 50 - 25);
+                    this.speed = this.maxSpeed;
+                    if (Math.random() < 0.04) {
+                        this.changeState();
+                    }
+                }
+            }
         }
     }
 
@@ -207,11 +265,53 @@ export default class Enemy extends Ship {
 
     private evade(attackDirection: number) {
         if (this.framesInstate % 10 === 0) {
-            this.direction = attackDirection + (Math.PI * Math.random());
+            this.direction = Math.random() * 360;
             this.speed = this.maxSpeed;
         }
         this.move();
         // console.log('Evading...');
+    }
+
+    private colonise() {
+        if (this.framesInstate % 10 === 0) {
+            let closest = {
+                distance: null,
+                direction: null,
+                planet: null,
+            };
+            for (const planet of this.scene.level.planets) {
+                if (planet.getTotalPopulationConsumed() <= 0) {
+                    const distance = GM.pointDistance(this.x, this.y, planet.x, planet.y);
+                    const direction = GM.pointDirection(this.x, this.y, planet.x, planet.y);
+                    if (!closest.planet || closest.distance > distance) {
+                        closest.planet = planet;
+                        closest.distance = distance;
+                        closest.direction = direction;
+                    }
+                }
+            }
+            if (closest) {
+                if (closest.distance < 30) {
+                    this.speed = 0;
+
+                    if (Math.random() < 0.08) {
+                        let populateAmount = 100;
+                        if (!closest.planet.populations.species) {
+                            closest.planet.populations.species = this.species;
+                        }
+                        closest.planet.populations.quantity += populateAmount;
+                        if (!closest.planet.getAllegiance(this.team)) {
+                            closest.planet.populations.setAllegianceForTeam(this.team, 100);
+                        }
+                        this.scene.ui.drawMiniMap();
+                    }
+                } else {
+                    this.direction = closest.direction;
+                    this.speed = this.maxSpeed;
+                }
+            }
+        }
+        this.move();
     }
 
     private mine(): Boolean {
@@ -301,10 +401,8 @@ export default class Enemy extends Ship {
             distance: null,
             planet: null,
         };
-        for (const planet of this.scene.entities) {
-            if (planet instanceof Planet
-                && planet.team
-                && planet.team !== this.team) {
+        for (const planet of this.scene.level.planets) {
+            if (planet.populations.species && planet.populations.species != this.species) {
                 const distance = GM.pointDistance(this.x, this.y, planet.x, planet.y);
                 if (!closest.planet || closest.distance > distance) {
                     closest.planet = planet;

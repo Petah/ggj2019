@@ -84,7 +84,7 @@ export default class DefaultScene extends Phaser.Scene {
         playerHomePlanet.mining = 0.5 + (Math.random() * 0.5);
         playerHomePlanet.agriculture = 0.5 + (Math.random() * 0.5);
         playerHomePlanet.industry = 0.5 + (Math.random() * 0.5);
-        playerHomePlanet.defence = 0;// 0.5 + (Math.random() * 0.5);
+        playerHomePlanet.defence = 0.5 + (Math.random() * 0.5);
         playerHomePlanet.maxShield = Math.round(5 * playerHomePlanet.defence);
         playerHomePlanet.shield = playerHomePlanet.maxShield;
         playerHomePlanet.resources = Math.random() * 40 + 10;

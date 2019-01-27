@@ -22,3 +22,4 @@ module.exports =
       ignoreErrors: [2503] # eg Cannot find namespace 'Phaser'
   server:
     noPushState: on
+    hostname: '0.0.0.0'

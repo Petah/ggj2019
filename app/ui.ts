@@ -659,6 +659,7 @@ export default class UI implements Entity {
         let totalHuman = 0;
         let totalHumanPlanet = 0;
         let totalOrk = 0;
+        let totalOrkPlanet = 0;
         for (let planet of this.scene.level.planets) {
             if (planet.populations.species && planet.populations.species.speciesName == 'Human') {
                 totalHuman += planet.getTotalPopulationConsumed();
@@ -666,12 +667,14 @@ export default class UI implements Entity {
             }
             if (planet.populations.species && planet.populations.species.speciesName == 'Ork') {
                 totalOrk += planet.getTotalPopulationConsumed();
+                totalOrkPlanet++;
             }
         }
         return {
             totalHuman,
             totalHumanPlanet,
             totalOrk,
+            totalOrkPlanet,
         }
     }
 

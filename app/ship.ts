@@ -412,6 +412,7 @@ export default class Ship implements Entity {
             this.energy -= amount;
         }
         if (this.energy <= 0) {
+            console.log('Dead', this);
             this.dead = 100;
             this.speed = 0;
             this.image.alpha = 0;
