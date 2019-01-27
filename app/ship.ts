@@ -114,7 +114,7 @@ export default class Ship implements Entity {
                         if (this.charge > this.items[this.weapon].item.fireCost && this.items[this.weapon].amount > 1) {
                             this.charge -= this.items[this.weapon].item.fireCost;
                             this.items[this.weapon].amount -= 1;
-                            const bullet = new Bullet(this.scene, this, px, py, direction, this.items[this.weapon].item.damage);
+                            const bullet = new Bullet(this.scene, this, px, py, direction, this.items[this.weapon].item.damage, this.items[this.weapon].item.bulletType);
                             this.scene.addEntity(bullet);
                         }
                     } else {

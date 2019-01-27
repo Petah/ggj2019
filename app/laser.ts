@@ -75,7 +75,7 @@ export default class Laser implements Entity{
     private blast() {
         this.graphics.destroy();
         this.scene.removeEntity(this);
-        const blast = new Blast(this.scene, this.x, this.y, this.direction, 0.19);
+        const blast = new Blast(this.scene, this.x, this.y, this.direction, 0.19, "explosion", "explosion-animation", 10);
         this.scene.addEntity(blast);
     }
     

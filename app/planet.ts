@@ -158,7 +158,7 @@ export default class Planet implements Entity {
         if (shipToShoot && this.populations.species && shipToShoot.species !== this.populations.species
             && this.framesSinceAttack >= this.framesPerAttack) {
             const direction = GM.pointDirection(this.x, this.y, shipToShoot.x, shipToShoot.y);
-            const bullet = new Bullet(this.scene, this, shipToShoot.x, shipToShoot.y, direction, this.scene.items.items[0].damage);
+            const bullet = new Bullet(this.scene, this, shipToShoot.x, shipToShoot.y, direction, this.scene.items.items[0].damage, BulletType.laser);
             this.scene.addEntity(bullet);
             this.framesSinceAttack = 0;
         }

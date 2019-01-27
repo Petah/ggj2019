@@ -3,6 +3,7 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Blast from "./blast";
 import Ship from "./ship";
+import { BulletType } from "./bulletTypeEnum";
 import Planet from "./planet";
 
 export default class Bullet implements Entity {
@@ -19,6 +20,7 @@ export default class Bullet implements Entity {
         private dy: number,
         public direction: number,
         public damage: number,
+        public bulletType: BulletType
     ) {
         this.image = this.scene.physics.add.image(owner.x, owner.y, 'bullet');
         this.startX = owner.x;
@@ -59,7 +61,19 @@ export default class Bullet implements Entity {
     private blast() {
         this.image.destroy();
         this.scene.removeEntity(this);
-        const blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage);
+        let blast;
+
+        switch(this.bulletType) {
+            case BulletType.nuke: {
+                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "nuclear-explosion", 'nuclear-explosion-animation', 14);
+
+            }
+            case BulletType.laser: 
+            default: {
+                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "explosion", 'explosion-animation', 10);
+            break;
+            }
+        }
         this.scene.addEntity(blast);
     }
 

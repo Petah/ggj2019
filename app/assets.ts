@@ -24,6 +24,10 @@ export default class Assets {
             });
         }
 
+        this.scene.load.spritesheet("nuclear-explosion", "explosion-sprite2.png", {
+            frameWidth: 126,
+            frameHeight: 124,
+        });
 
         for (const explosionName of ["explosion", "explosion1", "explosion2", "explosion3", "explosion4"]) {
             this.scene.load.spritesheet(explosionName, explosionName + "-sprite.png", {
@@ -78,5 +82,14 @@ export default class Assets {
         }
         
 
+        this.scene.anims.create({
+            key: "nuclear-explosion-animation",
+            frames: this.scene.anims.generateFrameNumbers("nuclear-explosion", {
+                start: 0,
+                end: 15,
+            }),
+            frameRate: Math.random() * 10 + 10,
+            repeat: 0,
+        });
     }
 }

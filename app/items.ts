@@ -1,4 +1,5 @@
 import DefaultScene from "./scenes/default";
+import { BulletType } from "./bulletTypeEnum";
 
 export default class Items {
     public items: Item[] = [];
@@ -13,6 +14,7 @@ export default class Items {
             price: 110,
             damage: 0.24,
             fireCost: 0.05,
+            bulletType: BulletType.torpedo
         }));
         this.items.push(new Item({
             key: 'mine',
@@ -22,6 +24,8 @@ export default class Items {
             price: 230,
             damage: 0.33,
             fireCost: 0.08,
+            bulletType: BulletType.mine
+
         }));
         this.items.push(new Item({
             key: 'hot-torpedo',
@@ -31,6 +35,8 @@ export default class Items {
             price: 1000,
             damage: 0.42,
             fireCost: 0.12,
+            bulletType: BulletType.hotTorpedo
+
         }));
         this.items.push(new Item({
             key: 'nuke',
@@ -40,6 +46,8 @@ export default class Items {
             price: 100000,
             damage: 0.95,
             fireCost: 0.65,
+            bulletType: BulletType.nuke
+
         }));
         this.items.push(new Item({
             key: 'bio',
@@ -116,6 +124,7 @@ export class Item {
     public price: number;
     public damage: number;
     public fireCost: number;
+    public bulletType: BulletType;
     constructor(
         props: object,
     ) {
