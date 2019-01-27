@@ -10,7 +10,7 @@ import Species from "./game-objects/entity-types/planet-related-objects/populati
 import Mine from "./mine";
 
 class ShipItem {
-    public amount: number = 100;
+    public amount: number = 0;
 
     constructor(
         public item: Item,

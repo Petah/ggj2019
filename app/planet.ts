@@ -241,6 +241,27 @@ export default class Planet implements Entity {
     slowUpdate() {
         this.draw();
         this.populations.calculatePopulationChange(this.maxPopulation);
+
+        if(this.populations) {
+            if(this.populations.getAllegianceForPlayer(this.scene.playerShip.team) > 66) {
+                this.scene.playerShip.money += this.getTaxIncome();
+            }
+
+            for(const enemyShip of this.scene.enemyShips) {
+                if(this.populations.getAllegianceForPlayer(enemyShip.team) > 66) {
+                    enemyShip.money += this.getTaxIncome();
+                    break;
+                }
+            }
+        }
+    }
+
+    private getTaxIncome(): number {
+        if(this.populations) {
+            return this.populations.quantity * 0.1;
+        }
+
+        return 0;
     }
 
     private createMaxPopulationLimit() {
