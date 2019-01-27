@@ -8,6 +8,7 @@ import ship from "./ship";
 import Map = Phaser.Structs.Map;
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 import { BulletType } from "./bulletTypeEnum";
+import Population from "./game-objects/entity-types/planet-related-objects/populationObjects/population";
 
 export enum EnemyState {
     ATTACK_ENEMY,
@@ -301,8 +302,10 @@ export default class Enemy extends Ship {
 
                     if (Math.random() < 0.08) {
                         let populateAmount = 100;
-                        if (!closest.planet.populations.species) {
+                        if (closest.planet.populations && !closest.planet.populations.species) {
                             closest.planet.populations.species = this.species;
+                        } else if(!closest.planet.populations) {
+                            closest.planet.populations = new Population(this.scene, this.species, 0, 100);
                         }
                         closest.planet.populations.quantity += populateAmount;
                         if (!closest.planet.getAllegiance(this.team)) {
