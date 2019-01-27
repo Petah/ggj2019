@@ -13,6 +13,7 @@ export default class Assets {
         this.scene.load.image('torpedo', 'torpedo.png')
         this.scene.load.image('mine', 'mine.png');
         this.scene.load.image('hot-torpedo', 'hot-torpedo.png')
+        this.scene.load.image('nuke', 'nuke.png')
         this.scene.load.image('ship', 'ship.png');
         this.scene.load.image('ship2', 'ship2.png');
         this.scene.load.image('ship3', 'ship3.png');

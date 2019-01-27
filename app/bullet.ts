@@ -38,6 +38,9 @@ export default class Bullet implements Entity {
             case BulletType.torpedo: {
                 return this.scene.physics.add.image(x, y, 'torpedo');
             }
+            case BulletType.nuke: {
+                return this.scene.physics.add.image(x, y, 'nuke');
+            }
             case BulletType.mine: {
                 let image = this.scene.physics.add.image(x, y, 'mine').setScale(0.2,0.2);
                 return image;
