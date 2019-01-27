@@ -65,8 +65,8 @@ export default class Bullet implements Entity {
 
         switch(this.bulletType) {
             case BulletType.nuke: {
-                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "nuclear-explosion", 'nuclear-explosion-animation', 14);
-
+                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "nuclear-explosion", 'nuclear-explosion-animation', 15);
+                break;
             }
             case BulletType.laser: 
             default: {

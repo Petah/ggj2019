@@ -8,7 +8,6 @@ import Planet from "./planet";
 export default class Blast implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
     private blastLifeSpan = 10;
-    private sprite: Phaser.GameObjects.Sprite;
 
     constructor(
         private scene: DefaultScene,
@@ -21,14 +20,11 @@ export default class Blast implements Entity {
         blastLifeSpan: number
     ) {
         this.blastLifeSpan = blastLifeSpan;
-        this.sprite = this.scene.add.sprite(x, y, spriteName).setScale(0.5, 0.5);
-        this.sprite.depth = 100;
-        this.sprite.play(animationName);
-
+        
         this.image = this.scene.physics.add
             .staticSprite(x, y, spriteName)
             .setScale(0.5, 0.5);
-        this.image.depth = 300;
+        this.image.depth = 100;
         this.image.play(animationName);
 
         this.scene.soundManager.playFromLocation("explosion", x, y);
