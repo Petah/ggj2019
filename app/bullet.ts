@@ -63,19 +63,21 @@ export default class Bullet implements Entity {
         this.scene.removeEntity(this);
         let blast;
 
-        switch(this.bulletType) {
-            case BulletType.nuke: {
+        switch (this.bulletType) {
+            case BulletType.nuke:
+            this.scene.soundManager.playFromLocation("nuke-exp", this.x, this.y);
                 blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "nuclear-explosion", 'nuclear-explosion-animation', 15);
                 break;
-            }
-            case BulletType.laser: 
-            default: {
-                const spriteName = "explosion" +  (Math.floor(Math.random() * 4) + 1) + "";
+
+            case BulletType.laser:
+            default:
+                this.scene.soundManager.playFromLocation("explosion", this.x, this.y);
+                const spriteName = "explosion" + (Math.floor(Math.random() * 4) + 1) + "";
                 const animationName = spriteName + "-animation";
 
                 blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, spriteName, animationName, 64);
-            break;
-            }
+                break;
+
         }
         this.scene.addEntity(blast);
     }

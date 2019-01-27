@@ -121,6 +121,7 @@ export default class Ship implements Entity {
                         const fireCost = 0.19;
                         if (this.charge > fireCost) {
                             this.charge -= fireCost;
+                            this.scene.soundManager.playFromLocation('laser', this.x, this.y);
                             const laser = new Laser(this.scene, this, px, py, direction);
                             this.scene.addEntity(laser);
                         }

@@ -27,8 +27,6 @@ export default class Blast implements Entity {
         this.image.depth = 100;
         this.image.play(animationName);
 
-        this.scene.soundManager.playFromLocation("explosion", x, y);
-
         for (const entity of this.scene.entities) {
             if (entity instanceof Ship) {
                 const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);

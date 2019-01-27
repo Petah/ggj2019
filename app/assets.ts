@@ -42,6 +42,8 @@ export default class Assets {
         this.scene.load.audio('explosion', 'audio/explosion.mp3');
         this.scene.load.audio('lazer', 'audio/lazer.wav');
         this.scene.load.audio('laser', 'audio/laser.mp3');
+        this.scene.load.audio('laser-hit', 'audio/laser-hit.wav');
+        this.scene.load.audio('nuke-exp', 'audio/nuke-exp.wav');
         this.scene.load.audio('menu_switch', 'audio/menu_switch.mp3');
         this.scene.load.audio('nooo', 'nooo.mp3');
     }
