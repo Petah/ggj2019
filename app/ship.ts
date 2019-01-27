@@ -561,4 +561,18 @@ export default class Ship implements Entity {
             this.stoppedOnPlanet.shield = this.stoppedOnPlanet.maxShield;
         }
     }
+
+    warp(x, y) {
+        this.speed = 0;
+
+        this.image.alpha = 0.0;
+
+        setTimeout(() => {
+            this.image.alpha = 1.0;
+            this.image.x = x;
+            this.image.y = y;    
+        }, 1000);
+
+        
+    }
 };

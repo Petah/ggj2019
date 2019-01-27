@@ -98,6 +98,12 @@ class Element {
         }
         return this
     }
+    getActive() {
+        for (const el of this.elements) {
+            return el.classList.contains("active")
+        }
+        return false
+    }
 }
 
 export default class UI implements Entity {
@@ -129,6 +135,7 @@ export default class UI implements Entity {
     private itemMineCount: Element;
     private itemNukeCount: Element;
     private itemBioCount: Element;
+    private itemWarpCount: Element;
 
     private planetName: Element;
     private planetInhabitance: Element;
@@ -192,6 +199,7 @@ export default class UI implements Entity {
         this.itemMineCount = $('#item-mine-count');
         this.itemNukeCount = $('#item-nuke-count');
         this.itemBioCount = $('#item-bio-count');
+        this.itemWarpCount = $('#item-warp-count');
 
         this.planetName = $('#planet-name');
         this.planetInhabitance = $('#planet-inhabitance');
@@ -323,7 +331,12 @@ export default class UI implements Entity {
         });
 
         this.itemWarpButton.addEventListener('click', () => {
+            
             this.playMenuAudio();
+            
+            var active = this.itemWarpButton.getActive();
+            this.itemWarpButton.setActive(!active);
+            
         });
 
         this.itemPlagueCureButton.addEventListener('click', () => {
@@ -413,6 +426,24 @@ export default class UI implements Entity {
         $('#invest-agriculture-button').addEventListener('click', () => {
             this.playerShip.invest('agriculture');
             this.updateInvestValues();
+        });
+        $('#minimap').addEventListener('click', (event) => {            
+
+            const warpCharge = 1.0;
+
+            const isButtonActive = this.itemWarpButton.getActive();
+            const hasEnoughCharge = this.playerShip.charge >= warpCharge;
+            const hasWarpItem = this.playerShip.items['warp-drive'].amount > 0;
+
+            if (isButtonActive && hasEnoughCharge && hasWarpItem) {
+                this.playerShip.items['warp-drive'].amount--;
+                this.playerShip.charge -= warpCharge;
+
+                this.playerShip.warp(
+                    event.offsetX / 208 * this.scene.level.width,
+                    event.offsetY / 208 * this.scene.level.height
+                );
+            }
         });
     }
 
@@ -552,6 +583,7 @@ export default class UI implements Entity {
             this.itemHotTorpedoCount.text(this.numberWithCommas(this.playerShip.items['hot-torpedo'].amount, 0));
             this.itemNukeCount.text(this.numberWithCommas(this.playerShip.items['nuke'].amount, 0));
             this.itemBioCount.text(this.numberWithCommas(this.playerShip.items['bio'].amount, 0));
+            this.itemWarpCount.text(this.numberWithCommas(this.playerShip.items['warp-drive'].amount, 0));
 
             if (this.playerShip.canMine()) {
                 this.mineButton.removeAttr('disabled');
