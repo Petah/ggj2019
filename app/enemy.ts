@@ -300,18 +300,20 @@ export default class Enemy extends Ship {
                 if (closest.distance < 30) {
                     this.speed = 0;
 
-                    if (Math.random() < 0.08) {
-                        let populateAmount = 100;
-                        if (closest.planet.populations && !closest.planet.populations.species) {
-                            closest.planet.populations.species = this.species;
-                        } else if(!closest.planet.populations) {
-                            closest.planet.populations = new Population(this.scene, this.species, 0, 100);
+                    if (closest.planet) {
+                        if (Math.random() < 0.08) {
+                            let populateAmount = 100;
+                            if (closest.planet.populations && !closest.planet.populations.species) {
+                                closest.planet.populations.species = this.species;
+                            } else if(!closest.planet.populations) {
+                                closest.planet.populations = new Population(this.scene, this.species, 0, 100);
+                            }
+                            closest.planet.populations.quantity += populateAmount;
+                            if (!closest.planet.getAllegiance(this.team)) {
+                                closest.planet.populations.setAllegianceForTeam(this.team, 100);
+                            }
+                            this.scene.ui.drawMiniMap();
                         }
-                        closest.planet.populations.quantity += populateAmount;
-                        if (!closest.planet.getAllegiance(this.team)) {
-                            closest.planet.populations.setAllegianceForTeam(this.team, 100);
-                        }
-                        this.scene.ui.drawMiniMap();
                     }
                 } else {
                     this.direction = closest.direction;
