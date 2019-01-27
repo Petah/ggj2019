@@ -504,16 +504,18 @@ export default class Planet implements Entity {
         return this.populations.getAllegianceForPlayer(team);
     }
     damage(amount: number, blastDirection: number) {
-        const killPop = 500;
+        const killPop = this.populations.quantity * amount + 200.0;
         if (this.shield > 0) {
             this.shield -= amount;
             this.maxShield = Math.ceil(this.shield);
             if (this.shield < 0) {
                 this.populations.quantity += killPop * this.shield;
+                //console.log("planet: " + this.populations.quantity + "("+ killPop * amount * -1.0 +")");
                 this.shield = 0;
             }
         } else {
             this.populations.quantity -= killPop * amount;
+            //console.log("planet: " + this.populations.quantity + "("+ killPop * amount * -1.0 +")");
         }
         if (this.populations.quantity <= 0) {
             this.populations.quantity = 0;
