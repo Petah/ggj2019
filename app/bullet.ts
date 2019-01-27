@@ -22,15 +22,40 @@ export default class Bullet implements Entity {
         public damage: number,
         public bulletType: BulletType
     ) {
-        this.image = this.scene.physics.add.image(owner.x, owner.y, 'bullet');
+
+
+        this.image = this.getSprite(bulletType, owner.x, owner.y);
         this.startX = owner.x;
         this.startY = owner.y;
+    }
+
+    getSprite(bulletType: BulletType, x: number, y: number): Phaser.Physics.Arcade.Image {
+        switch(bulletType) {
+            case BulletType.hotTorpedo: {
+                let image = this.scene.physics.add.image(x, y, 'hot-torpedo');
+                return image;
+            }
+            case BulletType.torpedo: {
+                return this.scene.physics.add.image(x, y, 'torpedo');
+            }
+            case BulletType.mine: {
+                let image = this.scene.physics.add.image(x, y, 'mine').setScale(0.2,0.2);
+                return image;
+            }
+            default: {
+                return this.scene.physics.add.image(x, y, 'bullet');
+            }
+        }
     }
 
     update() {
         let vx = GM.lengthDirX(this.speed, this.direction);
         let vy = GM.lengthDirY(this.speed, this.direction);
-        this.image.angle = this.direction;
+        if(this.bulletType == BulletType.mine) {
+            this.image.angle = this.direction += 45;
+        } else {
+            this.image.angle = this.direction;
+        }
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
 
