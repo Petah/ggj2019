@@ -9,7 +9,7 @@ import Laser from "./laser";
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
 
 class ShipItem {
-    public amount: number = 0;
+    public amount: number = 100;
 
     constructor(
         public item: Item,

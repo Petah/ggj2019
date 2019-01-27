@@ -70,7 +70,10 @@ export default class Bullet implements Entity {
             }
             case BulletType.laser: 
             default: {
-                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, "explosion", 'explosion-animation', 10);
+                const spriteName = "explosion" +  (Math.floor(Math.random() * 4) + 1) + "";
+                const animationName = spriteName + "-animation";
+
+                blast = new Blast(this.scene, this.x, this.y, this.direction, this.damage, spriteName, animationName, 64);
             break;
             }
         }

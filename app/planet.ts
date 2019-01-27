@@ -8,6 +8,7 @@ import Ship from "./ship";
 import Bullet from "./bullet";
 import Team from "./team";
 import PopulationFactory from "./game-objects/entity-types/planet-related-objects/populationObjects/populationFactory";
+import { BulletType } from "./bulletTypeEnum";
 
 export default class Planet implements Entity {
     private image: Phaser.Physics.Arcade.Sprite;
