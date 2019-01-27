@@ -57,6 +57,7 @@ export default class Enemy extends Ship {
     }
 
     update() {
+        this.graphics.clear();
         if (this.checkDeath()) return;
         if (this.bounceIfAtEdgeOfMap()) return;
 
@@ -84,7 +85,6 @@ export default class Enemy extends Ship {
                 this.colonise();
                 break;
         }
-        this.graphics.clear();
         this.drawShield();
     }
 
@@ -368,8 +368,7 @@ export default class Enemy extends Ship {
             ship: null,
         };
         for (const ship of this.scene.entities) {
-            if (ship instanceof Ship
-                && ship !== this) {
+            if (ship instanceof Ship && ship.species != this.species && ship.dead <= 0) {
                 const distance = GM.pointDistance(this.x, this.y, ship.x, ship.y);
                 if (!closest.ship || closest.distance > distance) {
                     closest.ship = ship;
