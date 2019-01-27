@@ -33,6 +33,11 @@ export default class Laser implements Entity{
         });
         this.graphics.depth = 300;
         this.line = new Phaser.Geom.Line(this.x, this.y, this.owner.x, this.owner.y);
+
+
+        // audio
+        this.scene.soundManager.play("laser");
+        
     }
 
     update() {
