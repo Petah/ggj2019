@@ -6,7 +6,7 @@ import Ship from "./ship";
 import { BulletType } from "./bulletTypeEnum";
 import Planet from "./planet";
 
-export default class Bullet implements Entity {
+export default class Mine implements Entity {
     private image: Phaser.Physics.Arcade.Image;
     private speed: number = 600;
 
@@ -30,53 +30,30 @@ export default class Bullet implements Entity {
     }
 
     getSprite(bulletType: BulletType, x: number, y: number): Phaser.Physics.Arcade.Image {
-        switch (bulletType) {
-            case BulletType.hotTorpedo: {
-                let image = this.scene.physics.add.image(x, y, 'hot-torpedo');
-                return image;
-            }
-            case BulletType.torpedo: {
-                return this.scene.physics.add.image(x, y, 'torpedo').setScale(0.6, 0.6);
-            }
-            case BulletType.nuke: {
-                return this.scene.physics.add.image(x, y, 'nuke').setScale(0.3, 0.3);
-            }
-            case BulletType.mine: {
-                let image = this.scene.physics.add.image(x, y, 'mine').setScale(0.2, 0.2);
-                return image;
-            }
-            default: {
-                return this.scene.physics.add.image(x, y, 'bullet');
-            }
-        }
+        return this.scene.physics.add.image(x, y, 'mine').setScale(0.2, 0.2);
     }
 
     update() {
         let vx = GM.lengthDirX(this.speed, this.direction);
         let vy = GM.lengthDirY(this.speed, this.direction);
-        if (this.bulletType == BulletType.mine) {
-            this.image.angle = this.direction += 45;
-        } else {
-            this.image.angle = this.direction;
-        }
         this.image.setVelocityX(vx);
         this.image.setVelocityY(vy);
 
         const distance = GM.pointDistance(this.owner.x, this.owner.y, this.x, this.y);
         const maxDistance = GM.pointDistance(this.startX, this.startY, this.dx, this.dy);
         if (distance >= maxDistance) {
-            this.blast();
+            this.speed = 0;
         }
 
         for (const entity of this.scene.entities) {
-            if (entity instanceof Ship && entity != this.owner) {
+            if (entity instanceof Ship && this.speed == 0) {
                 const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
                 if (distance < 25) {
                     this.blast();
                     return;
                 }
             }
-            if (entity instanceof Planet && entity.species != this.owner.species) {
+            if (entity instanceof Planet && entity.species != this.owner.species && this.speed == 0) {
                 const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
                 if (distance < 25) {
                     this.blast();

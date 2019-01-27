@@ -7,6 +7,7 @@ import Team from "./team";
 import { Item } from "./items";
 import Laser from "./laser";
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
+import Mine from "./mine";
 
 class ShipItem {
     public amount: number = 100;
@@ -110,7 +111,14 @@ export default class Ship implements Entity {
                     }
                 }
                 if (pointer.buttons == 2) {
-                    if (this.weapon) {
+                    if (this.weapon == 'mine') {
+                        if (this.charge > this.items[this.weapon].item.fireCost && this.items[this.weapon].amount > 1) {
+                            this.charge -= this.items[this.weapon].item.fireCost;
+                            this.items[this.weapon].amount -= 1;
+                            const bullet = new Mine(this.scene, this, px, py, direction, this.items[this.weapon].item.damage, this.items[this.weapon].item.bulletType);
+                            this.scene.addEntity(bullet);
+                        }
+                    } else if (this.weapon) {
                         if (this.charge > this.items[this.weapon].item.fireCost && this.items[this.weapon].amount > 1) {
                             this.charge -= this.items[this.weapon].item.fireCost;
                             this.items[this.weapon].amount -= 1;
