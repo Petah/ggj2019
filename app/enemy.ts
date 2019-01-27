@@ -137,7 +137,7 @@ export default class Enemy extends Ship {
         let stateString = "";
         while (!valid) {
             this.state = this.states[Math.floor(Math.random() * this.states.length)];
-            // this.state = this.states[4];
+            // this.state = this.states[1];
             this.resetFramesInState();
 
             switch (this.state) {
@@ -191,9 +191,11 @@ export default class Enemy extends Ship {
         const planetInRange = this.findPlanetToShoot();
         if (planetInRange) {
             this.shoot(planetInRange);
-            this.approach(planetInRange)
+            if (this.framesInstate % 100 === 0) {
+                this.approach(planetInRange);
+            }
         } else {
-            if (this.framesInstate % 10 === 0) {
+            if (this.framesInstate % 100 === 0) {
                 let closest = {
                     distance: null,
                     direction: null,
@@ -240,7 +242,7 @@ export default class Enemy extends Ship {
     }
 
     private approach(target: any) {
-        this.direction = GM.pointDirection(this.x, this.y, target.x, target.y);
+        this.direction = GM.pointDirection(this.x, this.y, target.x, target.y) + (Math.random() * 50 - 25);
         this.speed = this.maxSpeed;
         this.move();
     }

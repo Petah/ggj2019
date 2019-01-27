@@ -3,6 +3,7 @@ import DefaultScene from "./scenes/default";
 import Entity from "./entity";
 import Blast from "./blast";
 import Ship from "./ship";
+import Planet from "./planet";
 
 export default class Laser implements Entity{
     private image: Phaser.Physics.Arcade.Image;
@@ -59,6 +60,13 @@ export default class Laser implements Entity{
                 const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
                 if (distance < 25) {
                     this.blast();
+                }
+            }
+            if (entity instanceof Planet && entity.species != this.owner.species) {
+                const distance = GM.pointDistance(this.x, this.y, entity.x, entity.y);
+                if (distance < 25) {
+                    this.blast();
+                    return;
                 }
             }
         }

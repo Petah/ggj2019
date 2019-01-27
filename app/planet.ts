@@ -164,6 +164,10 @@ export default class Planet implements Entity {
         }
     }
 
+    get species() {
+        return this.populations.species;
+    }
+
     public getPlanetColor(team: Team) {
         const allegiance = this.getAllegiance(team);
         let color = '#ddd';
