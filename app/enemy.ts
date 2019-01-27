@@ -7,6 +7,7 @@ import Bullet from "./bullet";
 import ship from "./ship";
 import Map = Phaser.Structs.Map;
 import Species from "./game-objects/entity-types/planet-related-objects/populationObjects/species";
+import { BulletType } from "./bulletTypeEnum";
 
 export enum EnemyState {
     ATTACK_ENEMY,
@@ -79,7 +80,7 @@ export default class Enemy extends Ship {
                 this.tryMinePlanet();
                 break;
             case EnemyState.EVADING:
-                this.evade(this.damageDirection);
+                this.evade();
                 break;
             case EnemyState.COLONISE:
                 this.colonise();
@@ -259,19 +260,21 @@ export default class Enemy extends Ship {
         if (GM.pointDistance(this.x, this.y, target.x, target.y) < this.attackRange
             && this.framesSinceAttack >= this.framePerAttack) {
             const direction = GM.pointDirection(this.x, this.y, target.x, target.y);
-            const bullet = new Bullet(this.scene, this, target.x, target.y, direction, this.scene.items.items[0].damage);
+            const bullet = new Bullet(this.scene, this, target.x, target.y, direction, this.scene.items.items[0].damage, BulletType.torpedo);
             this.scene.addEntity(bullet);
             this.framesSinceAttack = 0;
         }
     }
 
-    private evade(attackDirection: number) {
-        if (this.framesInstate % 10 === 0) {
-            this.direction = Math.random() * 360;
+    private evade() {
+        const shipInRange = this.findShipToShoot(900);
+        if (shipInRange) {
+            this.direction = GM.pointDirection(shipInRange.x, shipInRange.y, this.x, this.y);
             this.speed = this.maxSpeed;
+            this.move();
+        } else {
+            this.changeState();
         }
-        this.move();
-        // console.log('Evading...');
     }
 
     private colonise() {
@@ -362,7 +365,7 @@ export default class Enemy extends Ship {
         this.resetFramesInState();
     }
 
-    private findShipToShoot() {
+    private findShipToShoot(range: number = 600) {
         let closest = {
             distance: null,
             ship: null,
@@ -376,7 +379,10 @@ export default class Enemy extends Ship {
                 }
             }
         }
-        return closest.ship;
+        if (closest.distance <= range) {
+            return closest.ship;
+        }
+        return null;
     }
 
     private findPlanetToMine() {
